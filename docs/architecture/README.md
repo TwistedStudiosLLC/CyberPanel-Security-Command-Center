@@ -90,7 +90,7 @@ set of definitions can compete with the locked text.
 | Document | Status |
 |---|---|
 | [`open/18-threat-model/README.md`](open/18-threat-model/README.md) | **CONDITIONAL — THREAT MODEL / FORENSIC ARCHITECTURE — NOT FULLY LOCKED** (current §18 status summary) |
-| [`open/18-threat-model/18-candidate.md`](open/18-threat-model/18-candidate.md) | CONDITIONAL — candidate text |
+| [`open/18-threat-model/18-candidate.md`](open/18-threat-model/18-candidate.md) | CONDITIONAL — candidate text — NOT CURRENT AUTHORITY |
 | [`open/18-threat-model/18-owner-decision-gate.md`](open/18-threat-model/18-owner-decision-gate.md) | OPEN — decision record (ODF-18-01 dispositioned by DEC-015; ODF-18-02…09 OPEN) |
 | [`open/register.md`](open/register.md) | OPEN QUESTIONS REGISTER |
 | [`open/19-persistence-secrets-data-lifecycle.md`](open/19-persistence-secrets-data-lifecycle.md) | NOT DESIGNED — GATE PENDING |
