@@ -111,6 +111,25 @@ architecture index. They are open and are not repeated here.
 
 ---
 
+## 5A. §19 candidate items (pointers only)
+
+§19 is a CANDIDATE — OWNER REVIEW REQUIRED — NOT LOCKED. Its open items are listed here as pointers; the §19
+document is the source. See [`19-persistence-secrets-data-lifecycle.md`](19-persistence-secrets-data-lifecycle.md).
+
+| ID | Subject | Status | Pointer / owner |
+|---|---|---|---|
+| OD19-01 | Placement and provisioning of assertion verification material | **OPEN** | §19.21; owner; P2 / §22 |
+| OD19-02 | At-rest encryption inside host storage domains; key hierarchy | **OPEN** | §19.21; owner; §22 |
+| OD19-03 | Maximum approval validity horizon (nonce retention; post-K8-loss exposure) | **OPEN** | §19.21; owner; §22 / possible §16 amendment |
+| OD19-04 | Credential-bearing file content through `file.replace` (F19-05) | **OPEN** | §19.21; owner; possible §16 amendment |
+| OD19-05 | How K4 learns credential-handle provisioning state (F19-07) | **OPEN** | §19.21; owner; §16 / §22 |
+| OD19-06 | Health and evidence history retention | **OPEN** | §19.21; §21 / owner |
+| OD19-07 | Pre-image retention bounds in K11 content | **OPEN** | §19.21; owner; possible §16 clarification |
+| PD19-01 … PD19-20 | Proposed §19 decisions | **OPEN** (owner disposition required) | §19.23 |
+| D19-01 … D19-09 | Disagreements and gaps found by the §19 gate | See §19.5.3 | §19.5.3 |
+
+---
+
 ## 6. Open items created by owner decisions
 
 | ID | Subject | Status | Pointer / owner |
@@ -163,7 +182,7 @@ CHANGE-001 … CHANGE-027. Their current standing:
 
 | Gate | Status | Stub |
 |---|---|---|
-| §19 Persistence, Secrets & Data Lifecycle | NOT DESIGNED — GATE PENDING | [`19-persistence-secrets-data-lifecycle.md`](19-persistence-secrets-data-lifecycle.md) |
+| §19 Persistence, Secrets & Data Lifecycle | CANDIDATE — OWNER REVIEW REQUIRED — NOT LOCKED | [`19-persistence-secrets-data-lifecycle.md`](19-persistence-secrets-data-lifecycle.md) |
 | §20 Reconciliation / Desired State / Drift | NOT DESIGNED — GATE PENDING | [`20-reconciliation-desired-state-drift.md`](20-reconciliation-desired-state-drift.md) |
 | §21 Audit / Events | NOT DESIGNED — GATE PENDING | [`21-audit-events.md`](21-audit-events.md) |
 | §22 Lifecycle / Recovery | NOT DESIGNED — GATE PENDING | [`22-lifecycle-recovery.md`](22-lifecycle-recovery.md) |
