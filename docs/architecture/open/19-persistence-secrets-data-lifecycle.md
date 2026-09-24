@@ -1,9 +1,13 @@
-> **Document status:** CANDIDATE — OWNER REVIEW REQUIRED — NOT LOCKED
+> **Document status:** CANDIDATE — OWNER DISPOSITIONS RECORDED — NOT LOCKED [DEC-064]
 > **Authority category:** 4 — Conditional/open architecture (see [Authority Hierarchy](../README.md#authority-hierarchy))
 > **Source:** §19 architecture gate (PHASE 2 of DEC-025). Replaces the earlier "NOT DESIGNED — GATE PENDING" stub.
-> **Normative:** **No.** Nothing in this document is locked. Statements marked **[LOCKED-DERIVED]** restate or follow
-> directly from §15, §16 or §17 and carry only the authority of those sections. Every other rule is **PROPOSED**,
-> **OPEN** or **DEFERRED** (§19.23) and requires an owner decision before it has any authority.
+> Owner dispositions: DEC-031 … DEC-062. Post-lock resolution route: DEC-063. Change-set reconciliation
+> decisions: DEC-064.
+> **Normative:** **No.** §19 is not locked. A passage tagged **[DEC-0xx]** points to the owner decision it implements.
+> The decision log holds the complete owner wording and is its authoritative record (Category 2). A passage marked
+> *verbatim* reproduces the cited owner text exactly. Passages tagged **[LOCKED-DERIVED]** carry only the authority of
+> the locked text cited. Items marked OPEN or DEFERRED carry no authority beyond the requirement that they be resolved
+> at the gate named for them. Neither this document nor the decision log amends or locks §15–§17.
 > **Implementation:** This document defines no schema, storage engine, key-management product, algorithm, service or
 > installer. It must not be used as an implementation specification until the owner locks it.
 
@@ -19,7 +23,8 @@
 - which secrets exist, who holds them, and whether SCC stores the material or only a reference;
 - how data and secrets are retained, rotated, revoked and destroyed;
 - what persistence must guarantee when components fail;
-- which consequences §21 (audit), §22 (lifecycle/recovery), P2 and the CyberPanel K2 gate must later honour.
+- which consequences §21 (audit), §22 (lifecycle/recovery), P2 and the CyberPanel K2 gate must later honour, and which
+  items the §16 Amendment Gate (not scheduled) must consider (§19.21.2).
 
 It fits inside the locked §15–§17 constraints and does not redefine them.
 
@@ -91,8 +96,8 @@ The following are binding on §19. They are cited, not restated in full.
 | "SCC should avoid duplicating CyberPanel-owned data unnecessarily." | Baseline §11 | CURRENT FOUNDATIONAL |
 | "Backups should be made where SCC data/configuration may be modified." / "Audit history must survive upgrades." / "Schema migrations must be versioned, deterministic, recoverable where practical, idempotent where practical" / "Configuration must be preserved unless explicitly migrated." | Baseline §12 | CURRENT FOUNDATIONAL |
 | "Recovery mode is required…" (as a web UI) | Baseline §12, §13 | SUPERSEDED (ANN-22) |
-| "Health history should be supported." | Baseline §7 | CURRENT FOUNDATIONAL; retention OPEN |
-| "Integration-specific configuration belongs within the Integration boundary." | Baseline §14 | **UNRESOLVED** (see D19-02) |
+| "Health history should be supported." | Baseline §7 | CURRENT FOUNDATIONAL; retention OPEN — OD19-06 [DEC-056] |
+| "Integration-specific configuration belongs within the Integration boundary." | Baseline §14 | Placement addressed by owner decision [DEC-037]. Write path and permitted contents remain OPEN [DEC-037 R7c, R7d]. Baseline text not annotated (ANN-33 deferred) [DEC-064]. |
 | "Integration secrets must be protected and excluded from ordinary logs and audit records." | Baseline §14 | CURRENT FOUNDATIONAL (refined by X-26) |
 | SR-12 … SR-17; T-18-09, T-18-11, T-18-13; TF-18-09; CLF-18-07; ODF-18-07 | §18 candidate / gate review / owner-decision gate | OPEN (conditional §18; not authority) |
 | MED-09, MED-13, MED-14, HIGH-13; CHANGE-015, CHANGE-023, CHANGE-025 | Forensic audit | HISTORICAL (standing in the open register §7) |
@@ -109,18 +114,19 @@ verification material; or how K4 learns credential-handle status.
 | ID | Disagreement / gap | Documents | Disposition in this candidate |
 |---|---|---|---|
 | D19-01 | T-12 says K6 refuses **write-class** operations when K8 is unwritable; §15.13 says reads continue "if §16 allows"; X-29 refuses **all** new requests. | §15 T-12, §15.13 vs §16 X-29 | Not a contradiction: §15 left read continuation to §16, and §16 (later, locked) decided. Recorded for completeness. |
-| D19-02 | Baseline §14 places Integration-specific configuration "within the Integration boundary", but K5 has no host access beyond its runtime (T-06), so an Integration cannot persist anything itself. | Baseline §14 vs §15 T-06 | UNRESOLVED in the baseline. PD19-07 proposes K4-owned, per-Integration namespaced configuration in K7. |
-| D19-03 | §16.9 and §16.8 refer to K6 credential storage and retained pre-images, but §15's component catalogue names no persistent storage in the privileged domain other than K8. | §16.9, §16.8 vs §15.3 | Gap, not contradiction. PD19-02 names storage areas inside the existing privileged domain; no new runtime component. |
-| D19-04 | §15.12 says assertion verification material exists "only in K4" but does not say where it is persisted or who provisions it; §15.14 says K2 key re-provisioning is a K9/lifecycle operation. | §15.12 vs §15.14 | OPEN (OD19-01): owner choice between K7 and K11 host-local placement. |
-| D19-05 | Credential-bearing content written through `file.replace` would pass through K4 (and K7, if the Plan is persisted) as a plaintext `blob`, which conflicts with the intent of T-18 (such credentials only in K6). §16 provides handle substitution only for profile slots, not for staged file content. | §16.1.5, §16.8 vs T-18, §15.12 | Finding **F19-05**. PD19-12 proposes an authoring rule; the durable fix would need a §16 amendment (OD19-04). Recorded as a known finding for the index (not added there by this gate; see §19.25). |
-| D19-06 | Approval nonces are checked against K8 (X-16), but no locked rule bounds how far in the future an approval `deadline` may be. Nonce records must therefore be kept until each evidence's deadline passes, and a lost K8 re-opens replay until then. | §16.5, X-16, §16.11 | Finding **F19-06**. OPEN (OD19-03). |
-| D19-07 | K4 needs to know whether a credential handle is provisioned (to show a capability as unavailable before planning), but no `executor.*` Operation reports handle status, and provisioning is not a K6 request (so it is not journaled as one). | §16.1.3 (executor family), §16.9 | Finding **F19-07**. OPEN (OD19-05); possible §16 amendment or §22 provisioning record. |
-| D19-08 | Credentials that an Integration workflow would *create* (for example, an agent registration that returns a key) cannot enter K6 storage, because no request field may carry credential material into K6. | §16.9 | Finding **F19-08**. DEFERRED: requires a §16 amendment or out-of-band root provisioning. |
-| D19-09 | Restoring K7 from backup cannot recover revocations made after the backup point, because no revocation record exists outside K7. | §17.14; §18 TH-32 / SR-16 (conditional) | Finding **F19-09**. PD19-17 and dependency on ODF-18-07 / §22. |
+| D19-02 | Baseline §14 places Integration-specific configuration "within the Integration boundary", but K5 has no host access beyond its runtime (T-06), so an Integration cannot persist anything itself. | Baseline §14 vs §15 T-06 | Placement addressed [DEC-037]; write path and permitted contents OPEN [DEC-037 R7c, R7d]. |
+| D19-03 | §16.9 and §16.8 refer to K6 credential storage and retained pre-images, but §15's component catalogue names no persistent storage in the privileged domain other than K8. | §16.9, §16.8 vs §15.3 | Addressed [DEC-032]. |
+| D19-04 | §15.12 says assertion verification material exists "only in K4" but does not say where it is persisted or who provisions it; §15.14 says K2 key re-provisioning is a K9/lifecycle operation. | §15.12 vs §15.14 | OPEN — OD19-01 [DEC-051]. No authoritative home is assigned to DC-18. |
+| D19-05 | Credential-bearing content written through `file.replace` would pass through K4 (and K7, if the Plan is persisted) as a plaintext `blob`, which conflicts with the intent of T-18 (such credentials only in K6). §16 provides handle substitution only for profile slots, not for staged file content. | §16.1.5, §16.8 vs T-18, §15.12 | Finding F19-05 — deferred to OD19-04 and the §16 Amendment Gate [DEC-058]. Interpretation OPEN [DEC-058 F05a]. Not in the known-findings index while OD19-04 is open [DEC-058 F05d]. |
+| D19-06 | Finding F19-06, as decomposed in DEC-059 (F06a). | §16.5, X-16, §16.11 | Horizon: OD19-03. Approval evidence after K8 loss: §22 and the §16 Amendment Gate. Nonce retention: [DEC-041 R11b; DEC-053 R03b]. [DEC-059] |
+| D19-07 | K4 needs to know whether a credential handle is provisioned (to show a capability as unavailable before planning), but no `executor.*` Operation reports handle status, and provisioning is not a K6 request (so it is not journaled as one). | §16.1.3 (executor family), §16.9 | Rejected as a finding against locked text [DEC-060]. OD19-05 remains OPEN. |
+| D19-08 | Finding F19-08, split into two surfaces [DEC-061 F08a]. | §16.9 | Provisioning: governed by [DEC-046 R16c, R16j]. Operation output: OPEN — §16 Amendment Gate [DEC-061 F08c, F08d]. |
+| D19-09 | *Verbatim (DEC-062 F09a):* F19-09 concerns the recovery problem that an authorized restoration of SD-K7 to an earlier backup point may omit authoritative Principal, Role Membership, Grant, or other authorization-state changes made after that backup point. The finding does not assert that all revocation information exists only in K7, and does not apply to revocation or state represented authoritatively in other domains such as K11. | §17.14; §18 TH-32 / SR-16 (conditional) | Deferred to §22 / recovery gate; TQ-08; ODF-18-07 [DEC-062]. |
 
 ## 19.6 Terminology
 
-- **Data class (DC):** a category of information with one owner, one authoritative storage domain and one lifecycle.
+- **Data class (DC):** a category of information. Ownership and storage-domain rule: S19-01 [DEC-031 R1]. Meaning of
+  'owner': [DEC-031 R4].
 - **Storage domain (SD):** a place data may durably reside, defined by its access boundary.
 - **Secret material:** a value whose disclosure grants authority (credential, private key, bearer token).
 - **Credential metadata:** non-secret facts about a credential (handle ID, provisioning state, version, timestamps).
@@ -140,7 +146,7 @@ verification material; or how K4 learns credential-handle status.
 | SD-K8 | Executor Journal | K6 append; C read; root | LC-03 |
 | SD-K11R | K11 release-signed content | Root write; K4, K5 loader, K6 read | LC-05; §16.2 |
 | SD-K11H | K11 host-local root-authored content | Root write; K4, K6 read | §16.2.2; §17.9 |
-| SD-K6P | K6 Privileged Storage (**proposed name**, PD19-02): Credential Store (CS), Pre-image Store (PI), Staging Area (ST) | root only (K6) | §16.8, §16.9 (D19-03) |
+| SD-K6P | K6 Privileged Storage [DEC-032]: Credential Store (CS), Pre-image Store (PI), Staging Area (ST) | root only (K6) | §16.8, §16.9 (D19-03) |
 | SD-K2 | K2 platform-side material | Platform domain (K1/K2) | LC-04 (T-20); §15.14 |
 | SD-PLAT | Parent-platform state | Platform; **not SCC** | §15.5 |
 | SD-HOST | Host / Security System state | Host; **not SCC** | §15.15 |
@@ -153,22 +159,22 @@ verification material; or how K4 learns credential-handle status.
 |---|---|---|---|---|---|---|---|
 | DC-01 | SCC release content: code, Operation Catalogue, Global Execution Policy, Execution Declarations (incl. credential **handle definitions**), release trust anchors | SD-K11R | Release / Local Root Operator (install) | root via lifecycle | K4, K5 loader, K6 | From the release artifact | LC-05; §16.2 |
 | DC-02 | Host-local root configuration: approver anchor set, Host Restriction Overlay, local package-source changes (if §22 permits) | SD-K11H | Local Root Operator | root only | K4, K6 | No | §16.2.2; §17.9 |
-| DC-03 | K4 operational configuration that cannot widen authority or execution (for example scheduling cadence, freshness thresholds) | SD-K7 | K4 | C | C | No | LC-01; PD19-06 |
+| DC-03 | K4 operational configuration writable by C, within the limits of [DEC-036 R6a–R6c] | SD-K7 | K4 | C | C | No | LC-01; DEC-036 |
 | DC-04 | Authoritative domain state: inventory, Security System records, registry state, compatibility determinations, health reports | SD-K7 | K4 | C | C | **Largely yes** (by re-observation) | LC-01; §15.7 |
-| DC-05 | Observation evidence and health history (content limited by exposure modes) | SD-K7 | K4 | C | C | Current values yes; history no | LC-14; baseline §7 |
-| DC-06 | Integration-specific configuration (per `integration_id`) | SD-K7 | K4 (on the Integration's behalf) | C | C; passed to K5 per call | No | D19-02; PD19-07 |
-| DC-07 | Authorization state: Principals (incl. tombstones), Platform Identity Bindings, Role Memberships, Grants, revocation records | SD-K7 | K4 | C | C | **No** | LC-15, LC-16 |
+| DC-05 | Observation evidence and health history (content limited by exposure modes) | SD-K7 | K4 | C | C | Current values yes; history no | LC-14; baseline §7; retention OPEN — OD19-06 [DEC-056] |
+| DC-06 | Integration-specific configuration (per `integration_id`) | SD-K7 | K4 (on the Integration's behalf) | C | C; passed to K5 per call | No | D19-02; DEC-037 |
+| DC-07 | Authorization state: Principals (incl. tombstones), Platform Identity Bindings, Role Memberships, Grants, revocation records | SD-K7 | K4 | C | C | **No** | LC-15, LC-16; tombstones [DEC-038] |
 | DC-08 | Authorization policy local settings and their revisions | SD-K7 | K4 | C (R4 `scc.*` Action) | C | No | §17.20 |
 | DC-09 | Authorization Decisions (immutable) and their append-only status records; Approval Records | SD-K7 | K4 | C (append-only semantics) | C | No | §17.19; LC-15 |
 | DC-10 | Plans and Jobs (Plan content, `plan_digest`, Job state) | SD-K7 | K4 | C | C | No | §17.11, §17.12 |
 | DC-11 | K4 audit records | SD-K7 | K4 | C (append-only semantics) | C | No | LC-01; LC-17; LC-18; format §21 |
 | DC-12 | K8 executor journal records (incl. request IDs, idempotency keys, used approval nonces, dangling intents, approval-evidence verification results) | SD-K8 | K6 | K6 (append) | C, root | **No** | LC-03, LC-11, LC-12 |
-| DC-13 | Credential secret material | SD-K6P / CS | K6 | root (provisioning, §22); K6 (rotation state) | K6 only, at invocation | No | LC-04, LC-10 |
-| DC-14 | Credential metadata (handle ID, provisioning state, material version, timestamps) | SD-K6P / CS (authoritative); definitions in DC-01 | K6 | root, K6 | K6; K4 visibility OPEN (D19-07) | No | LC-10 |
+| DC-13 | Credential secret material | SD-K6P / CS | K6 | Local Root Operator, through the host-local lifecycle mechanism [DEC-046 R16c]; mechanics §22 | K6 only, at invocation | No | LC-04, LC-10 |
+| DC-14 | Credential metadata (handle ID, provisioning state, material version, timestamps) | SD-K6P / CS (authoritative); definitions in DC-01 | K6 | Per §22 [DEC-046 R16a, R16c] | K6; K4 visibility OPEN — OD19-05 [DEC-055] | No | LC-10 |
 | DC-15 | Retained pre-images of replaced files | SD-K6P / PI | K6 | K6 | K6 (via `file.restore_preimage`) | No | LC-13 |
 | DC-16 | Staged content for `file.replace` | SD-K6P / ST | K6 | K6 | K6 | n/a (transient-durable, discarded at restart) | LC-13; §16.12 |
 | DC-17 | Assertion signing key (K2) | SD-K2 | K2 (platform domain) | Provisioning (P2 / §22) | K2 only | No | T-20; §15.14 |
-| DC-18 | Assertion verification material | SD-K7 **or** SD-K11H (OD19-01) | K4 (use) / provisioning owner per OD19-01 | per OD19-01 | K4 | No | §15.12; D19-04 |
+| DC-18 | Assertion verification material | OPEN — OD19-01; no authoritative domain assigned [DEC-051 R01a] | OPEN — OD19-01 | OPEN — OD19-01 | K4 | No | §15.12; D19-04 |
 | DC-19 | SCC session validation state | TBD by P2 | K4 | C | C | — | §15.12; P2 |
 | DC-20 | Platform state (sessions, ACLs, accounts, platform configuration) | SD-PLAT | Parent platform | Platform | — | — | §15.5 |
 | DC-21 | Host / Security System state (configurations, logs, services) | SD-HOST | Host / administrators | Host; SCC only via K6 WRITE Operations | K6 | — | §15.15 |
@@ -181,36 +187,34 @@ IPC secret exists [LOCKED-DERIVED].
 
 ## 19.8 Persistence Ownership Model
 
-1. **One owner per data class.** Each DC above has exactly one owning component. Only the owner (or root, which is
-   outside the boundary) writes it. [PROPOSED — PD19-01]
-2. **K7 is not the only store, and it is not a generic database for everything.** SD-K7, SD-K8, SD-K11R, SD-K11H and
-   SD-K6P are distinct storage domains with distinct access boundaries. They must not be merged into one store, and no
-   component may be given access to another component's domain to "simplify" storage. [PROPOSED — PD19-01; basis
-   LC-02, LC-03, LC-04, LC-05]
+1. **One authoritative owner and storage domain per data class.** See S19-01 [DEC-031 R1, R3, R4].
+2. **Storage domains stay distinct.** See S19-02 [DEC-031 R2].
 3. **K3 and K5 persist nothing.** K3 holds no state (§15.6, T-30); K5 cannot persist beyond its runtime (T-06). Any
-   durable state an Integration needs is held by K4 in K7 (DC-06). [LOCKED-DERIVED for K3/K5; PD19-07 for DC-06]
+   durable state an Integration needs is held by K4 in K7 (DC-06). [LOCKED-DERIVED for K3/K5; DEC-037 for DC-06]
 4. **Platform and host state are not SCC state.** SCC persists only what it needs to identify, observe and audit
    them: the Platform Identity Binding and non-authoritative display names (DC-07); observation evidence limited by
    exposure modes (DC-05). SCC does not keep copies of platform data it does not need (baseline §11).
 5. **Re-derivable vs non-re-derivable.** Domain state (DC-04) can be rebuilt by re-observation, so its loss is an
    availability loss (LC-07). Authorization state, Decisions, Plans/Jobs, audit, K8 and credentials (DC-07 … DC-13)
-   cannot be rebuilt; their loss is a security-relevant loss and must fail closed.
+   cannot be rebuilt, so their loss is security-relevant. Reliance on authorization state that K4 cannot establish as
+   valid: [DEC-034 R4b]. Other failure consequences: §19.15.
 
 ## 19.9 Secret / Credential Ownership Model
 
 | Secret | Owner | Where material lives | SCC stores material or reference? | Plaintext persisted? | May cross K2/K3/K4/K6? | Basis |
 |---|---|---|---|---|---|---|
-| Security System credentials (API keys, admin tokens, socket access) | K6 | SD-K6P / CS | **Material in K6 only**; everyone else holds `handle_ref` | Only inside SD-K6P (at-rest protection: PD19-10, OD19-02) | **Never** leaves K6 | LC-04, LC-10 |
+| Security System credentials (API keys, admin tokens, socket access) | K6 | SD-K6P / CS | **Material in K6 only**; everyone else holds `handle_ref` | Only inside SD-K6P. At-rest encryption: OPEN — OD19-02 [DEC-052]. Ciphertext outside SD-K6P: OPEN — Q19-01. | **Never** leaves K6 | LC-04, LC-10 |
 | Parent-platform administrative / API credentials | K6 | SD-K6P / CS (only where no lower-impact read path exists) | Material in K6 only | Only inside SD-K6P | Never leaves K6 | §15.12 |
 | Endpoint credentials (for `endpoint.call`) | K6 | SD-K6P / CS | Material in K6; sent only after endpoint identity check | Only inside SD-K6P | Never leaves K6 except to the verified endpoint | X-35; §16.9 |
 | Parent-platform session | Platform | SD-PLAT; browser | Neither | Never by SCC | K3 may see it in transit and must strip it | §15.12; T-19 |
 | Identity-assertion signing key | K2 | SD-K2 | Not by SCC Core | Platform-domain storage only | Never leaves K2 | T-20 |
-| Assertion verification material | K4 (use) | OD19-01 | Public material | n/a (public) | K4 only uses it | §15.12 |
-| SCC session tokens | K4 | TRANSIENT at K3; K4 validation state per P2 | K4 validation state only | **No bearer token persisted in plaintext** (PD19-14) | Browser ↔ K3 ↔ K4 | §15.12; P2 |
-| Approver private keys | Approver | SD-OFF or operator-managed location outside W/C/I | **Neither.** SCC holds only public anchors (DC-02) | Never by SCC | Never enters SCC; only signatures do | §17.9; A-22; PD19-13 |
+| Assertion verification material | K4 (use) | OPEN — OD19-01 [DEC-051] | Public material | n/a (public) | K4 only uses it | §15.12 |
+| SCC session tokens | K4 | TRANSIENT at K3; K4 validation state per P2 | K4 validation state only | See S19-14 [DEC-044 R14b] | Browser ↔ K3 ↔ K4 | §15.12; P2 |
+| P2 session validation or issuance key (only if P2 requires a persistent one) | Custody not established [DEC-044 R14d] | Custody not established [DEC-044 R14d] | Custody not established [DEC-044 R14d] | Custody not established [DEC-044 R14d] | Custody not established [DEC-044 R14d] | Custody not established [DEC-044 R14d] |
+| Approver private keys | Approver | SD-OFF or operator-managed location outside W/C/I | **Neither.** SCC holds only public anchors (DC-02) | Never by SCC | Never enters SCC; only signatures do | §17.9; A-22; DEC-043 |
 | Release signing private keys | Release owner | SD-OFF | Neither; SCC holds public trust anchors | Never by SCC | Never | §16.2; §22 |
-| Encryption keys protecting SCC data at rest (if adopted) | OD19-02 | OD19-02 | OD19-02 | Never alongside the data they protect (PD19-10) | — | — |
-| Bootstrap / recovery credentials | **None exist** | — | — | — | — | A-07; DEC-021; PD19-15 |
+| Encryption keys protecting SCC data at rest (if adopted) | OPEN — OD19-02 [DEC-052]; if adopted, a separately governed class [DEC-052 R02d]. SCC backups/exports: S19-09 [DEC-040]. | OPEN — OD19-02 [DEC-052]; if adopted, a separately governed class [DEC-052 R02d]. SCC backups/exports: S19-09 [DEC-040]. | OPEN — OD19-02 [DEC-052]; if adopted, a separately governed class [DEC-052 R02d]. SCC backups/exports: S19-09 [DEC-040]. | OPEN — OD19-02 [DEC-052]; if adopted, a separately governed class [DEC-052 R02d]. SCC backups/exports: S19-09 [DEC-040]. | — | — |
+| Bootstrap / recovery credentials | **None exist** | — | — | — | — | A-07; DEC-021; DEC-045 |
 | IPC authentication | None (OS peer identity) | — | — | — | — | §15.12 |
 
 ## 19.10 Trust-Boundary Implications
@@ -229,8 +233,7 @@ IPC secret exists [LOCKED-DERIVED].
   read SD-K6P or alter SD-K8 or SD-K11 [LOCKED-DERIVED from T-12, T-21, LC-04].
 - A compromised K6 or root can read and alter every storage domain on the host. No on-host storage property survives
   it [LOCKED-DERIVED from §15.15].
-- At-rest encryption on the host does **not** protect against root and must never be described as doing so
-  (PD19-10).
+- At-rest encryption on the host is not represented as protecting against root [DEC-040 R10f; DEC-052 R02b].
 
 ## 19.11 Lifecycle Model
 
@@ -238,77 +241,63 @@ IPC secret exists [LOCKED-DERIVED].
 
 | DC | Lifecycle | Basis |
 |---|---|---|
-| DC-07 Principal | ACTIVE ⇄ SUSPENDED ⇄ DISABLED → REVOKED (terminal) → tombstone retained | §17.1.4; PD19-08 |
-| DC-07 Grant / Role Membership | ACTIVE → REVOKED (terminal); record retained while referenced | §17.4.1; PD19-09 |
+| DC-07 Principal | ACTIVE ⇄ SUSPENDED ⇄ DISABLED → REVOKED (terminal) → tombstone retained | §17.1.4; DEC-038 |
+| DC-07 Grant / Role Membership | ACTIVE → REVOKED (terminal); record retained while referenced | §17.4.1; DEC-039 |
 | DC-09 Decision | Created immutable; status records appended (AWAITING_APPROVAL, AUTHORIZED, CONSUMED, EXPIRED, REVOKED, INVALIDATED) | §17.19 |
 | DC-10 Plan / Job | Job state model OPEN (§16 Q-6) | §17.12 |
-| DC-11 K4 audit, DC-12 K8 | Append-only; retained until retention expiry; never edited | LC-03; LC-17; PD19-11 |
-| DC-15 Pre-image | Created at commit → retained for its declared period → destroyed | LC-13; PD19-11 |
+| DC-11 K4 audit, DC-12 K8 | Append-only; never edited in place. Removal and retention floors: [DEC-042 R12A-2; DEC-039; DEC-041]. | LC-03; LC-17; DEC-041 |
+| DC-15 Pre-image | Created at commit → retained for a bounded, declared period [DEC-041 R11f] → expiry behaviour OPEN [DEC-042 R12A-5; DEC-057 R07h] | LC-13; DEC-041 |
 | DC-16 Staged content | Created at stage → committed or discarded → discarded at restart if left over | §16.12 |
 
-### 19.11.2 Credential handles (PROPOSED — PD19-16)
+### 19.11.2 Credential Handles [DEC-046]
 
-```text
-DECLARED (handle defined in a loaded K11 declaration)
-   └─► UNPROVISIONED ──(root provisioning, §22)──► PROVISIONED
-                                                     │
-                                  (rotation begins)  ▼
-                                                   ROTATING  (old and new material both held; handle resolves to
-                                                     │        the last committed version)
-                                  (new version committed) ▼
-                                                   PROVISIONED (new version)
-PROVISIONED / ROTATING ──(revocation)──► REVOKED (unusable) ──► DESTROYING ──► DESTROYED
-Material with no loaded declaration referencing its handle ──► ORPHANED (unusable; reported; destroyed only by an
-                                                                 explicit Local Root Operator act)
-```
-
-A handle resolves only in PROVISIONED or ROTATING. Every other state yields `CREDENTIAL_UNAVAILABLE` (§16.4 layer 17)
-[LOCKED-DERIVED for the refusal; PROPOSED for the states].
+Lifecycle states and conditions, resolution, lifecycle authority, rotation, revocation, orphaned material, stale
+credentials, external revocation and provisioning paths are established by DEC-046 (R16a–R16j). Resolution for
+credential use is governed by DEC-046 R16b. Every other condition yields `CREDENTIAL_UNAVAILABLE` (§16.4.1 stage 17)
+[LOCKED-DERIVED for the refusal]. No state diagram is carried forward. Transition mechanics are §22.
 
 ## 19.12 Retention Model
 
 | Data | Minimum retention | Basis / status |
 |---|---|---|
-| K8 request IDs and idempotency records | At least the replay acceptance window | LOCKED (§16.11) |
-| K8 used approval nonces | Until the deadline of the evidence they belong to has passed | LOCKED-DERIVED (X-16 checks nonces against K8); horizon OPEN (D19-06, OD19-03) |
-| K8 records of dangling intents / UNKNOWN or PARTIAL outcomes | Until reconciled (§16.11 `reconciled_after` must reference them) | LOCKED-DERIVED (X-30, X-32) |
-| K8 records referenced by K4 audit (`journal_seq`) | At least as long as the referencing audit record | PROPOSED (PD19-11); periods §21 |
-| **Pressure rule** | K8 MUST NOT evict any record in the three rows above to make space; if space is exhausted, K6 refuses new requests (X-29) rather than evicting | PROPOSED (PD19-11); aligns with §18 TF-18-09 (conditional) |
-| Principal `principal_id` tombstone | Lifetime of the SCC instance | PROPOSED (PD19-08); derived from LC-16 |
-| Revoked Grants, Role Memberships, policy revisions | While any Decision or audit record references them | PROPOSED (PD19-09); follows from A-35 fields |
-| Decisions and status records; Approval Records | At least the life of the referencing Job, and at least as long as audit records that reference them | PROPOSED (PD19-09); periods §21 |
-| Plans | At least until the Job is terminal and no audit record needs the Plan content | PROPOSED; periods §21 |
-| K4 audit | Defined by §21; must survive upgrades | DEFERRED §21; baseline §12 CURRENT |
-| Health history / evidence history | Not decided | OPEN (OD19-06) |
-| Pre-images | Declared per scope entry, bounded by a global maximum in the Global Execution Policy | PROPOSED (PD19-11); needs K11 content, see OD19-07 |
+| K8 request IDs | At least the replay acceptance window | LOCKED (§16.11); [DEC-041 R11a] |
+| K8 idempotency records | See [DEC-041 R11a] | Period and key-reuse semantics OPEN — Q19-02 |
+| K8 used approval nonces | See [DEC-041 R11b]; independent of any horizon [DEC-053 R03b] | Owner decision, consistent with X-16. Horizon OPEN — OD19-03 |
+| K8 records of dangling intents / UNKNOWN or PARTIAL outcomes | See [DEC-041 R11c] | LOCKED-DERIVED (X-30, X-32); DEC-041 |
+| K8 records referenced by K4 audit (`journal_seq`) | See [DEC-041 R11d]; references across lifetimes [DEC-048 R18c] | DEC-041; DEC-048 |
+| **Pressure rule** | See S19-07 [DEC-041 R11e] | DEC-041 |
+| Principal `principal_id` tombstone | See [DEC-038 R8d] | DEC-038; final disposition §22 |
+| Revoked Grants, Role Memberships, policy revisions | See [DEC-039 R9a, R9b] | DEC-039 |
+| Decisions and status records; Approval Records | See [DEC-039 R9a, R9e, R9h] | DEC-039; periods §21 |
+| Plans | *Verbatim (DEC-064):* Governed by the general rule in R9a (first sentence) and R9b. No Plan-specific retention has been decided. | DEC-039; DEC-064 |
+| K4 audit | Defined by §21; must survive upgrades; [DEC-049 R19g] | DEFERRED §21; baseline §12 CURRENT |
+| Health history / evidence history | OPEN — OD19-06. Floor: [DEC-056 R06c]. No default: [DEC-056 R06d] | §19-owned [DEC-056 R06a] |
+| Pre-images | Bounded and declared per scope entry [DEC-041 R11f]. Representation and enforcement: OPEN — OD19-07 [DEC-057 R07c]. Global Execution Policy maximum: OPEN [DEC-057 R07b, R07f] | Owner decision (R11f); OPEN (OD19-07) |
 | Staged content | Transient; discarded at restart | LOCKED-DERIVED (§16.12) |
-| Credential material after revocation | Not retained beyond destruction | PROPOSED (PD19-16) |
+| Credential material after revocation | See [DEC-046 R16e]; destruction completion [DEC-042 R12A-4] | DEC-046; DEC-042 |
 
-## 19.13 Deletion / Destruction Model (PROPOSED — PD19-12, PD19-16)
+## 19.13 Deletion / Destruction Model [DEC-042 (A); DEC-046]
 
-1. **No physical-erasure claim.** SCC can make data unusable and remove its own copies. It cannot guarantee physical
-   erasure (storage media, filesystem journals, backups outside its control, root). SCC documentation must not claim
-   secure erasure.
-2. **Append-only records are never deleted individually.** K4 audit, K8 records, Decisions and their status records
-   are removed only by retention expiry under §21 rules, never edited.
-3. **Principals are never deleted.** They are revoked and tombstoned.
-4. **Credential destruction** removes material from SD-K6P and makes the handle unresolvable *before* the destruction
-   is reported complete. Interrupted destruction leaves the handle in DESTROYING, which is unusable, and destruction
-   resumes idempotently.
-5. **Pre-images** are destroyed at the end of their declared retention.
-6. **SCC removal** (uninstall) data disposition — what is exported, kept or destroyed — is DEFERRED to §22.
+Deletion and destruction are governed by DEC-042 R12A-1 … R12A-6 (with note A7) and, for credentials, DEC-046 R16e.
+The no-erasure rule is S19-10.
+
+### 19.13.1 Interim Authoring Rule [DEC-042 (B); DEC-054; placement DEC-064]
+
+*Verbatim (DEC-042 R12B-1):* Until OD19-04 is resolved, a K11 WRITE scope entry MUST NOT target a resource declared by the applicable execution contract to contain credential-bearing content.
+
+Scope, limits and continuation: [DEC-042 R12B-2 … R12B-5; DEC-054 R04a–R04c, R04e]. F19-05 remains OPEN [DEC-058].
 
 ## 19.14 Rotation / Revocation Model
 
 | Item | Rotation | Revocation | Status |
 |---|---|---|---|
-| Security System / endpoint credentials | Provisioning and rotation are Local Root Operator acts (K9 / §22) in v1, because no request may carry credential material into K6 (LC-10). Interrupted rotation keeps the last committed version resolvable. | Handle → REVOKED (unusable) → destroyed. Revoking the credential at the product itself is outside SCC unless a declared Operation exists. | PROPOSED (PD19-16); mechanics §22 |
-| SCC-generated credentials | Not supported without a §16 amendment (D19-08) | — | DEFERRED |
-| Stale credentials (rejected by the product) | K6 records the failed use in K8 (handle ID only); K4 surfaces it; **no automatic rotation** | — | PROPOSED |
-| Orphaned credentials | Unusable; reported; destroyed only by explicit root act (automatic destruction could lose material during a declaration rollback) | — | PROPOSED |
-| Assertion signing key / verification material | Rollover must allow overlap so that verification does not fail mid-rotation | Revoking verification material makes all assertions from that key fail closed | OPEN (P2 / §22; OD19-01) |
+| Security System / endpoint credentials | [DEC-046 R16c, R16d] | [DEC-046 R16e, R16i] | DEC-046; mechanics §22 |
+| SCC-generated credentials | Provisioning: [DEC-061 F08b; DEC-046 R16j] | Operation output: OPEN [DEC-061 F08c] | DEC-061 |
+| Stale credentials (rejected by the product) | [DEC-046 R16g, R16h] | — | DEC-046 |
+| Orphaned credentials | [DEC-046 R16f, R16h] | — | DEC-046 |
+| Assertion signing key / verification material | Rollover [DEC-051 R01h] | — | OPEN (P2 / §22; OD19-01) |
 | Approver anchors | Per §17.9 | Per §17.9; outstanding approvals invalid | LOCKED (§17.9) |
-| Principals, Grants, Decisions | — | Per §17.14; persisted as terminal states / status records | LOCKED (§17.14); persistence PROPOSED (PD19-08, PD19-09) |
+| Principals, Grants, Decisions | — | Per §17.14; persisted as terminal states / status records | LOCKED (§17.14); persistence [DEC-038; DEC-039] |
 
 ## 19.15 Failure Semantics
 
@@ -317,59 +306,49 @@ A handle resolves only in PROVISIONED or ROTATING. Every other state yields `CRE
 | Failure | Consequence | Status |
 |---|---|---|
 | K7 unavailable | All state-changing actions refused; observation not durably recorded and must be shown as such | LOCKED (LC-08) |
-| **K4 audit cannot be durably written while K7 is otherwise available** | State-changing actions, K4-internal Actions and authorization decisions that require an audit record are refused (fail closed) | PROPOSED (PD19-05); derived from A-35 and §17.22; closes the fail-closed part of CHANGE-015 that §15.13 assigns to §18/§19 |
-| Partial write / interrupted transaction in K7 | A K4 state change and its audit record commit together or not at all | LOCKED-DERIVED (LC-17) for K4-internal Actions; PROPOSED (PD19-04) for all authorization records |
-| K7 corrupted | Fail closed; corruption must be detectable before K4 relies on the data | PROPOSED (PD19-04); detection mechanism OPEN (§21 / implementation) |
+| **K4 audit cannot be durably written while K7 is otherwise available** | See [DEC-035 R5a, R5b] | DEC-035 |
+| Partial write / interrupted transaction in K7 | See S19-06 [DEC-034 R4a] | LOCKED-DERIVED (LC-17) for K4-internal Actions; DEC-034 |
+| K7 corrupted | See [DEC-034 R4b] | DEC-034 |
 | Process crash / reboot | K6: dangling intents → UNKNOWN before new requests (X-30); staged content discarded; K4: in-flight Jobs reconciled against K8 (§15.13) | LOCKED |
 | K8 unwritable | K6 refuses all new requests | LOCKED (X-29) |
-| **K8 lost or reinitialized** | Replay and idempotency protection for earlier requests is lost. K6 MUST NOT accept requests whose `issued_at` precedes reinitialization, and MUST NOT accept approval evidence until the approval horizon (OD19-03) has elapsed since reinitialization | PROPOSED (PD19-18); depends on OD19-03 |
+| **K8 lost or reinitialized** | See [DEC-048 R18a–R18l] | DEC-048 |
 | SD-K6P credential store unavailable or unreadable | `CREDENTIAL_UNAVAILABLE`; no fallback to any other source | LOCKED-DERIVED (§16.4 layer 17) |
-| At-rest key material unavailable (if adopted) | Same as unavailable credential store / unavailable K7: fail closed | PROPOSED (PD19-10) |
-| Interrupted credential rotation | Last committed version stays resolvable; both versions retained until the new one is committed | PROPOSED (PD19-16) |
-| Interrupted deletion / destruction | DESTROYING is unusable; destruction resumes idempotently | PROPOSED (PD19-16) |
-| Interrupted upgrade / migration | K4 must not operate on a partially migrated K7 (fail closed); migrations are versioned and deterministic | CURRENT FOUNDATIONAL (baseline §12); PROPOSED (PD19-19) |
+| At-rest key material unavailable (if adopted) | OPEN; no general fail-closed rule is established [DEC-040 R10g; DEC-052 R02e] | OPEN — OD19-02 |
+| Interrupted credential rotation | See [DEC-046 R16d] | DEC-046 |
+| Interrupted deletion / destruction | DESTROYING does not resolve [DEC-046 R16b]; completion [DEC-042 R12A-4]; mechanics §22 | DEC-046; DEC-042 |
+| Interrupted upgrade / migration | See [DEC-049 R19c, R19d] | Baseline §12; DEC-049 |
 | Stale state | Domain state carries `observed_at`; staleness is shown, never presented as current | LOCKED-DERIVED (T-28, T-30, X-25) |
-| Orphaned state (records for removed Integrations or Security Systems) | Retained and marked, never silently deleted; Security Systems stay visible | LOCKED-DERIVED (T-28); PROPOSED marking |
-| Restore of K7 from backup | See §19.17 | PROPOSED (PD19-17) |
+| Orphaned state (records for removed Integrations or Security Systems) | A Security System is not represented as absent; state may only become stale or unknown. | LOCKED-DERIVED (T-28); reduced per DEC-064 |
+| Restore of K7 from backup | See §19.17 | DEC-047 |
 | Loss of SD-K2 signing key (e.g., platform reinstall) | No new assertions; no interactive actions; SCC state unaffected | LOCKED-DERIVED (§15.14) |
 
 ## 19.16 Recovery Dependencies (for §22 and the recovery gate)
 
-§19 establishes the following requirements that recovery design must honour. It does not design recovery.
-1. No recovery or bootstrap path may introduce a stored SCC secret; authority is OS root through K9 (PD19-15).
-2. Recovery must not restore authorization state without the consequences in §19.17.
-3. Recovery must never make K8 writable by C, or K7 readable by W or I.
-4. Recovery must preserve append-only semantics: records may be restored but not edited.
-5. Re-provisioning of K2 key material and verification material after platform reinstall (§15.14) is a §22 / P2 act.
-6. Credential provisioning, rotation and destruction are Local Root Operator acts in v1 (PD19-16).
+§19 places these requirements on §22 / the recovery gate. It does not design recovery.
+1. Bootstrap and recovery secrets: S19-05; [DEC-045 R15c, R15d].
+2. K7 restore: §19.17 [DEC-047]; F19-09 [DEC-062 F09c, F09e].
+3. Recovery must never make K8 writable by C, or K7 readable by W or I. [LOCKED-DERIVED from LC-02 (T-23; §15.3 K7
+   row: "Accessible to C only") and LC-03 (§15.3 K8 row: "Writable by root/K6; readable by C"); classification
+   confirmed DEC-064]
+4. Append-only semantics: [DEC-042 R12A-2; DEC-049 R19e].
+5. K8 lifetime and reinitialization: [DEC-048 R18a, R18b, R18i, R18j].
+6. Credential lifecycle mechanics: [DEC-046 R16c]. Provisioning record, if introduced: [DEC-055 R05e].
+7. Downgrade and migration: [DEC-049 R19h, R19i, R19l].
+8. Principal-ID non-reuse across restore: [DEC-038 R8c; DEC-047 R17j].
+9. K2 key and verification material re-provisioning: [DEC-051 R01b].
+10. SCC removal: [DEC-042 R12A-6]. SD-K6P backup: [DEC-040 R10c]. At-rest keys, if adopted: [DEC-052 R02d].
 
-## 19.17 Backup / Restore Implications (PROPOSED — PD19-17)
+## 19.17 Backup / Restore Implications [DEC-047]
 
-1. **Backup scope is per storage domain.** A backup of SD-K7 must not include SD-K6P material. SD-K6P material, if
-   ever backed up, must be encrypted with a key not stored alongside the backup (PD19-10).
-2. **Restore is a Local Root Operator act**, audited, never available through K3 (T-29).
-3. **Restoring SD-K7 rolls back authorization state.** Revocations made after the backup point cannot be recovered
-   from K7 alone (D19-09). Therefore, on restore:
-   - every Decision that is not terminal MUST be treated as INVALIDATED;
-   - Jobs not terminal MUST be held and reconciled against K8 before any further request;
-   - the restore MUST be recorded as an event that states the backup point;
-   - the residual risk (post-backup revocations lost) MUST be disclosed unless an off-host record exists
-     (ODF-18-07, open).
-4. **Restoring SD-K8** must never replace a newer journal with an older one silently; doing so is treated as K8
-   reinitialization (§19.15, PD19-18).
-5. Backup mechanics, frequency and storage location are DEFERRED to §22.
+Backup scope, restore authority, the recovery/reconciliation condition, Decisions, Jobs, post-backup authorization
+changes, audit continuity, K8 restore, sessions, Principal-ID non-reuse, host and external state, and mixed-domain
+restore are established by DEC-047 (R17a–R17l). Core requirement: S19-11. Procedures: §22.
 
-## 19.18 Upgrade / Migration Implications
+## 19.18 Upgrade / Migration Implications [DEC-049]
 
-1. K7 content must carry a format version; migrations are versioned and deterministic; K4 refuses to run on a K7
-   version it does not recognise (fail closed). [PROPOSED — PD19-19; baseline §12 CURRENT]
-2. K8 records must carry a format version and remain interpretable by later K6 versions for as long as they are
-   retained. [PROPOSED — PD19-19]
-3. Audit history must survive upgrades. [CURRENT FOUNDATIONAL — baseline §12]
-4. Downgrade after a forward migration is not supported except by restore (§19.17). [PROPOSED; forensic audit MED-14
-   HISTORICAL]
-5. SD-K11R content changes only by release installation; SD-K11H survives upgrades unless the Local Root Operator
-   changes it. Rollback protection for K11 is OPEN (§18 TH-24 / SR-15, conditional; §22).
+Format versioning, unknown formats, partial migrations, migration requirements, append-only records, K8
+interpretability, K7 audit history, downgrade, K7/K8 downgrade interaction, K11R/K11H, other domains, migration
+authority and upgrade-sensitive validation are established by DEC-049 (R19a–R19m). Core requirement: S19-15.
 
 ## 19.19 Cross-Boundary Data Flow
 
@@ -378,40 +357,72 @@ A handle resolves only in PROVISIONED or ROTATING. Every other state yields `CRE
 | P2 (K2 → K3) | Request; identity assertion | Platform session beyond what K3 must strip; any SCC state | §15.10, §15.12 |
 | P3 (K3 → K4) | Request; assertion or SCC session token | Platform session | §15.12 |
 | P4/P5 (K4 ↔ K5) | Observation data needed for the call; DC-06 configuration for that Integration; results and proposals | Credential material; other Integrations' configuration; authorization state | §15.10; T-19 |
-| P6 (K4 → K6) | Request fields per §16.3, including `handle_ref` and `blob` | Credential material (except as F19-05 describes for `blob`; see PD19-12) | §16.3, §16.9 |
-| P7 (K6 → K4) | Results under exposure modes; scrubbed output | Credential values; `FULL` content of credential-bearing resources | X-24 |
+| P6 (K4 → K6) | Request fields per §16.3, including `handle_ref` and `blob` | Credential material (§16.9). Credential-bearing `blob`: F19-05 OPEN [DEC-058]; interim rule §19.13.1. | §16.3, §16.9 |
+| P7 (K6 → K4) | Results under exposure modes; scrubbed output | Credential values; `FULL` content of credential-bearing resources. Credential material newly created by an Operation: OPEN [DEC-061 F08c]. | X-24 |
 | K6 → K8 | Journal fields per §16.10.2 (metadata, digests, handle IDs) | Content of reads; credential values | §16.7; X-26 |
-| K4 → K7 | DC-03 … DC-11 | Credential material; platform session; bearer tokens in plaintext | LC-04; PD19-14 |
+| K4 → K7 | DC-03 … DC-11 | Credential material; platform session; SCC session tokens in a form prohibited by S19-14 [DEC-044] | LC-04; DEC-044 |
 
-## 19.20 Security Invariants (PROPOSED unless marked)
+## 19.20 Security Invariants
 
-- **S19-01** Each data class has exactly one owning component and one authoritative storage domain. [PD19-01]
-- **S19-02** SD-K7, SD-K8, SD-K11R, SD-K11H and SD-K6P MUST remain separate storage domains with the access boundaries in §19.10. [PD19-01]
-- **S19-03** Credential secret material MUST exist durably only in SD-K6P and transiently only in K6. [LOCKED-DERIVED from T-18, §16.9, for Security System and platform credentials]
-- **S19-04** SCC components MUST NOT persist approver private keys, release signing private keys or the parent-platform session. [PD19-13; LC-04]
-- **S19-05** SCC MUST NOT create or hold any bootstrap or recovery secret; bootstrap and recovery authority is OS root through K9. [PD19-15]
-- **S19-06** A K4 state change that requires an audit record MUST NOT take effect unless its audit record is durably committed with it. [PD19-04, PD19-05; LC-17]
-- **S19-07** K8 MUST NOT evict records needed for replay protection, idempotency, nonce single-use or unreconciled outcomes; it MUST refuse new requests instead. [PD19-11]
-- **S19-08** `principal_id` tombstones MUST be retained for the life of the instance. [PD19-08]
-- **S19-09** Data that leaves its storage domain in a backup or export and contains secret material MUST be encrypted with a key not stored with it. [PD19-10]
-- **S19-10** SCC MUST NOT claim that on-host at-rest encryption protects against root, or that deletion guarantees physical erasure. [PD19-10, PD19-12]
-- **S19-11** Restoring SD-K7 MUST invalidate non-terminal Decisions and hold non-terminal Jobs until reconciled. [PD19-17]
-- **S19-12** Security-relevant configuration that could widen authority or execution MUST NOT be writable by C; C-writable configuration may only narrow or tune non-security behaviour. [PD19-06]
+Each invariant reproduces the cited owner text verbatim or restates the cited locked text.
+
+- **S19-01** *(verbatim, DEC-031 R1)* Each SCC data class has exactly one authoritative owner and one authoritative storage domain. This does not prohibit transient, derived, or explicitly permitted non-authoritative copies, provided those copies do not become an alternate authoritative source or weaken the access boundary of the authoritative domain.
+- **S19-02** *(verbatim, DEC-031 R2)* The authoritative SCC storage domains identified by §19 must remain distinct according to their defined trust and access boundaries; they must not be consolidated or exposed to another component merely for implementation convenience.
+- **S19-03** Credential secret material MUST exist durably only in SD-K6P and transiently only in K6. [LOCKED-DERIVED from T-18, §16.9, for Security System and platform credentials] Scope: [DEC-033 C-03a]. Not resolved by this invariant: F19-05 [DEC-033 C-03b].
+- **S19-04** *(verbatim, DEC-043 R13b, R13c, R13d)* The parent-platform session MUST NOT be persisted by an SCC component. K2/K3 may process or relay the session only as permitted by §15.12; K3 MUST strip it and MUST NOT persist, log, or forward it. Approver private keys MUST NOT enter or be persisted by an SCC component. SCC receives only the resulting approval signature and associated verification evidence required by §17. Release signing private keys MUST NOT enter or be persisted by an SCC component. SCC receives and relies only on the corresponding public release trust anchors and signed release artifacts. Scope: [DEC-043 R13a, R13f].
+- **S19-05** *(verbatim, DEC-045 R15a)* SCC MUST NOT create, persist, or rely upon a secret whose possession itself confers bootstrap or recovery authority. Bootstrap and recovery authority remains OS root acting host-locally through K9, subject to the recovery gate.
+- **S19-06** *(verbatim, DEC-034 R4a)* For every K4 authorization state mutation for which §17 requires an audit record, the authorization mutation and its required audit record MUST become durable atomically: either both are committed or neither is committed.
+- **S19-07** *(verbatim, DEC-041 R11e)* K8 MUST NOT evict records whose retention is required to enforce replay protection, idempotency safety, approval-nonce single use, unresolved-outcome reconciliation, or an authoritative K7 audit reference. If K8 cannot preserve those required records, K6 MUST refuse new requests in accordance with X-29.
+- **S19-08** *(verbatim, DEC-038 R8a)* A revoked Principal MUST have a retained tombstone sufficient to establish that its `principal_id` existed and MUST NOT be reused within the applicable SCC instance. The tombstone MUST contain no more identity information than is necessary to enforce that invariant and support required historical references. See also [DEC-038 R8b, R8d].
+- **S19-09** *(verbatim, DEC-040 R10a)* When SCC deliberately creates a backup or export containing secret material, the secret-bearing artifact MUST be encrypted with a key that is not stored with that artifact.
+- **S19-10** *(verbatim, DEC-040 R10f; DEC-042 R12A-1)* SCC MUST NOT claim that on-host at-rest encryption protects SCC data against a root-equivalent compromise. SCC MUST NOT claim that SCC-controlled deletion guarantees physical erasure of data from storage media, filesystem journals, backups outside SCC's control, or storage controlled by root or another external party.
+- **S19-11** *(verbatim, DEC-047 R17c, R17f)* Restoring SD-K7 from an earlier backup point MUST place SCC into a recovery/reconciliation condition before ordinary authorization-dependent work may resume. The restored K7 state MUST be treated as potentially stale with respect to events occurring after the backup point. The exact recovery state and transition mechanics remain subject to §22. A K7 restore MUST treat authorization changes occurring after the backup point—including Principal revocations, Role Membership revocations, Grant revocations, and applicable policy or authorization-state changes—as potentially absent from restored K7. SCC MUST NOT represent restored authorization state as current merely because it was present in the backup. The recovery procedure MUST establish the disposition of post-backup authorization changes before ordinary authorization-dependent operation resumes. The mechanism for obtaining and reconciling those changes remains subject to §22 and applicable off-host evidence. See also [DEC-047 R17d, R17e].
+- **S19-12** *(verbatim, DEC-036 R6b)* Configuration writable by C MUST NOT widen SCC authority or execution capability. Configuration that can widen authority or execution MUST be outside C's writable domain and governed by its applicable higher-authority control. Scope: [DEC-036 R6a, R6c].
 - **S19-13** K3 and K5 MUST NOT hold durable state. [LOCKED-DERIVED for K3 (§15.6, T-30) and K5 (T-06)]
-- **S19-14** Bearer tokens (SCC session tokens) MUST NOT be persisted in plaintext. [PD19-14]
-- **S19-15** K7 and K8 content MUST carry format versions; K4 and K6 MUST refuse to operate on unrecognised versions. [PD19-19]
+- **S19-14** *(verbatim, DEC-044 R14b)* An SCC session token MUST NOT be persisted in a form from which the token can be recovered for direct bearer use.
+- **S19-15** *(verbatim, DEC-049 R19a, R19b)* Authoritative persistent content in SD-K7 and SD-K8 MUST carry sufficient format-version information to determine whether the currently executing SCC component can safely interpret that content. The format-version mechanism MUST NOT rely solely on an implicit software-release version. SCC MUST NOT interpret authoritative persistent content whose format is unrecognised or unsupported by the executing component. The affected component MUST fail closed with respect to operations that depend upon that content. The exact refusal behavior and any required §16 amendment for K6 remain subject to the applicable implementation/recovery gate.
 
 ## 19.21 Open Questions (require owner or later-gate decision)
 
-| ID | Question | Owner | Blocks §19 lock? |
+| ID | Question | Disposition | Owning gate(s) | Blocks §19 lock? |
+|---|---|---|---|---|
+| OD19-01 | Authoritative domain, owner and provisioning of DC-18 | OPEN [DEC-051] | §19 [DEC-051 R01b], coordinated with P2, §22 / recovery gate, CyberPanel K2 gate | No |
+| OD19-02 | Whether SCC-controlled at-rest encryption is required, optional or not required, and for which domains and classes [DEC-052 R02c] | OPEN [DEC-052] | §19 Owner Decision Gate (policy) [DEC-064]; §22 (key mechanics) [DEC-052 R02d] | No |
+| OD19-03 | Whether a maximum approval-validity horizon exists; its value and enforcement point | OPEN [DEC-053] | §19 Owner Decision Gate [DEC-064]; §16 Amendment Gate if K6-enforced [DEC-053 R03e]; §22 approval-tool contract if tool-only [DEC-053 R03f] | No |
+| OD19-04 | Permanent prohibition vs a §16 composition path for credential-bearing `file.replace` content | OPEN [DEC-054] | §16 Amendment Gate [DEC-054 R04c, R04d] | No |
+| OD19-05 | Whether and how K4 obtains advisory credential-handle metadata | OPEN [DEC-055] | §16 Amendment Gate [DEC-055 R05d] / §22 [DEC-055 R05e] | No |
+| OD19-06 | DC-05 retention period and basis [DEC-056 R06b] | OPEN [DEC-056] | §19 [DEC-056 R06a]; dependency inputs §21 [DEC-056 R06i], §20 [DEC-056 R06j] | No |
+| OD19-07 | Representation and enforcement of R11f; whether a Global Execution Policy maximum exists | OPEN [DEC-057] | §16 Amendment Gate [DEC-057 R07c, R07d]; §22 [DEC-057 R07h] | No |
+
+Resolution of any item in §19.21–§19.21.1 after §19 is locked follows DEC-063 (§19.26). The §16 Amendment Gate
+(NOT SCHEDULED), the §19 Owner Decision Gate and the §17/K4 Architecture Gate are named by DEC-064.
+
+### 19.21.1 Open Items Without an OD Number [DEC-064]
+
+| ID | Item | Source | Owning gate |
 |---|---|---|---|
-| OD19-01 | Where is assertion verification material persisted and who provisions it: (a) SD-K7, written by K4; (b) SD-K11H, root-provisioned with K2 installation? (a) matches §15.12's "only in K4" literally; (b) ties provisioning to root, as §15.14 anticipates for re-provisioning. | Owner; P2 / §22 | No (can be deferred to P2) |
-| OD19-02 | At-rest encryption *inside* the host storage domains (SD-K7, SD-K6P): required, optional, or not required? Its value is limited because root is outside the boundary; it protects against disk theft, decommissioning and mis-set permissions. Key hierarchy and custody follow from the answer. | Owner; §22 | No |
-| OD19-03 | Maximum approval validity horizon (bounds K8 nonce retention and the post-K8-loss exposure): enforced by (a) the approval tool (§22) only, (b) a K11 Global Execution Policy value checked by K6 (§16 amendment), or (c) unbounded with indefinite nonce retention. | Owner; §22 / possible §16 amendment | No |
-| OD19-04 | Credential-bearing file content (F19-05): accept the authoring prohibition (PD19-12) as permanent, or open a §16 amendment for handle-based content composition in `file.replace`? | Owner; possible §16 amendment | No (PD19-12 is the interim) |
-| OD19-05 | How K4 learns credential-handle provisioning state (F19-07): (a) a new `executor.*` Operation (§16 amendment), (b) a provisioning record written by K9/§22 that K4 can read, or (c) refusal-only discovery. | Owner; §16 / §22 | No |
-| OD19-06 | Health and evidence history retention periods | §21 / owner | No |
-| OD19-07 | Pre-image retention bounds: declared per scope entry and capped by a Global Execution Policy maximum — this places a new value in K11 content (release-signed), which may need §16 confirmation. | Owner; possible §16 clarification | No |
+| Q19-01 | Whether ciphertext of K6-held credential material may exist outside SD-K6P, including the §15.12 wording "K7 plaintext (storage design §19)" read against T-18 | DEC-040 R10b; DEC-052 R02h | §19 Owner Decision Gate, coordinated with §22 / credential-custody design as needed |
+| Q19-02 | Idempotency-record retention period and key-reuse semantics | DEC-041 R11a; DEC-048 R18e | §16 Amendment Gate / §22 |
+| Q19-03 | Definition of the identity slice | DEC-050 R20a; DEC-056 R06k | §19 Owner Decision Gate, coordinated with §20 as applicable |
+| Q19-04 | Semantics of approvals for K4-internal Actions | DEC-053 R03i; DEC-059 F06f | §17/K4 Architecture Gate (NOT SCHEDULED). This is not a §17 amendment gate; §17 remains LOCKED. |
+
+### 19.21.2 Items for the §16 Amendment Gate (NOT SCHEDULED)
+
+No §16 text is changed.
+
+| # | Source | Item |
+|---|---|---|
+| 1 | DEC-048 R18c, R18i | K8 lifetime identity in journal references |
+| 2 | DEC-048 R18d | K6 acceptance after K8 reinitialization |
+| 3 | DEC-049 R19b | K6 refusal on unknown or unsupported K8 format |
+| 4 | DEC-049 R19f | K8 interpretability across authorized K6 versions |
+| 5 | DEC-053 R03e | K6-enforced approval horizon, if chosen |
+| 6 | DEC-054 R04c, R04d | Credential-bearing `file.replace` composition, if chosen |
+| 7 | DEC-055 R05d | Executor-family handle visibility, if chosen |
+| 8 | DEC-057 R07c, R07d | Representation of R11f; optional Global Execution Policy maximum |
+| 9 | DEC-058 F05a, F05b | Interpretation of F19-05 |
+| 10 | DEC-061 F08c, F08d | Credential material in Operation output |
+| 11 | Q19-02 | Idempotency retention and key reuse (with §22) |
 
 ## 19.22 Deferred Questions (belong to other gates)
 
@@ -421,38 +432,33 @@ A handle resolves only in PROVISIONED or ROTATING. Every other state yields `CRE
 | Credential provisioning / rotation / destruction mechanics; backup/restore procedures; SCC removal data disposition; key custody | §22 / recovery gate |
 | SCC session semantics and whether session validation state is durable | P2 |
 | CyberPanel identity field and subject stability | CyberPanel K2 gate (K2-Q5) |
-| Reconciliation, desired-state and drift records | §20 (no dependency found for the identity slice) |
-| SCC-generated credentials (F19-08) | Future §16 amendment |
-| Sensitivity classification scheme beyond exposure modes (CHANGE-023) | §21 / owner |
+| Reconciliation, desired-state and drift records | §20 [DEC-050 R20a, R20b] |
+| SCC-generated credentials (F19-08) | Provisioning [DEC-061 F08b]; output: §16 Amendment Gate [DEC-061 F08d] |
+| Sensitivity classification scheme beyond exposure modes (CHANGE-023) | §21 / owner (unchanged). The open register attributes CHANGE-023 to §19. This discrepancy is unresolved. |
 | Job state model (§16 Q-6) | §8 amendment (no gate scheduled) |
+| K8 lifetime, reinitialization and recovery mechanics | §22; §16 Amendment Gate [DEC-048 R18d, R18i] |
+| Downgrade policy; migration authority and mechanics | §22; CHANGE-025; TQ-06 [DEC-049 R19h, R19l] |
+| Format rules for SD-K6P, SD-K11H, SD-K11R, SD-K2 | Their respective gates [DEC-049 R19k] |
+| Source of post-backup authorization evidence; detection of K7 rollback | §22 / recovery gate; TQ-08; ODF-18-07 [DEC-062 F09c, F09d] |
 
-## 19.23 Proposed Decisions
+## 19.23 Owner Dispositions
 
-| ID | Proposed decision | Classification |
+| ID | Disposition | Entry |
 |---|---|---|
-| PD19-01 | One owner and one authoritative storage domain per data class; SD-K7, SD-K8, SD-K11R, SD-K11H and SD-K6P remain separate (S19-01, S19-02) | **PROPOSED** |
-| PD19-02 | Name the privileged-domain storage areas SD-K6P (Credential Store, Pre-image Store, Staging Area) as parts of K6's existing domain, not a new runtime component | **PROPOSED** |
-| PD19-03 | Credential secret material durably only in SD-K6P, transiently only in K6 (S19-03) | **LOCKED** (already established by T-18, §15.12, §16.9; restated) |
-| PD19-04 | Authorization records and their audit records commit atomically; corruption must be detectable before use (S19-06) | **PROPOSED** (atomicity for K4-internal Actions is LOCKED by §17.22) |
-| PD19-05 | Audit fail-closed: state-changing actions and authorization decisions that require an audit record are refused if the record cannot be durably written | **PROPOSED** (derived from A-35 and §17.22; §15.13 assigns this policy to §18/§19) |
-| PD19-06 | C-writable configuration may only narrow or tune non-security behaviour (S19-12) | **PROPOSED** |
-| PD19-07 | Integration-specific configuration is K4-owned, namespaced by `integration_id`, stored in SD-K7, passed to K5 per call | **PROPOSED** (resolves D19-02) |
-| PD19-08 | `principal_id` tombstones retained for the life of the instance (S19-08) | **PROPOSED** |
-| PD19-09 | Revoked Grants, Role Memberships, policy revisions, Decisions and Approval Records retained while referenced | **PROPOSED** |
-| PD19-10 | Secret material leaving its storage domain is encrypted with a separately held key; no claim that on-host encryption protects against root (S19-09, S19-10) | **PROPOSED** (in-host encryption is OD19-02) |
-| PD19-11 | K8 and pre-image retention rules in §19.12, including the pressure rule (S19-07) | **PROPOSED** (replay-window minimum is LOCKED by §16.11) |
-| PD19-12 | Deletion model in §19.13, and the authoring rule: WRITE scope entries MUST NOT target credential-bearing content until OD19-04 is decided | **PROPOSED** |
-| PD19-13 | No SCC component persists approver private keys, release signing private keys or the parent-platform session (S19-04) | **PROPOSED** (platform-session part is LOCKED by §15.12) |
-| PD19-14 | Bearer tokens are never persisted in plaintext (S19-14) | **PROPOSED**; session semantics DEFERRED to P2 |
-| PD19-15 | No bootstrap or recovery secret exists; authority is OS root through K9 (S19-05) | **PROPOSED** (consistent with A-07, DEC-021) |
-| PD19-16 | Credential handle lifecycle (§19.11.2), rotation, revocation, orphan and destruction semantics; provisioning and rotation are Local Root Operator acts in v1 | **PROPOSED**; mechanics DEFERRED to §22 |
-| PD19-17 | Backup/restore implications in §19.17 (S19-11) | **PROPOSED**; procedures DEFERRED to §22 |
-| PD19-18 | K8 loss or reinitialization semantics in §19.15 | **PROPOSED**; depends on OD19-03 |
-| PD19-19 | Format versioning of K7 and K8 content; fail closed on unrecognised versions (S19-15) | **PROPOSED** |
-| PD19-20 | No §20 dependency exists for the identity slice; §20 adds data classes to SD-K7 when designed | **PROPOSED** (records a finding) |
-
-These are **not** added to the decision log: the log's current convention records owner decisions only
-(`CURRENT — OWNER DECISIONS`), and has no status for proposals. They become decisions only when the owner records them.
+| PD19-01 | REVISE | DEC-031 |
+| PD19-02 | ACCEPT | DEC-032 |
+| PD19-03 | ACCEPT as locked-derived, with clarification C-03a, C-03b | DEC-033 |
+| PD19-04 … PD19-11 | REVISE | DEC-034 … DEC-041 |
+| PD19-12 | REVISE, split into (A) and (B) | DEC-042 |
+| PD19-13 … PD19-20 | REVISE | DEC-043 … DEC-050 |
+| OD19-01 … OD19-07 | DEFER / KEEP OPEN | DEC-051 … DEC-057 |
+| F19-05 | Deferred to OD19-04 / §16 Amendment Gate | DEC-058 |
+| F19-06 | Deferred, decomposed | DEC-059 |
+| F19-07 | Rejected as a finding against locked text | DEC-060 |
+| F19-08 | Split: provisioning half governed by DEC-046; output half deferred | DEC-061 |
+| F19-09 | Deferred; wording narrowed | DEC-062 |
+| — | Post-lock resolution route (CS-1) | DEC-063 |
+| — | §19 change-set reconciliation decisions | DEC-064 |
 
 ## 19.24 Gate Criteria
 
@@ -467,22 +473,34 @@ These are **not** added to the decision log: the log's current convention record
 
 ## 19.25 Gate Status
 
-**CANDIDATE — READY FOR OWNER REVIEW — NOT LOCKED.**
+**CANDIDATE — OWNER DISPOSITIONS RECORDED — NOT LOCKED.**
 
-- **Not ready to lock yet**, because PD19-01 … PD19-20 require owner dispositions and OD19-01 … OD19-07 require
-  decisions or explicit deferrals (§19.24).
-- **Lockable after review** without waiting for §21, §22, P2 or the CyberPanel K2 gate, provided the deferrals in
-  §19.22 are accepted. The later gates refine retention periods, formats and procedures within the classification
-  and invariants defined here.
-- **Owner decision required before any status change:** an explicit owner decision recording the PD dispositions and
-  authorizing the lock (to be added to the decision log as a new DEC entry by the owner's instruction).
-- **Proposed lock statement** (for the owner to adopt, amend or reject):
+- Owner dispositions are recorded as DEC-031 … DEC-062. The post-lock resolution route is DEC-063. Change-set
+  reconciliation decisions are DEC-064.
+- **Gate evaluation at this revision (§19.24):**
 
-  > §19 is LOCKED as the persistence, secrets and data-lifecycle classification of SCC: the storage domains and
-  > data classes of §19.6–§19.7, the ownership and access model of §19.8–§19.10, and invariants S19-01 … S19-15 as
-  > accepted by the owner. Retention periods, formats, procedures and mechanisms remain owned by §21, §22, P2 and the
-  > CyberPanel K2 gate as listed in §19.22.
+  | # | Result |
+  |---|---|
+  | 1 | **SATISFIED** |
+  | 2 | **SATISFIED**, with the gates named by DEC-064 |
+  | 3 | **NOT SATISFIED**. Criterion 3 has not been amended [DEC-064]. |
+  | 4 | **NO VIOLATION IDENTIFIED.** Supporting readings [DEC-064]: DEC-035 R5b is the owner's interpretation of the interaction between A-05 Fixed System Authority and the audit-record requirement; DEC-041 R11e applies X-29's existing K8 refusal consequence to an inability to preserve required records. §16 and §17 are not rewritten. |
+  | 5 | **SATISFIED.** Criterion 5 applies to the explicit §19 deferrals enumerated in §19.21–§19.22, including §19.21.1. It does not require every "applicable architecture/contract/design" dependency phrase inside an owner decision to have an independently registered gate [DEC-064]. CHANGE-023 remains unresolved. |
 
-- **Not changed by this gate:** the decision log, locked §15–§17, the baseline, the §18 documents and all historical
-  material. The findings F19-05 and F19-06 are **not** added to the architecture index's known-findings table by this
-  gate; the index was changed only to show §19's status.
+- §19 is **NOT LOCKABLE** at this revision, solely because criterion 3 is not satisfied. Criterion 3 has not been
+  amended.
+- Locking requires a separate, explicit owner decision recorded as a new DEC entry.
+- No implementation is authorized by this document or by DEC-031 … DEC-064. DEC-029 remains standing.
+- **Proposed lock statement (not adopted):**
+
+  > §19 is LOCKED as the persistence, secrets and data-lifecycle classification of SCC: the storage domains and data
+  > classes of §19.6–§19.7, the ownership and access model of §19.8–§19.10, and invariants S19-01 … S19-15, as
+  > established by owner decisions DEC-031 … DEC-064. Items recorded as OPEN or DEFERRED in §19.21–§19.22 remain open
+  > at the gates named there and are resolved after lock through DEC-063.
+
+- This revision changes §19, the architecture index, the open register and the decision log (DEC-031 … DEC-064). It
+  does not change locked §15–§17, the baseline, the §18 documents or historical material.
+
+## 19.26 Post-Lock Resolution Route [DEC-063]
+
+*Verbatim (DEC-063):* When an OD19 item, Q19 item or deferred finding is resolved after §19 is locked, the resolution is recorded as a new DEC entry. That entry identifies each §19 passage it changes, and §19 is amended to match it. No other route changes locked §19 text.

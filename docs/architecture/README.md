@@ -77,7 +77,7 @@ set of definitions can compete with the locked text.
 
 | Document | Status |
 |---|---|
-| [`decisions/decision-log.md`](decisions/decision-log.md) | **CURRENT — OWNER DECISIONS** (DEC-001 … DEC-030) |
+| [`decisions/decision-log.md`](decisions/decision-log.md) | **CURRENT — OWNER DECISIONS** (DEC-001 … DEC-064) |
 
 ### Category 3 — Foundational principles
 
@@ -93,7 +93,7 @@ set of definitions can compete with the locked text.
 | [`open/18-threat-model/18-candidate.md`](open/18-threat-model/18-candidate.md) | CONDITIONAL — candidate text — NOT CURRENT AUTHORITY |
 | [`open/18-threat-model/18-owner-decision-gate.md`](open/18-threat-model/18-owner-decision-gate.md) | OPEN — decision record (ODF-18-01 dispositioned by DEC-015; ODF-18-02…09 OPEN) |
 | [`open/register.md`](open/register.md) | OPEN QUESTIONS REGISTER |
-| [`open/19-persistence-secrets-data-lifecycle.md`](open/19-persistence-secrets-data-lifecycle.md) | CANDIDATE — OWNER REVIEW REQUIRED — NOT LOCKED |
+| [`open/19-persistence-secrets-data-lifecycle.md`](open/19-persistence-secrets-data-lifecycle.md) | CANDIDATE — OWNER DISPOSITIONS RECORDED — NOT LOCKED |
 | [`open/20-reconciliation-desired-state-drift.md`](open/20-reconciliation-desired-state-drift.md) | NOT DESIGNED — GATE PENDING |
 | [`open/21-audit-events.md`](open/21-audit-events.md) | NOT DESIGNED — GATE PENDING |
 | [`open/22-lifecycle-recovery.md`](open/22-lifecycle-recovery.md) | NOT DESIGNED — GATE PENDING |
@@ -127,7 +127,7 @@ set of definitions can compete with the locked text.
 | §16 | Privileged Execution Contract | **LOCKED** | `current/` |
 | §17 | Authorization Model | **LOCKED** | `current/` |
 | §18 | Threat Model | **CONDITIONAL — NOT FULLY LOCKED** | `open/18-threat-model/` |
-| §19 | Persistence, Secrets & Data Lifecycle | CANDIDATE — OWNER REVIEW REQUIRED — NOT LOCKED | `open/` |
+| §19 | Persistence, Secrets & Data Lifecycle | CANDIDATE — OWNER DISPOSITIONS RECORDED — NOT LOCKED | `open/` |
 | §20 | Reconciliation / Desired State / Drift | NOT DESIGNED — GATE PENDING | `open/` |
 | §21 | Audit / Events | NOT DESIGNED — GATE PENDING | `open/` |
 | §22 | Lifecycle / Recovery | NOT DESIGNED — GATE PENDING | `open/` |
