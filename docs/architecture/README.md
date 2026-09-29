@@ -77,7 +77,7 @@ set of definitions can compete with the locked text.
 
 | Document | Status |
 |---|---|
-| [`decisions/decision-log.md`](decisions/decision-log.md) | **CURRENT — OWNER DECISIONS** (DEC-001 … DEC-030) |
+| [`decisions/decision-log.md`](decisions/decision-log.md) | **CURRENT — OWNER DECISIONS** (DEC-001 … DEC-070) |
 
 ### Category 3 — Foundational principles
 
@@ -93,7 +93,7 @@ set of definitions can compete with the locked text.
 | [`open/18-threat-model/18-candidate.md`](open/18-threat-model/18-candidate.md) | CONDITIONAL — candidate text — NOT CURRENT AUTHORITY |
 | [`open/18-threat-model/18-owner-decision-gate.md`](open/18-threat-model/18-owner-decision-gate.md) | OPEN — decision record (ODF-18-01 dispositioned by DEC-015; ODF-18-02…09 OPEN) |
 | [`open/register.md`](open/register.md) | OPEN QUESTIONS REGISTER |
-| [`open/19-persistence-secrets-data-lifecycle.md`](open/19-persistence-secrets-data-lifecycle.md) | NOT DESIGNED — GATE PENDING |
+| [`open/19-persistence-secrets-data-lifecycle.md`](open/19-persistence-secrets-data-lifecycle.md) | CANDIDATE — OWNER DISPOSITIONS RECORDED — NOT LOCKED |
 | [`open/20-reconciliation-desired-state-drift.md`](open/20-reconciliation-desired-state-drift.md) | NOT DESIGNED — GATE PENDING |
 | [`open/21-audit-events.md`](open/21-audit-events.md) | NOT DESIGNED — GATE PENDING |
 | [`open/22-lifecycle-recovery.md`](open/22-lifecycle-recovery.md) | NOT DESIGNED — GATE PENDING |
@@ -127,7 +127,7 @@ set of definitions can compete with the locked text.
 | §16 | Privileged Execution Contract | **LOCKED** | `current/` |
 | §17 | Authorization Model | **LOCKED** | `current/` |
 | §18 | Threat Model | **CONDITIONAL — NOT FULLY LOCKED** | `open/18-threat-model/` |
-| §19 | Persistence, Secrets & Data Lifecycle | NOT DESIGNED — GATE PENDING | `open/` |
+| §19 | Persistence, Secrets & Data Lifecycle | CANDIDATE — OWNER DISPOSITIONS RECORDED — NOT LOCKED | `open/` |
 | §20 | Reconciliation / Desired State / Drift | NOT DESIGNED — GATE PENDING | `open/` |
 | §21 | Audit / Events | NOT DESIGNED — GATE PENDING | `open/` |
 | §22 | Lifecycle / Recovery | NOT DESIGNED — GATE PENDING | `open/` |
@@ -191,6 +191,7 @@ authorizes an amendment.
 | KF-08 | §15.4 item 6 / §16.1.3 (no general egress) | Off-host audit export has no mechanism in locked text | §18 owner-decision gate §8 | OPEN — ODF-18-07 |
 | KF-09 | §16.2 `executable_semantics` definition ("the Security System") | Platform-configuration writes fall outside the definition | TF-18-10 | OPEN — ODF-18-09 |
 | KF-10 | §17.21 statement on compromised K1/K2 | Holds only for the SCC-interface path; K1/K2 are root-equivalent | §18 gate review CF-18-07 | OPEN — §18 (conditional) |
+| KF-11 | §16.5 approval evidence interface; §16 X-16; §16.11 | F19-06, as decomposed in DEC-059 F06a: no established maximum approval-validity horizon; mechanism for satisfying approval-evidence requirements after K8 lifetime loss or reinitialization. Defect status not determined (DEC-059 F06b) | §19 D19-06; DEC-059; DEC-067 | OPEN — OD19-03 (approval horizon); §22 and applicable §16 Amendment Gate (K8 loss / reinitialization) |
 
 Full question inventory: [`open/register.md`](open/register.md).
 
