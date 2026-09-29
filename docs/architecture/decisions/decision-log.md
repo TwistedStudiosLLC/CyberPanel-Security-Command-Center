@@ -7,7 +7,11 @@
 > **Numbering note:** D-2 was not issued as an owner decision. The reconciliation item D-2 (presentation placement)
 > was addressed by owner decision D-15. DEC-030 records the Phase A.5 confirmation and was added after the
 > Phase A.5 plan listed DEC-001 … DEC-029. DEC-031 … DEC-064 record the §19 owner disposition review and its
-> change-set reconciliation.
+> change-set reconciliation. DEC-065 records the §19 pre-lock corrections. DEC-066 records K11-held SCC data
+> ownership under R1/R4. DEC-067 records the F19-06 known-findings index treatment.
+> DEC-068 records the procedural framework of the §16 Amendment Gate.
+> DEC-069 convenes the §16 Amendment Gate for OD19-04 and the interpretation of F19-05.
+> DEC-070 records the OD19-04 / F19-05 gate outcome.
 
 # SCC Decision Log
 
@@ -77,6 +81,12 @@
 | DEC-062 | F19-09 — K7 restore and post-backup authorization changes | CURRENT (finding deferred — §22 / recovery gate; TQ-08; ODF-18-07) |
 | DEC-063 | Post-lock §19 resolution route | CURRENT (adopted) |
 | DEC-064 | §19 Change-Set Reconciliation Decisions | CURRENT (adopted) |
+| DEC-065 | §19 Pre-Lock Corrections (J-1 … J-12) | CURRENT (adopted) |
+| DEC-066 | K11-held SCC data ownership under R1/R4 | CURRENT (adopted — DC-01/DC-02 owner OPEN) |
+| DEC-067 | F19-06 — Known-findings index treatment | CURRENT (adopted — F19-06 indexed as KF-11 and OPEN; OD19-03 OPEN) |
+| DEC-068 | §16 Amendment Gate — Procedural framework | CURRENT (adopted — procedural; gate NOT SCHEDULED) |
+| DEC-069 | §16 Amendment Gate — Convening for OD19-04 / F19-05 | CURRENT (adopted — gate OPEN; OD19-04 and F19-05 interpretation admitted, undecided) |
+| DEC-070 | §16 Amendment Gate — OD19-04 / F19-05 Disposition | CURRENT (adopted — OD19-04 Path A; F19-05 enforcement gap; gate NOT SCHEDULED) |
 
 ---
 
@@ -4009,3 +4019,1066 @@ Second source message (§C-1 … §C-4):
 
 > **Index note (not owner wording):** DEC-064 records reconciliation decisions. It does not itself lock §19,
 > and it does not amend or lock §15–§17.
+
+---
+
+## DEC-065 — §19 Pre-Lock Corrections (J-1 … J-12)
+
+- **Status:** CURRENT (adopted)
+- **Source:** Owner message approving the proposed DEC-065 owner-decision package (2026-09-24).
+- **Related:** §19.2, §19.5.3, §19.6, §19.7, §19.8, §19.9, §19.10, §19.11.2, §19.21.1, §19.22, §19.23, §19.25; open register (§5A, §8, TQ-09); architecture index
+
+```text
+I have reviewed the proposed DEC-065 Owner-Decision Package.
+
+APPROVED OWNER DISPOSITION:
+
+Create DEC-065 and apply the following decisions exactly.
+
+==================================================
+J-1 — GATE ACCOUNTING
+==================================================
+
+D65-1 APPROVED.
+
+The §19.22 format rows shall explicitly name the existing gates as follows:
+
+- SD-K11R and SD-K11H format:
+  §22, consistent with DEC-049 R19j.
+
+- SD-K6P format:
+  §22 for lifecycle/storage mechanics, and the §16 Amendment Gate where the proposed change affects K6 behavior or execution semantics.
+
+- SD-K2 format:
+  CyberPanel K2 gate for platform-specific K2 concerns, with P2 for assertion/protocol and signing-key format concerns where applicable.
+
+Do not invent any new gate.
+
+D65-2 APPROVED.
+
+The Job-state row shall explicitly state that its owner is assigned by locked §16.15 Q-6:
+
+  §8 amendment (CHANGE-007)
+
+and that:
+
+  - no §8 gate is currently scheduled;
+  - this is not a §19-created deferral;
+  - §19 does not reassign or redefine the ownership established by locked §16.
+
+Under DEC-064's existing interpretation, this item is outside criterion 5's §19-deferral accounting.
+
+Do NOT change the text of criterion 5.
+
+==================================================
+J-2 — TQ-09
+==================================================
+
+D65-3 APPROVED.
+
+Add Q19-05 to §19.21.1.
+
+Use this substance:
+
+"K8 capacity isolation and volume displacement (TQ-09; SR-17, T-18-11, TF-18-09 — conditional §18). R11e prevents eviction of required records and refuses new requests. It does not establish capacity isolation or protection of unexported records."
+
+The item remains OPEN.
+
+Owner:
+§19 Owner Decision Gate.
+
+Important:
+
+- Do NOT treat R11e as resolving TQ-09.
+- Do NOT adopt a capacity-isolation mechanism.
+- Do NOT specify quotas, partitions, filesystem layout, reservations, or other implementation.
+- Do NOT assign the item to §22 merely because a future host/storage mechanism might ultimately be implemented there.
+- If a future implementation decision establishes a §22 or §12 dependency, that can be recorded later through the normal decision/change route.
+
+D65-4 APPROVED.
+
+Also add Q19-06 for SR-14.
+
+SR-14 is:
+
+"K8 SHOULD retain the full approval evidence"
+
+and is currently downstream to §19.
+
+Q19-06 should explicitly record that the requirement remains OPEN and that DEC-039 R9h does not resolve it.
+
+Use wording along these lines:
+
+"Full approval-evidence retention (SR-14; conditional §18). DEC-039 R9h does not establish the full retention requirement. The retention scope, duration, and relationship to existing K7/K8 retention rules remain OPEN."
+
+Owner:
+§19 Owner Decision Gate.
+
+Do not create a retention requirement merely by recording this question.
+
+==================================================
+CRITERION 3
+==================================================
+
+D65-5 APPROVED.
+
+Make NO change to criterion 3.
+
+It remains:
+
+NOT SATISFIED.
+
+Do not add F19-05 or F19-06 to the Known Findings table.
+
+Do not alter the criterion merely to obtain PASS.
+
+Do not resolve OD19-03 or OD19-04 through this change set.
+
+Do not change DEC-058 or DEC-059.
+
+==================================================
+MINOR FINDINGS
+==================================================
+
+D65-6 APPROVED.
+
+Correct J-3, J-4, J-5 and J-7 narrowly and only to restore fidelity to the existing decisions and locked architecture.
+
+J-3:
+Correct the DC-06 Writers/Readers wording so it does not imply that DEC-037 authorized arbitrary persistence or a finalized delivery mechanism.
+
+Retain the actual open state of R7c/R7e.
+
+Do not invent a write path.
+
+J-4:
+Replace the §19.8 item 3 wording that currently says:
+
+"Any durable state an Integration needs is held by K4 in K7 (DC-06)"
+
+with wording limited to the actual DEC-037 scope:
+Integration-specific configuration/state covered by R7a/R7f.
+
+Do not broaden DC-06 into a universal Integration persistence rule.
+
+J-5:
+Do not identify K4 as the settled owner of DC-18.
+
+The owner remains OPEN under DEC-051 R01a.
+
+J-7:
+Correct the SD-K8 access description to acknowledge K6's required read/use relationship with K8 established by locked §16.11 and X-31.
+
+Do not change the underlying K8 access-control model.
+
+==================================================
+J-6 — OWNER TERMINOLOGY
+==================================================
+
+D65-7 APPROVED WITH THE FOLLOWING CLARIFICATION:
+
+Do NOT redefine DEC-031 R4.
+
+Instead, clarify the affected §19 table cells so that "owner" is not incorrectly represented as an SCC-component owner where the referenced class is owned by a non-SCC authority.
+
+For K11 classes and other explicitly non-SCC-owned classes, use terminology that distinguishes:
+
+- SCC authoritative storage owner/component, from
+- the external authority responsible for the corresponding class.
+
+Do not silently change the ownership model.
+
+Do not create a new SCC component.
+
+Do not change K11 authority.
+
+Do not amend §15 or §16.
+
+If the existing table cannot express this distinction cleanly without changing the meaning of R4, STOP and report the exact ambiguity rather than inventing terminology.
+
+==================================================
+J-8 / J-9 / J-11 / J-12
+==================================================
+
+D65-8 APPROVED.
+
+Apply the following documentation corrections:
+
+J-8:
+Change "stage 17" to "layer 17" where referring to §16.4.1 validation.
+
+J-9:
+Correct the stale §19.2 cross-reference currently pointing to §19.20.
+
+The reference must point to the actual intended §19 content.
+
+Do not infer new security requirements from the correction.
+
+J-11:
+Correct the D19-05 description so it does not state as settled fact that there is a conflict with T-18 when F05a leaves that interpretation open.
+
+Preserve the actual open/disputed status.
+
+J-12:
+Update the OD19-03 subject so it reflects the current disposition without changing OD19-03's substantive status.
+
+Do NOT alter Q-2 or OQ-5 merely for cosmetic reasons.
+
+==================================================
+J-10
+==================================================
+
+NO CHANGE REQUIRED.
+
+Do not add TH-31 or R11g solely for traceability.
+
+They remain represented by their existing decision-log records.
+
+==================================================
+DEC-065 RECORD
+==================================================
+
+Create DEC-065 in the decision log.
+
+The decision must record:
+
+- J-1 D65-1 and D65-2;
+- J-2 D65-3 and D65-4;
+- Criterion 3 D65-5;
+- J-3/J-4/J-5/J-7 D65-6;
+- J-6 D65-7;
+- J-8/J-9/J-11/J-12 D65-8;
+- J-10 no-change disposition.
+
+DEC-065 must state that it is a documentation/owner-disposition decision only.
+
+It must NOT lock §19.
+
+It must NOT authorize implementation.
+
+It must NOT amend §15, §16, or §17.
+```
+
+> **Transcription note (session process):** The owner message's CHANGE-SET DISCIPLINE, IMPORTANT, post-edit
+> verification and report sections are omitted; they governed only this correction pass and are not owner decisions.
+
+> **Index note (not owner wording):** DEC-065 is a documentation/owner-disposition decision. It does not lock §19, does
+> not authorize implementation, and does not amend §15, §16 or §17. D65-7 was not applied to §19: its conditional STOP
+> was triggered because §19.7 cannot express the distinction for DC-01 and DC-02 without changing the meaning of
+> DEC-031 R1/R4 (reported to the owner).
+
+---
+
+## DEC-066 — K11-held SCC data ownership under R1/R4
+
+- **Status:** CURRENT (adopted — DC-01/DC-02 owner OPEN)
+- **Source:** Owner approval message for DEC-066 (2026-09-24), adopting D66-A … D66-H verbatim from the proposed DEC-066 package.
+- **Related:** §19.7, §19.22, §19.23, §19.25; open register OQ-6; DEC-031 (R1, R4); DEC-065 (D65-7)
+
+```text
+I APPROVE DEC-066 EXACTLY AS DRAFTED.
+
+Adopt D66-A through D66-H verbatim as the owner decision.
+
+Create:
+
+DEC-066 — K11-held SCC data ownership under R1/R4
+
+with the exact owner wording provided in the proposed DEC-066 package.
+
+The substantive owner decision is:
+
+- DC-01 and DC-02 remain SCC data classes.
+- Their §19/R4 owner remains OPEN.
+- The unresolved ownership assignment depends on the Recovery gate / §22 determination under locked §15.18 OQ-6.
+- The eventual assignment must satisfy R1 and R4.
+- No owner is assigned now.
+- Do not pre-decide K9, K11, K6, an SCC installer/service, another SCC component, the Local Root Operator, or an external/root-controlled mechanism as the eventual R4 owner.
+- DC-01 remains authoritative in SD-K11R.
+- DC-02 remains authoritative in SD-K11H.
+- Root-only K11 write authority and the K11 trust boundary remain unchanged.
+- "Owned by root" remains an OS/filesystem authority statement and is not the §19 R4 owner.
+- DC-20 through DC-24 receive only the approved terminology clarification and are not reclassified.
+- R1 and R4 remain unchanged.
+- DEC-031 remains unchanged.
+- §15, §16 and §17 remain unchanged.
+- No implementation is authorized.
+- DEC-029 remains standing.
+
+Apply the exact §19, decision-log, README, and register changes in the proposed package:
+
+1. §19 header/source metadata → DEC-066
+2. §19.7 DC-01 owner → OPEN pending Recovery gate / §22 OQ-6
+3. §19.7 DC-02 owner → OPEN pending Recovery gate / §22 OQ-6
+4. §19.7 note clarifying DC-20…DC-24 owner terminology
+5. §19.22 new R4-owner deferral row
+6. §19.23 DEC-066 row
+7. §19.25 references updated to include DEC-066 only; criterion text remains unchanged
+8. README DEC range → DEC-066
+9. decision-log index → DEC-066
+10. decision-log DEC-066 entry → exact approved owner wording
+11. register OQ-6 pointer → include the §19 DC-01/DC-02 dependency and DEC-066
+
+DEC-065 must remain unchanged and historically accurate.
+
+Do NOT reopen or amend DEC-065.
+
+Do NOT change:
+
+- R1
+- R4
+- DEC-031
+- §15
+- §16
+- §17
+- §18
+- §19.24 criterion text
+- §19.26 / CS-1
+- OD19-01…OD19-07
+- Q19-01…Q19-06
+- F19-05…F19-09
+- Known Findings
+- ANN-33
+- CHANGE-015
+- CHANGE-023
+- implementation authorization
+```
+
+Adopted decision text (D66-A … D66-H, from the proposed DEC-066 package, adopted verbatim by the approval above):
+
+```text
+DEC-066 — K11-held SCC data ownership under R1/R4
+
+D66-A  DC-01 (SCC release content) and DC-02 (host-local root configuration) remain SCC data
+       classes. Their §19 R4 owner is OPEN: the SCC component responsible for their
+       authoritative persistence has not been established. The assignment depends on locked
+       §15.18 OQ-6 (Recovery gate / §22: K9's authority; key (re)provisioning for K2; installer
+       placement of K11) and, for the approver anchor set held in K11, on §17.9 ("The mechanics
+       belong to §22").
+
+D66-B  This OPEN status does not waive R1 or R4.
+
+D66-C  The eventual assignment MUST identify an SCC component responsible for authoritative
+       persistence, consistent with R4, or return for an explicit owner decision if the resulting
+       architecture uses a mechanism that does not fit R4. This decision does not pre-decide
+       whether K9, an SCC installer or service, K11, another SCC component, or an external or
+       root-controlled mechanism will be responsible.
+
+D66-D  The authoritative storage domains remain: DC-01 → SD-K11R; DC-02 → SD-K11H.
+
+D66-E  Root-only write authority (T-21; §15.3.2 "Owned by root; not writable by W, C, I") and
+       K11's trust boundary are unchanged. "Owned by root" remains an OS/filesystem authority
+       statement and is not the §19 R4 owner.
+
+D66-F  For DC-20 … DC-24, the §19.7 "Owner" entries name the external party or holding process.
+       They are not R4 SCC-component ownership claims, because these classes are outside SCC
+       authoritative persistence: SD-PLAT and SD-HOST are not SCC; DC-22 is held off-host or in an
+       operator-managed location outside SCC components (DEC-043 R13c, R13e); DC-23 is off-host;
+       DC-24 is transient. Their classifications are unchanged.
+
+D66-G  This decision does not amend §15, §16, §17, R1, R4 or DEC-031. It supplements DEC-065
+       D65-7, which remains recorded as not applied; DEC-065 is unchanged.
+
+D66-H  This decision does not authorize implementation. DEC-029 remains standing.
+```
+
+> **Transcription note (session process):** The approval message's pre-edit checks, commit/push/PR instructions,
+> post-edit verification and report sections are omitted; they governed only this change and are not owner decisions.
+
+> **Index note (not owner wording):** DEC-066 supplements DEC-065 D65-7; DEC-065 is unchanged. DEC-066 does not lock
+> §19, does not authorize implementation, and does not amend §15–§17, R1, R4 or DEC-031.
+
+---
+
+## DEC-067 — F19-06 — Known-findings index treatment
+
+- **Status:** CURRENT (adopted — F19-06 indexed as KF-11 and OPEN; OD19-03 OPEN)
+- **Source:** Owner decision message for F19-06 index treatment (2026-09-24): INDEX; D65-5 treatment A2 (prospective).
+- **Related:** §19.24 (criterion 3), §19.5.3 (D19-06), §19.23; architecture index (KF-11); DEC-058 (F05d); DEC-059 (F06a, F06b, F06c); DEC-064 item 5; DEC-065 (D65-5)
+
+```text
+============================================================
+OWNER DECISION
+============================================================
+
+F19-06 index treatment:
+
+**INDEX F19-06.**
+
+D65-5 treatment:
+
+**A2 — The owner prospectively determines that the DEC-065 D65-5 instruction not to add F19-06 to the Known Findings table no longer applies to F19-06, effective from this decision.**
+
+Do NOT reinterpret D65-5 historically.
+
+Do NOT claim that D65-5 was originally scoped to the DEC-065 change set.
+
+Do NOT edit DEC-065.
+
+Do NOT use the word "supersedes" as though the repository has an established DEC-to-DEC supersession mechanism. The decision is a new, explicit prospective owner determination addressing the application of D65-5 to F19-06.
+
+The D65-5 treatment of F19-05 remains unchanged.
+
+All other D65-5 instructions remain unchanged.
+
+============================================================
+SCOPE OF THIS DECISION
+============================================================
+
+The decision is narrowly limited to F19-06's treatment in the Known Findings Against Locked Text index.
+
+The decision MUST establish:
+
+1. F19-06 is recorded in the architecture index under "Known Findings Against Locked Text."
+
+2. The indexed finding is limited to DEC-059 F06a:
+   - the absence of an established maximum approval-validity horizon; and
+   - the mechanism for satisfying approval-evidence requirements following K8 lifetime loss or reinitialization.
+
+3. The nonce-retention consequence governed by R11b and R03b is NOT part of the indexed finding.
+
+4. The indexed finding remains OPEN.
+
+5. Indexing F19-06 does NOT determine whether any part of the finding constitutes a defect in the locked architecture.
+
+6. F06b remains unchanged.
+
+7. OD19-03 remains OPEN.
+
+8. This decision does NOT determine:
+   - whether a maximum approval-validity horizon exists;
+   - what its value should be;
+   - its enforcement point;
+   - whether its absence constitutes a defect.
+
+9. The K8-loss/reinitialization approval-evidence mechanism remains subject to §22 and the applicable §16 gate.
+
+10. This decision does NOT decide that mechanism.
+
+11. This decision does NOT amend §15, §16 or §17.
+
+12. This decision does NOT resolve the §16 Amendment Gate.
+
+13. F19-05 remains governed by DEC-058, including F05d, and DEC-064.
+
+14. OD19-04 remains OPEN.
+
+15. §19.24 Criterion 3 is NOT changed.
+
+16. Criterion 3 remains NOT SATISFIED overall because F19-05 remains unresolved/unindexed.
+
+17. §19 remains NOT LOCKED.
+
+18. This decision does NOT authorize implementation.
+
+19. DEC-029 remains in force.
+
+20. DEC-058 and DEC-059 remain unchanged.
+
+============================================================
+D65-5 — REQUIRED OWNER WORDING
+============================================================
+
+Include a decision entry substantially equivalent to:
+
+"DEC-065 D65-5 states: 'Do not add F19-05 or F19-06 to the Known Findings table.'
+
+The owner prospectively determines that the D65-5 instruction not to add F19-06 to the Known Findings table no longer applies to F19-06, with effect from this decision.
+
+This determination concerns F19-06 only. The instruction's application to F19-05 is unchanged, and F19-05 remains governed by DEC-058 F05d and DEC-064. The other D65-5 instructions are unaffected.
+
+DEC-065 is unchanged and remains the historical record of the instruction as given."
+
+Preserve the distinction between:
+- DEC-065 as the historical record;
+- this new DEC as the prospective owner decision.
+
+Do not rewrite history.
+
+============================================================
+DOCUMENTATION SAFEGUARDS
+============================================================
+
+Keep the safeguards from IDX-A1 through IDX-A9 from the previously drafted candidate decision, tightened only as necessary for consistency.
+
+At minimum preserve these concepts:
+
+- F19-06 is indexed.
+- F19-06 remains OPEN.
+- indexing does not establish defect status.
+- OD19-03 remains OPEN.
+- the approval-horizon question remains unresolved.
+- K8-loss/reinitialization remains subject to §22 / applicable §16 gate.
+- no §16 amendment.
+- no §22 design decision.
+- F19-05 / OD19-04 remain untouched.
+- Criterion 3 remains unchanged.
+- §19 remains unlocked.
+- no implementation authority is created.
+
+These are documentation safeguards.
+
+Do not claim they are independently mandatory source requirements unless the source explicitly says so.
+```
+
+Decision text (IDX-A1 … IDX-A9 from the candidate decision drafted for owner review, tightened for consistency with
+scope items 1–20 above as the owner message permits; IDX-D65 in the owner's required D65-5 wording):
+
+```text
+F19-06 — Known-findings index treatment — Owner decision: INDEX (D65-5 treatment: A2, prospective)
+
+IDX-A1  F19-06 is recorded in the architecture index under "Known Findings Against Locked Text" as
+        KF-11. The indexed finding is limited to the scope stated in DEC-059 F06a: the absence of an
+        established maximum approval-validity horizon, and the mechanism for satisfying
+        approval-evidence requirements following K8 lifetime loss or reinitialization. The
+        nonce-retention consequence governed by R11b and R03b is not part of the indexed finding.
+
+IDX-A2  The indexed finding remains OPEN. Recording it in the index does not close it.
+
+IDX-A3  Recording F19-06 in the index does not determine whether any part of it constitutes a
+        defect in the locked architecture. DEC-059 F06b is unchanged.
+
+IDX-A4  OD19-03 remains OPEN. This decision does not determine whether a maximum
+        approval-validity horizon exists, its value, its authoritative enforcement point, or
+        whether its absence constitutes a defect.
+
+IDX-A5  The mechanism for satisfying approval-evidence requirements following K8 loss or
+        reinitialization remains subject to §22 and the applicable §16 gate (DEC-059 F06c;
+        DEC-048 R18d). This decision does not decide that mechanism or any §22 design.
+
+IDX-A6  This decision does not amend §15, §16 or §17 and does not resolve the §16 Amendment Gate.
+
+IDX-A7  F19-05 remains governed by DEC-058 (including F05d) and DEC-064. OD19-04 remains OPEN.
+
+IDX-A8  §19.24 criterion 3 is unchanged. Criterion 3 remains NOT SATISFIED overall because F19-05
+        remains unindexed. §19 remains NOT LOCKED. DEC-058 and DEC-059 are unchanged.
+
+IDX-A9  This decision does not authorize implementation. DEC-029 remains standing.
+
+IDX-D65 DEC-065 D65-5 states: "Do not add F19-05 or F19-06 to the Known Findings table."
+        The owner prospectively determines that the D65-5 instruction not to add F19-06 to the
+        Known Findings table no longer applies to F19-06, with effect from this decision.
+        This determination concerns F19-06 only. The instruction's application to F19-05 is
+        unchanged, and F19-05 remains governed by DEC-058 F05d and DEC-064. The other D65-5
+        instructions are unaffected.
+        DEC-065 is unchanged and remains the historical record of the instruction as given.
+```
+
+> **Factual basis (not owner wording):** F19-06 is an established finding in the decomposed form of DEC-059 F06a; the
+> owner agreed it is a finding and left its index treatment for reconciliation (DEC-064 item 5). §19.5.3 D19-06 records
+> the locked text concerned as §16.5, X-16 and §16.11. §19.24 criterion 3 names F19-06 for recording in the index if
+> the owner agrees it is a finding.
+
+> **Change-set implications (not owner wording):** README Known Findings table: KF-11 added (KF-01 … KF-10 and the
+> preamble unchanged). README decision-log range, decision-log index and header note, and a §19.23 pointer row record
+> DEC-067. Not changed: §15–§17 including their front matter (the §16 pointer "KF-04 to KF-09" is not updated), the
+> open register (including its §1 range "KF-01 … KF-10" and the F19-06 row), §19.5.3, §19.24, §19.25, and DEC-058,
+> DEC-059, DEC-064, DEC-065 and DEC-066.
+
+> **Transcription note (session process):** The owner message's opening process lines and its KNOWN FINDING ROW,
+> DO NOT TOUCH, DECISION LOG, DEC-065/DEC-066 INTEGRITY, README / INDEX, §19 STATUS, CHANGE-SET DISCIPLINE,
+> IMPLEMENTATION, VALIDATION AFTER EDITING and FINAL REPORT sections are omitted; they governed only this change and
+> are not recorded as owner decisions here.
+
+> **Index note (not owner wording):** DEC-067 addresses the application of DEC-065 D65-5 to F19-06 prospectively;
+> DEC-065 is unchanged. DEC-067 does not lock §19, does not authorize implementation, does not amend §15–§17, and
+> does not resolve OD19-03, OD19-04, F19-05, §22 or the §16 Amendment Gate.
+
+---
+
+## DEC-068 — §16 Amendment Gate — Procedural framework
+
+- **Status:** CURRENT (adopted — procedural; gate NOT SCHEDULED)
+- **Source:** Owner approval message for DEC-068 (2026-09-24), adopting D68-A … D68-N.
+- **Related:** DEC-064 item 6; §19.21.2; register §5B and §8; DEC-023; DEC-030; DEC-063; DEC-054; DEC-058
+
+```text
+APPLY AUTHORIZATION — DEC-068
+
+DEC-068 revision 2 is APPROVED FOR ADOPTION exactly as presented.
+
+Apply DEC-068 verbatim.
+
+Do not reinterpret, rewrite, improve, shorten, expand, or reconcile any D68 provision.
+
+Adopt:
+
+DEC-068 — §16 Amendment Gate — Procedural framework
+
+with D68-A through D68-N exactly as in the approved candidate.
+```
+
+Decision text (D68-A … D68-N, adopted verbatim by the approval above):
+
+```text
+D68-A  Gate identity. The §16 Amendment Gate registered by DEC-064 item 6 is a named
+       architectural gate, not an implementation gate. This decision does not re-register it
+       and does not change DEC-064.
+
+D68-B  Convening authority. The architecture owner convenes the §16 Amendment Gate. This
+       decision does not define who the architecture owner is, how that authority is obtained,
+       or succession.
+
+D68-C  Initiation. The gate is convened by an owner decision recorded in the decision log that
+       (1) states that the §16 Amendment Gate is convened and (2) names the registered item or
+       items admitted to that convening. On that record the gate's status changes from
+       NOT SCHEDULED to OPEN. No other request mechanism is established.
+
+D68-D  Agenda. The agenda of a convening consists only of items that the current record assigns
+       to the §16 Amendment Gate (§19.21.2 / register §5B, and §19.22 entries that name the
+       gate) and that the convening decision admits. A convening may admit one or more such
+       items. Assigning a new item to the gate requires a separate owner decision; this decision
+       assigns none.
+
+D68-E  Independent consideration. Registered items may be admitted and heard independently of
+       one another, unless locked architecture or an owner decision expressly requires joint
+       consideration. Batching is not required.
+
+D68-F  OD19-04 and F19-05. OD19-04 (§19.21.2 row 6) and the interpretation of F19-05 (§19.21.2
+       row 9) may be admitted and heard, as a procedural matter, independently of unrelated
+       registered items. Admission does not decide OD19-04; does not choose between a permanent
+       prohibition and a §16 composition path; does not decide whether any §16 amendment is
+       required; does not determine F19-05's interpretation; and does not establish whether
+       OD19-04's direction is chosen before or during the gate. DEC-058 F05a (interpretation
+       determined through OD19-04 and the applicable §16 gate) and the content requirements of
+       DEC-058 F05b and DEC-054 R04d remain in full effect.
+
+D68-G  Decision authority. The architecture owner records the gate's outcome for each admitted
+       item. This decision establishes no quorum, vote, approver role, reviewer, committee, or
+       authorization through K4 or §17.
+
+D68-H  Status handling. When every item admitted to a convening has been dispositioned by a
+       recorded DEC, the gate returns from OPEN to NOT SCHEDULED, unless an owner decision
+       records a further convening. No other status is established.
+
+D68-I  Recording. Each gate outcome is recorded as a new DEC in the consolidated decision log
+       (DEC-030 Q4). Recording a decision does not itself amend or lock §15–§17 (DEC-064 item 2).
+
+D68-J  Amendment boundary. This decision does not amend §16, does not alter the locked status of
+       §16, and does not authorize any §16 amendment in advance. Any amendment to locked §16
+       text requires the authority and explicit authorization required by the existing
+       architecture, including the requirement that a future gate explicitly authorize the
+       amendment (README "Known Findings Against Locked Text"). An owner decision does not
+       directly override locked §15–§17.
+
+D68-K  Preserved decisions. DEC-029, DEC-054 (including R04c and R04d), DEC-058 (F05a–F05d),
+       DEC-064, DEC-065 (including D65-5), DEC-066, DEC-067 and R12B-1 … R12B-5 are unchanged.
+       F19-05 remains an OPEN finding whose status as a finding against locked text is not
+       established; it remains unindexed. OD19-04 remains OPEN. §19.24 criterion 3 is unchanged
+       and remains NOT SATISFIED. §19 remains NOT LOCKED.
+
+D68-L  §18. The §18 owner-decision-gate document is non-normative and does not control this
+       gate's procedure. Its recommendation to batch §18 amendments imposes no batching on the
+       §16 Amendment Gate. Whether the "§16 amendment gate" anticipated by §18 is this registered
+       gate is not decided here; any relationship remains informational unless separately
+       established.
+
+D68-M  No new machinery. This decision creates no role, committee, quorum, vote, approver,
+       reviewer, ticketing, calendar, external approval, Principal, Grant, Permission or gate,
+       and assigns nothing to K4, K9, §17 or §22.
+
+D68-N  This decision does not convene the gate, does not authorize implementation, and does not
+       amend §15, §16 or §17. DEC-029 remains standing.
+```
+
+> **Transcription note (session process):** The approval message's "Required changes", prohibitions, post-edit
+> verification and commit/push instructions are omitted; they governed only this change and are not owner decisions.
+
+> **Index note (not owner wording):** DEC-068 is procedural. It does not convene the §16 Amendment Gate
+> (status remains NOT SCHEDULED), does not resolve OD19-04 or F19-05, and does not amend §15–§17.
+
+---
+
+## DEC-069 — §16 Amendment Gate — Convening for OD19-04 / F19-05
+
+- **Status:** CURRENT (adopted — gate OPEN; OD19-04 and F19-05 interpretation admitted, undecided)
+- **Source:** Owner approval message for DEC-069 (2026-09-24), adopting D69-A … D69-L.
+- **Related:** DEC-068 (D68-B … D68-H); §19.21.2 rows 6 and 9; register §5B and §8; DEC-054; DEC-058
+
+```text
+APPLY AUTHORIZATION — DEC-069
+
+DEC-069 is APPROVED FOR ADOPTION exactly as presented.
+
+Adopt:
+
+DEC-069 — §16 Amendment Gate — Convening for OD19-04 / F19-05
+
+with D69-A through D69-L exactly as presented in the approved candidate.
+
+Do not reinterpret, rewrite, expand, shorten, or substantively modify any D69 provision.
+```
+
+Decision text (D69-A … D69-L, adopted verbatim by the approval above):
+
+```text
+D69-A  Convening. Under DEC-068 D68-C, the architecture owner convenes the §16 Amendment Gate
+       by this decision. This decision is the convening record. On its adoption the gate's
+       status changes from NOT SCHEDULED to OPEN.
+
+D69-B  Admitted items. Exactly two registered items are admitted to this convening:
+       (1) OD19-04, as registered in §19.21.2 row 6 (DEC-068 D68-F); and
+       (2) the interpretation of F19-05, as registered in §19.21.2 row 9.
+       No other registered item is admitted. No item is assigned to the gate, and the gate's
+       registered scope is unchanged.
+
+D69-C  OD19-04. Admission does not decide OD19-04. It does not select a permanent prohibition
+       or a §16 composition path; does not define the scope of a permanent prohibition; does not
+       determine whether locked §16 already excludes the path; does not determine whether a §16
+       amendment is required; and does not determine whether the composition route is
+       ultimately selected. DEC-054 R04a … R04g are unchanged.
+
+D69-D  F19-05. F19-05 remains OPEN and unindexed. Whether it is a finding against locked text
+       remains not established. Admission does not add F19-05 to the Known Findings table and
+       does not satisfy criterion 3. DEC-058 F05d and DEC-065 D65-5, as it applies to F19-05,
+       remain in force. DEC-058 F05a is unchanged: F19-05's interpretation is determined through
+       OD19-04 and the applicable §16 gate.
+
+D69-E  Relationship. The two items are admitted in the same convening under DEC-068 D68-E and
+       D68-F. They are not the same decision, and admission of either does not resolve the
+       other. OD19-04 concerns the direction stated in DEC-054 R04a. The interpretation of
+       F19-05 is a separate question, determined as DEC-058 F05a states. The index treatment of
+       F19-05 is a further separate decision governed by DEC-058 F05d. This decision does not
+       set an order of resolution.
+
+D69-F  Interim rules. DEC-042 R12B-1 … R12B-5 and DEC-054 R04b and R04e remain operative. The
+       interim prohibition remains in force while OD19-04 is unresolved. Capability availability
+       is unchanged.
+
+D69-G  Composition requirements. DEC-054 R04c and R04d are unchanged. Admitting or considering a
+       §16 composition path does not authorize composition. If a composition path is selected,
+       the separate §16 amendment must still satisfy R04d.
+
+D69-H  Other surfaces. §22, §18, KF-06, P2 and §21 are not agenda items. DEC-054 R04g (§22
+       downstream) and DEC-058 F05b (including the relationship to KF-06) are unchanged. §18
+       does not control the §16 Amendment Gate (DEC-068 D68-L).
+
+D69-I  Decision authority. DEC-068 D68-G and D68-I govern. The architecture owner records the
+       outcome for each admitted item as a new DEC. This decision creates no quorum, vote,
+       approver, committee, or authorization through K4 or §17.
+
+D69-J  Gate closure. This decision does not close the gate. DEC-068 D68-H governs the return to
+       NOT SCHEDULED after both admitted items have been dispositioned by recorded DECs.
+
+D69-K  Preserved decisions. DEC-029, DEC-042 (R12B-1 … R12B-5), DEC-054, DEC-058 (F05a … F05d),
+       DEC-064, DEC-065 (including D65-5), DEC-066, DEC-067 and DEC-068 are unchanged.
+       §19.24 criterion 3 is unchanged and remains NOT SATISFIED. §19 remains NOT LOCKED.
+
+D69-L  Non-effects. This decision does not amend §15, §16 or §17; does not authorize any §16
+       amendment in advance; does not determine whether §15 T-18 is contradicted; does not
+       classify F19-05 as a finding against locked text; does not lock §19; and does not
+       authorize implementation. DEC-029 remains standing.
+```
+
+> **Transcription note (session process):** The approval message's REQUIRED CHANGES, DO NOT CHANGE, IMPORTANT
+> SUBSTANTIVE BOUNDARY, VALIDATION and GIT BOUNDARY sections are omitted; they governed only this change and are not
+> recorded as owner decisions here.
+
+> **Index note (not owner wording):** DEC-069 convenes the §16 Amendment Gate (NOT SCHEDULED → OPEN) for
+> OD19-04 and the interpretation of F19-05 only. It decides neither item, does not amend §15–§17, and does not
+> satisfy criterion 3.
+
+---
+
+## DEC-070 — §16 Amendment Gate — OD19-04 / F19-05 Disposition
+
+- **Status:** CURRENT (adopted — OD19-04 Path A; F19-05 enforcement gap; gate NOT SCHEDULED)
+- **Source:** Owner DEC-070 adoption message (2026-09-28): owner rulings 1–21 and the Path A boundary. Owner
+  documentation-completeness ruling (2026-09-28): recorded in D70-I3 and in D70-D3 surface (2).
+- **Related:** DEC-069; DEC-068 (D68-G … D68-J); DEC-054; DEC-058; DEC-042; §19.5.3; §19.13.1; §19.19; §19.21; §19.21.2; §19.23; register §5A, §5B, §8
+
+```text
+==================================================
+OWNER RULINGS TO ADOPT AS DEC-070
+==================================================
+
+Create/adopt:
+
+DEC-070 — §16 Amendment Gate — OD19-04 / F19-05 Disposition
+
+Status: CURRENT / ADOPTED
+
+The owner rulings are:
+
+1. OD19-04 = PATH A.
+
+2. Path A uses the declaration boundary established by D70-A3:
+   credential-bearing file content is scoped by the applicable execution contract's declaration of a resource as containing credential-bearing content.
+
+3. Do NOT create a runtime "resulting-content contains credentials" test.
+
+4. Do NOT create a K6 runtime detector or arbitrary blob-content classifier.
+
+5. R12B-1 = CONTINUE PERMANENTLY.
+   Remove only the interim lifetime condition.
+   The operative permanent rule is:
+
+   A K11 WRITE scope entry MUST NOT target a resource declared by the applicable execution contract to contain credential-bearing content.
+
+6. R12B-2 = CONTINUE.
+
+7. R12B-3 = CONTINUE.
+
+8. R12B-4 = REPLACE.
+   Its interim transition language is replaced by the permanent Path A disposition.
+
+9. R12B-5 = CONTINUE.
+
+10. F19-05 interpretation = CATEGORY (ii), enforcement gap.
+
+11. F05c = YES / resolved for purposes of the F05c statement, BUT this must NOT be represented as resolving the downstream questions that are routed elsewhere.
+
+    Specifically, all F05b surfaces must be ACCOUNTED FOR by the decision:
+
+    Surface 1 — K4 entry:
+      - Existing §16.9 rule remains: credential material is K6-only.
+      - No request field carries credential material.
+      - The remaining question of how credential material could reach K4 / any residual undeclared-blob boundary remains routed to the applicable §16/P2/security-boundary work.
+      - This decision does not resolve that downstream question.
+
+    Surface 2 — staged content:
+      - Staged content remains K6-internal.
+      - No credential composition path is authorized.
+      - The residual undeclared-blob issue remains an architectural/enforcement question on its existing route.
+      - This decision does not create a detector.
+
+    Surface 3 — X-38 validators:
+      - Validators remain READ-class, handle-free, and receive only the K6-internal staged-object binding.
+      - No credential handles or credential composition are introduced.
+      - No validator-based credential detector is created.
+
+    Surface 4 — K8 digest/journal:
+      - X-26 and existing §16.10.2 protections remain.
+      - This decision does NOT decide whether K8 should retain additional digests or evidence concerning credential-bearing content.
+      - That question remains on its existing §16 / §21 route.
+
+    Surface 5 — TH-31:
+      - Existing §18 routing remains.
+      - This decision does NOT resolve TH-31.
+      - It only records that the surface has an existing downstream route.
+
+    Surface 6 — KF-06:
+      - KF-06 remains distinct from the F19-05 disposition.
+      - The handle_ref path is not changed by DEC-070.
+
+    IMPORTANT:
+    "Accounted for" means each surface has an identified existing rule, boundary, or downstream route.
+    It does NOT mean those downstream questions have been substantively resolved.
+
+12. §16 amendment required by Path A itself = NO.
+
+13. No §16 amendment is made by DEC-070.
+
+14. OD19-04 = DISPOSITIONED.
+
+15. F19-05 interpretation = DISPOSITIONED / resolved for the F05c purpose described above.
+
+16. The §16 Amendment Gate returns to:
+    NOT SCHEDULED
+
+    after the two admitted items have been dispositioned.
+
+17. F19-05 remains UNINDEXED in the Known Findings index.
+
+18. Criterion 3 remains:
+    NOT SATISFIED.
+
+19. §19 remains:
+    NOT LOCKED.
+
+20. DEC-029 remains the implementation-authority boundary.
+    DEC-070 authorizes no implementation.
+
+21. Nothing in DEC-070 authorizes:
+    - K6 credential composition
+    - credential handles in arbitrary blobs
+    - runtime credential-content inspection
+    - a generic credential detector
+    - host-side replacement
+    - manual production modification
+    - any SCC bypass
+    - any change to K2–K11 responsibility
+    - any amendment to §15–§17.
+
+==================================================
+PATH-A BOUNDARY
+==================================================
+
+Use this exact conceptual boundary:
+
+"PATH A — Credential-bearing file content, as scoped in D70-A3, is permanently prohibited from SCC's file.replace Operation (DEC-054 R04a)."
+
+Do NOT broaden this into an unsupported claim that SCC can inspect arbitrary resulting file content and determine whether credentials are present.
+
+The decision must preserve the distinction between:
+- authoring-time declaration of credential-bearing content, and
+- runtime inspection/classification of arbitrary blob content.
+
+The latter is NOT established by the architecture.
+```
+
+Decision text (prepared from the owner rulings above and the candidate reviewed by the owner; where any
+difference exists, the owner rulings govern):
+
+```text
+PURPOSE
+This decision records the outcome of the §16 Amendment Gate, convened by DEC-069, for the two
+admitted items only: OD19-04 (§19.21.2 row 6) and the interpretation of F19-05 (§19.21.2 row 9).
+No other item is admitted or decided.
+
+PART A — OD19-04 OUTCOME: PATH A
+D70-A1  PATH A — Credential-bearing file content, as scoped in D70-A3, is permanently prohibited
+        from SCC's `file.replace` Operation (DEC-054 R04a).
+D70-A2  The prohibition applies to SCC's `file.replace` Operation (§16.8).
+D70-A3  Path A applies to SCC's `file.replace` Operation where a K11 WRITE scope entry targets a
+        resource declared by the applicable execution contract to contain credential-bearing
+        content.
+D70-A4  The architecture does not presently define the declaration mechanism for
+        credential-bearing status or define "applicable execution contract" as a separate
+        declaration term. This decision does not create such a mechanism.
+D70-A5  This decision does not establish a resulting-content test for credential material.
+D70-A6  This decision does not establish runtime inspection or classification of arbitrary
+        `blob` content, and creates no K6 runtime detector or blob-content classifier.
+
+PART B — LIMITS OF THE SCOPE
+D70-B1  The rule does not establish that arbitrary `blob` content cannot contain credential
+        material (DEC-042 R12B-2; DEC-054 R04f).
+D70-B2  Path A makes the prohibition permanent. It does not make the declaration mechanism more
+        precise. The boundary is an authoring-time declaration of credential-bearing content,
+        not runtime inspection or classification of arbitrary `blob` content.
+
+PART C — INTERIM RULE (R12B) DISPOSITION
+D70-C1  R12B-1 — CONTINUE PERMANENTLY. Only the interim lifetime condition ("Until OD19-04 is
+        resolved") is removed. The permanent rule is: A K11 WRITE scope entry MUST NOT target a
+        resource declared by the applicable execution contract to contain credential-bearing
+        content. Its scope is unchanged and identical to D70-A3.
+D70-C2  R12B-2 — CONTINUE.
+D70-C3  R12B-3 — CONTINUE. Enforcement remains through release-authoring/validation controls
+        consistent with A-23. No runtime inspection, K6 credential detection or new enforcement
+        mechanism is established.
+D70-C4  R12B-4 — REPLACE. Its interim transition language is replaced by the permanent Path A
+        disposition recorded in this decision.
+D70-C5  R12B-5 — CONTINUE. Capabilities requiring credential-bearing composition or
+        credential-bearing WRITE content remain unavailable unless an authoritative architecture
+        record establishes otherwise.
+        DEC-042 is unchanged as the historical record of R12B-1 ... R12B-5.
+
+PART D — F19-05 INTERPRETATION
+D70-D1  F19-05 interpretation: CATEGORY (ii) — ENFORCEMENT GAP (DEC-058 F05a). The prohibition
+        exists (D70-A3; D70-C1), but the current architecture provides no mechanical detection
+        of arbitrary credential material entering staged or `blob` content.
+D70-D2  This classification creates no runtime detector, does not authorize K6 to inspect
+        credentials, and does not amend §16.
+
+D70-D3  F05b accounting (DEC-058 F05b). "Accounted for" means each surface has an identified
+        existing rule, boundary, or downstream route. It does not mean that downstream questions
+        have been substantively resolved.
+  (1) Credential-material entry into K4. The existing §16.9 rule remains: credential material is
+      K6-only, and no request field carries credential material. The remaining question of how
+      credential material could reach K4, including any residual undeclared-`blob` boundary,
+      remains routed to the applicable §16 / P2 / security-boundary work (DEC-058). This
+      decision does not resolve that downstream question.
+  (2) Staged content. Staged content remains K6-internal (§16.8). No credential composition path
+      is authorized (DEC-054 R04c). The residual undeclared-`blob` issue remains an unresolved
+      architectural/enforcement question. In the reviewed material, the existing architecture
+      does not provide a more specific named route for it; this decision does not create or
+      assign such a route. This decision creates no detector.
+  (3) X-38 validators. Validators remain READ class, handle-free, and receive only the
+      K6-internal staged-object binding. No credential handles or credential composition are
+      introduced. No validator-based credential detector is created.
+  (4) K8 digest/journal. X-26 and the existing §16.10.2 protections remain. This decision does
+      not decide whether K8 should retain additional digests or evidence concerning
+      credential-bearing content. That question remains on its existing §16 / §21 route
+      (DEC-058).
+  (5) TH-31. The existing §18 routing remains (DEC-058). This decision does not resolve TH-31;
+      it records only that the surface has an existing downstream route.
+  (6) KF-06. KF-06 remains distinct from the F19-05 disposition. The `handle_ref` path is not
+      changed by this decision.
+
+PART E — F05c RESOLUTION
+D70-E1  OD19-04 dispositioned, F19-05 interpreted, F19-05 resolved for purposes of F05c, and any
+        downstream question resolved are distinct.
+D70-E2  F05c resolution status: YES — F19-05 is resolved for purposes of DEC-058 F05c because
+        every F05b surface is accounted for in D70-D3. This does not resolve the downstream
+        questions that D70-D3 records as remaining on their existing routes.
+
+PART F — CAPABILITY AVAILABILITY
+D70-F1  Capabilities requiring credential-bearing composition or credential-bearing WRITE content
+        remain unavailable unless and until an authoritative architecture record establishes
+        otherwise (DEC-054 R04e; DEC-042 R12B-5).
+D70-F2  Path A creates no credential-composition mechanism (DEC-054 R04c).
+D70-F3  No implementation authorization follows from this decision.
+
+PART G — §16 AMENDMENT
+D70-G1  Path A is an owner-level prohibition. Enforcement remains release-authoring/validation
+        based (DEC-042 R12B-3). This decision creates no K6 write-side credential detector and no
+        credential-composition path.
+D70-G2  §16 amendment required by Path A itself: NO. This does not preclude a future §16
+        amendment for a separately identified issue.
+D70-G3  No §16 amendment is made by this decision.
+
+PART H — HOST BOUNDARY
+D70-H1  This prohibition governs SCC's `file.replace` Operation. It does not govern, authorize,
+        or define actions taken on the host outside SCC's security boundary (§15.15). This
+        decision establishes no SCC path, mechanism, or authority for such actions.
+
+PART I — F19-05 INDEX TREATMENT
+D70-I1  F19-05 remains unindexed in the Known Findings index. Any index treatment is a separate
+        owner decision and change-set action under DEC-058 F05d and DEC-065 D65-5 (as it applies
+        to F19-05).
+D70-I2  §19.24 criterion 3 remains NOT SATISFIED. §19 remains NOT LOCKED.
+D70-I3  F19-05 is represented as ADDRESSED in the live register because its interpretation has
+        been resolved for purposes of DEC-058 F05c, while its Known Findings index treatment
+        remains a separate owner decision under DEC-058 F05d. ADDRESSED therefore records that
+        the substantive interpretation has been addressed; it does not imply that F19-05 has
+        been entered in the Known Findings index. This provision creates no new status
+        vocabulary, does not change the category (ii) interpretation (D70-D1), does not reopen
+        F05d, and does not imply that the downstream questions routed to §16 / §21 or §18
+        (D70-D3 surfaces (4) and (5)) have been resolved.
+
+PART J — AUTHORITY BOUNDARY
+D70-J1  Nothing in this decision authorizes K6 credential composition; credential handles in
+        arbitrary `blob` content; runtime credential-content inspection; a generic credential
+        detector; host-side replacement; manual production modification; any SCC bypass; any
+        change to K2–K11 responsibility; or any amendment to §15, §16 or §17.
+D70-J2  DEC-029 remains the implementation-authority boundary. This decision authorizes no
+        implementation.
+D70-J3  DEC-042, DEC-054, DEC-058, DEC-064, DEC-065, DEC-066, DEC-067, DEC-068 and DEC-069 are
+        unchanged.
+D70-J4  §22 (DEC-054 R04g), KF-06, P2, §21 and F19-08's output question (DEC-061 F08d) are not
+        admitted and remain as recorded.
+
+PART K — GATE STATUS
+D70-K1  OD19-04: DISPOSITIONED. F19-05 interpretation: DISPOSITIONED.
+D70-K2  Both admitted items are dispositioned. Under DEC-068 D68-H the §16 Amendment Gate
+        returns from OPEN to NOT SCHEDULED. DEC-068 remains the governing procedure. Historical
+        references in DEC-064, DEC-068, DEC-069 and their index rows are not rewritten.
+D70-K3  "Dispositioned" (DEC-068 D68-H) and "resolved" (DEC-058 F05c) are not treated as
+        synonymous. Gate closure does not depend on F05c.
+
+PART L — CHANGE SET (live-record synchronization)
+D70-L1  1. Register OD19-04 row: OPEN → ADDRESSED (§19.21; DEC-054; DEC-070, Path A).
+        2. §19.21 OD19-04 disposition: OPEN [DEC-054] → Addressed — Path A [DEC-070].
+        3. §19.13.1: interim authoring rule → permanent authoring rule [DEC-070 D70-C1].
+        4. §19.5.3 D19-05: T-18 relationship recorded as enforcement gap, category (ii);
+           disposition updated [DEC-070 D70-D1, D70-E2, D70-D3, D70-I1].
+        5. §19.19 P6 row: credential-bearing `blob` pointer updated [DEC-070 D70-D1].
+        6. §19.23: DEC-070 pointer row added; the historical F19-05 row is unchanged.
+        7. Register F19-05 row: OPEN → ADDRESSED (DEC-058; DEC-070; unindexed — index
+           treatment separate).
+        8. Register §8 gate row: §16 Amendment Gate NOT SCHEDULED (DEC-070; DEC-068 D68-H).
+        9. Register §5B introduction: gate NOT SCHEDULED (DEC-070; DEC-068 D68-H).
+        10. §19.21.2 heading: NOT SCHEDULED — DEC-070. Registered item rows unchanged.
+        11. README decision range: DEC-001 … DEC-070.
+        12. F19-05 remains absent from the Known Findings index.
+        13. §19.24 criterion 3 remains NOT SATISFIED.
+        14. §19 remains NOT LOCKED.
+```
+
+> **Transcription note (session process):** The adoption message's opening repository/process lines and its LIVE
+> RECORD SYNCHRONIZATION REQUIRED, DEC-070 CONTENT REQUIREMENTS, HISTORICAL-PRESERVATION RULE and VALIDATION sections
+> are omitted; they governed only this change and are summarized in D70-L1.
+
+> **Index note (not owner wording):** DEC-070 records Path A for OD19-04 and interprets F19-05 as an enforcement gap.
+> It does not amend §15–§17, does not index F19-05, and does not satisfy criterion 3. The §16 Amendment Gate returns
+> to NOT SCHEDULED under DEC-068 D68-H.

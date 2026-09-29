@@ -35,7 +35,7 @@ architecture index. They are open and are not repeated here.
 | OQ-3 | Principal model; platform role facts; revalidation; assertion format and lifetime | PARTIAL | Addressed: §17.1, §17.2, §17.13. Assertion format and lifetime: OPEN — P2 protocol gate (DEC-026) |
 | OQ-4 | Approval evidence verifiable without trusting K4 | PARTIAL | Addressed: §16.5 (interface), §17.8, §17.9 (policy). Key custody: OPEN — P-1, ODF-18-08 |
 | OQ-5 | Tamper evidence for K7 audit and K8; off-host export; audit fail-closed policy | **OPEN** | §19 / §21; TQ-04; ODF-18-07 |
-| OQ-6 | K9 authority; K9 → K6; K2 key provisioning; K11 installer placement | **OPEN** | Recovery gate / §22 |
+| OQ-6 | K9 authority; K9 → K6; K2 key provisioning; K11 installer placement | **OPEN** | Recovery gate / §22; §19 DC-01/DC-02 R4 owner depends on it (DEC-066) |
 | OQ-7 | Distinct OS identity per Integration | **OPEN** (deferred) | Deferred until non-built-in Integrations are proposed (§15.8, T-22) |
 | OQ-8 | Hosts without per-service identity support | **OPEN** | §12 Host Environment compatibility (no gate scheduled) |
 
@@ -100,7 +100,7 @@ architecture index. They are open and are not repeated here.
 | TQ-06 | Release-key custody and rollback protection | **OPEN** | §22; OD-4 |
 | TQ-07 | Pre-image visibility for approvers of `file.replace` | **OPEN** | §22 |
 | TQ-08 | K7 restore rollback detection | **OPEN** | §19 / recovery gate; F19-09 (DEC-062 F09d) |
-| TQ-09 | K8 capacity isolation (and, per the gate review, volume displacement) | **OPEN** | §19 |
+| TQ-09 | K8 capacity isolation (and, per the gate review, volume displacement) | **OPEN** | §19; Q19-05 (DEC-065) |
 | TQ-10 | Presentation isolation mechanism | **OPEN** | Per-platform K2 gate (see ODF-18-01 disposition) |
 
 ### 5.3 Other §18 open work
@@ -121,25 +121,25 @@ document is the source. See [`19-persistence-secrets-data-lifecycle.md`](19-pers
 |---|---|---|---|
 | OD19-01 | Placement and provisioning of assertion verification material | **OPEN** | §19.21; DEC-051; §19, coordinated with P2, §22, CyberPanel K2 gate |
 | OD19-02 | At-rest encryption inside host storage domains; key hierarchy | **OPEN** | §19.21; DEC-052; §19 Owner Decision Gate; §22 |
-| OD19-03 | Maximum approval validity horizon (nonce retention; post-K8-loss exposure) | **OPEN** | §19.21; DEC-053; §19 Owner Decision Gate; §16 Amendment Gate / §22 as applicable |
-| OD19-04 | Credential-bearing file content through `file.replace` (F19-05) | **OPEN** | §19.21; DEC-054; §16 Amendment Gate |
+| OD19-03 | Whether a maximum approval-validity horizon exists; its value and enforcement point | **OPEN** | §19.21; DEC-053; §19 Owner Decision Gate; §16 Amendment Gate / §22 as applicable |
+| OD19-04 | Credential-bearing file content through `file.replace` (F19-05) | ADDRESSED | §19.21; DEC-054; DEC-070 (Path A) |
 | OD19-05 | How K4 learns credential-handle provisioning state (F19-07) | **OPEN** | §19.21; DEC-055; §16 Amendment Gate / §22 |
 | OD19-06 | Health and evidence history retention | **OPEN** | §19.21; DEC-056; **§19**; §21 and §20 dependency inputs |
 | OD19-07 | Pre-image retention bounds in K11 content | **OPEN** | §19.21; DEC-057; §16 Amendment Gate; §22 |
 | PD19-01 … PD19-20 | Proposed §19 decisions | ADDRESSED | DEC-031 … DEC-050 |
-| F19-05 | Credential-bearing `file.replace` content | **OPEN** | DEC-058; OD19-04; §16 Amendment Gate |
+| F19-05 | Credential-bearing `file.replace` content | ADDRESSED | DEC-058; DEC-070 (enforcement gap, category ii); unindexed — index treatment separate (F05d) |
 | F19-06 | Approval horizon; approval evidence after K8 loss | **OPEN** | DEC-059; OD19-03; §22; §16 Amendment Gate |
 | F19-07 | K4 visibility of handle state | **REJECTED (as a finding)** | DEC-060; OD19-05 remains OPEN |
 | F19-08 | Generated credentials: provisioning / output | PARTIAL | DEC-061; provisioning half DEC-046; output half OPEN — §16 Amendment Gate |
 | F19-09 | Restore and post-backup authorization changes | **OPEN** | DEC-062; §22 / recovery gate; TQ-08; ODF-18-07 |
-| Q19-01 … Q19-04 | §19 open items without an OD number | **OPEN** | §19.21.1; gates as listed there |
+| Q19-01 … Q19-06 | §19 open items without an OD number | **OPEN** | §19.21.1; gates as listed there (Q19-05: TQ-09; Q19-06: SR-14 — DEC-065) |
 | D19-01 … D19-09 | Disagreements and gaps found by the §19 gate | See §19.5.3 | §19.5.3 |
 
 ---
 
 ## 5B. §16 Amendment Gate items arising from §19 (pointers only)
 
-No §16 text is changed. The §16 Amendment Gate is NOT SCHEDULED (DEC-064). The §19 document is the source; see
+No §16 text is changed. The §16 Amendment Gate is NOT SCHEDULED (DEC-070; DEC-068 D68-H). The §19 document is the source; see
 §19.21.2 of [`19-persistence-secrets-data-lifecycle.md`](19-persistence-secrets-data-lifecycle.md).
 
 | # | Source | Item |
@@ -216,8 +216,8 @@ CHANGE-001 … CHANGE-027. Their current standing:
 | §22 Lifecycle / Recovery | NOT DESIGNED — GATE PENDING | [`22-lifecycle-recovery.md`](22-lifecycle-recovery.md) |
 | P2 protocol | NOT DESIGNED — GATE PENDING | [`p2-protocol.md`](p2-protocol.md) |
 | CyberPanel K2 gate | OPEN | [`../../platforms/cyberpanel/k2-gate.md`](../../platforms/cyberpanel/k2-gate.md) |
-| §16 Amendment Gate | NOT SCHEDULED (DEC-064) | §5B |
-| §19 Owner Decision Gate | OPEN (DEC-064) | OD19-02, OD19-03, Q19-01, Q19-03 (§19.21, §19.21.1) |
+| §16 Amendment Gate | NOT SCHEDULED (DEC-070; DEC-068 D68-H); procedure DEC-068 | §5B |
+| §19 Owner Decision Gate | OPEN (DEC-064) | OD19-02, OD19-03, Q19-01, Q19-03, Q19-05, Q19-06 (§19.21, §19.21.1) |
 | §17/K4 Architecture Gate | NOT SCHEDULED — not a §17 amendment gate; §17 remains LOCKED (DEC-064) | Q19-04 (§19.21.1) |
 | Unassigned domain-model items (CHANGE-005, 006, 010, 012, 019, 020, 021) | No owning gate assigned | — |
 | §12 compatibility / Host Environment (CHANGE-017, 018; OQ-8; Q-7) | Not scheduled | — |
