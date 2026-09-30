@@ -16,6 +16,7 @@
 > treatment, the §19 locked form and lock, the recovery-gate identity, the §22 post-lock route and the development
 > path.
 > DEC-081 records the §19.3 post-lock authority statement.
+> DEC-082 records the §21 Audit Events owner dispositions.
 
 # SCC Decision Log
 
@@ -102,6 +103,7 @@
 | DEC-079 | Development Path and Phase-6 Entry Criteria | CURRENT (adopted — Phase-6 entry criteria; no implementation authority) |
 | DEC-080 | P2/K3 Gate Structure | CURRENT (adopted — P2/K3 gate structure; not locked) |
 | DEC-081 | §19.3 Post-Lock Authority Statement | CURRENT (adopted — one-time explicit owner amendment of §19.3; DEC-023 hierarchy governs locked §19) |
+| DEC-082 | §21 Audit Events Owner Dispositions | CURRENT (adopted — §21 owner dispositions; §21 not written, not locked) |
 
 ---
 
@@ -6121,3 +6123,368 @@ D81-10 No implementation authority. DEC-029 remains standing.
 > **Index note (not owner wording):** DEC-081 is a one-time explicit owner amendment of §19.3. It creates no general
 > §19 amendment route and no exception to DEC-023; §19.21–§19.22 items continue to use DEC-075 D75-3 / DEC-063. It
 > does not amend §15–§17 and authorizes no implementation.
+
+---
+
+## DEC-082 — §21 Audit Events Owner Dispositions
+
+- **Status:** CURRENT (adopted — §21 owner dispositions; §21 not written, not locked)
+- **Source:** Owner adoption authorization for DEC-082 (2026-09-30), adopting the reviewed DEC-082 Revision 3
+  (with the owner's B1-A and R4 corrections) and confirming points 1–13; owner disposition responses for B1-A, R4,
+  B-2, R-1, R-2, R-3 and R-5 (2026-09-30).
+- **Related:** DEC-025; DEC-034; DEC-035; DEC-041; DEC-042; DEC-047; DEC-048; DEC-056; DEC-058; DEC-068 (D68-D);
+  DEC-070; DEC-071; DEC-072; DEC-075 (D75-3); DEC-076; DEC-080; DEC-081; §15.10; §15.15; T-23; §17.9; §17.16;
+  §17.18; §17.21; A-01; A-35; §19.21.2; §19.22
+
+```text
+OWNER RESPONSE — B1-A / R4
+
+B1-A: APPROVE WITHOUT ENVELOPE CLAUSE
+
+B1-B: OWNER DECISION REQUIRED
+      [§16 via D68-D / §17 via new route / other]
+
+B2: [A / B / C]
+
+R1: [A / B]
+
+R2-A: [YES / NO]
+R2-B: [YES / NO]
+R2-B-EVIDENCE: [if YES]
+R2-C: [YES / NO]
+R2-D: [YES / NO]
+R2-E: [ACCEPT / DO NOT ACCEPT]
+
+R3: [A / B / C]
+
+R4: APPROVE CORRECTED WORDING
+     "Any off-host survival depends on the external facility
+     (DEC-072 D72-4) and cannot extend to content still on the
+     host at the time of a compromise (§15.15)."
+
+R5: [A / B / C]
+
+OWNER RESPONSE — REMAINING DISPOSITIONS
+
+B2:   C
+
+R1:   B
+
+R2-A: YES
+R2-B: NO
+R2-B-EVIDENCE: N/A
+R2-C: NO
+R2-D: NO
+R2-E: ACCEPT
+
+R3:   A
+
+R5:   A
+
+ADOPTION AUTHORIZATION
+
+A.
+
+Adopt the DEC-082 Revision 3 text I originally presented in the
+previous review, with the B1-A and R4 corrections already incorporated
+there.
+
+Do NOT use the rewritten DEC-082 text from your previous message.
+Discard that rewritten version entirely.
+
+The original Revision 3 is the authoritative adoption text for this
+step.
+
+The following points are specifically confirmed:
+
+1. D82-16 must preserve the locked §19.21.2 routing:
+   - K8 lifetime identity in journal references remains a §16
+     Amendment Gate item under §19.21.2 row 1.
+   - K6 acceptance after K8 reinitialization remains a §16 Amendment
+     Gate item under §19.21.2 row 2.
+   - The K4-observation question may remain routed to §22 as specified
+     in the original Revision 3, but this does not move the K8-side
+     items out of their locked §16/lifecycle routing.
+
+2. D82-6 / D82-11 must preserve the DEC-072 D72-5 relationship.
+   The §21 export content includes the record identified by D72-5 as
+   the anchor-legitimacy record.
+
+   The terminology clarification in Revision 3 must NOT be interpreted
+   as renaming, deleting, or superseding D72-5.
+
+   The intended distinction is:
+   - §21 defines an anchor-change observation record;
+   - that record is the §21 representation supplied for the
+     anchor-legitimacy record referenced by D72-5;
+   - the observation does NOT assert that the observed change was
+     legitimate;
+   - no second anchor representation is created (05c = M);
+   - preserve the relevant §17.21 / §15.15 limitations from Revision 3.
+
+3. D82-21 must not contradict D82-13.
+   D82-13's Job identity, K6 request IDs, and `p3_request_id` recording
+   are deliberate §21 audit-record requirements established by the
+   owner disposition.
+
+   Therefore D82-21 must describe K4/K8 correlation as limited to the
+   locked architecture while still allowing the additional §21 audit
+   fields expressly established by D82-13.
+
+4. Preserve the approved D82-4 distinction:
+   - the sequence-gap claim assumes an honest K4 writer;
+   - the K4/K8 cross-check detects discrepancies between K4 claims and
+     K8 evidence;
+   - neither protects against compromised K4 or root.
+
+5. Preserve D82-5's status:
+   The K8 tamper-evidence mechanism is NOT already assigned to §16.
+   A separate owner decision is still required to make that assignment.
+
+6. Preserve D82-8 in full:
+   - explicit R0 `view` exception from §17.18;
+   - denied R0 views follow the same rule;
+   - R1+ are individually audited;
+   - this does not amend §17;
+   - this does not eliminate A-35 generally.
+
+7. Preserve D82-9 exactly according to the approved dispositions:
+   - A5 audit-write failure may use late recording;
+   - denied operations remain refused;
+   - denial handling gets the approved B-class condition record;
+   - do NOT generalize late recording to every audit-write failure;
+   - preserve the approved 08b = X and 08c = Q distinction.
+
+8. Preserve D82-10's explicit statement:
+   DEC-035 continues to govern and is not superseded.
+
+9. Preserve D82-11's 10b = O wording:
+   the anchor-change observation is observed by K4 unless independent
+   evidence establishes who made the change.
+
+10. Preserve D82-15:
+    Local Root credential lifecycle returns to the owner under §22;
+    there is no post-lock §21 amendment route.
+
+11. Preserve D82-22:
+    B1-B is NOT a blocker to the §21 lock.
+    It affects the P2/K3 lock and Phase 6 as previously determined.
+    Do not list B1-B as a §21 lock dependency.
+
+12. Preserve D82-6's 05c = M disposition:
+    no second anchor representation.
+
+13. Preserve all citations/references present in the original
+    Revision 3, including the §17.21 and §15.15 references where
+    specified.
+
+Do not reinterpret any of these points.
+```
+
+Decision text (D82-1 … D82-24, DEC-082 Revision 3, adopted by the authorization above):
+
+```text
+D82-1  Authority and scope. Owner dispositions of OQ21-01 … OQ21-18 from the §21 Gate Review
+       and Owner Disposition Pass, as revised by the owner's review resolutions I-1 … I-9 and
+       the owner's dispositions of findings B-1, B-2 and R-1 … R-5, under DEC-025 PHASE 3 and
+       DEC-071 (D71-1 … D71-10). These dispositions are inputs to the §21 candidate. This
+       decision does not write, lock or move §21, and is not the §21 lock DEC (DEC-071 D71-8
+       criterion 6).
+D82-2  OQ21-01 = A. "Durably recorded" (DEC-035 R5a; DEC-071 D71-2(b)) means: the audit record
+       is committed to SD-K7 and survives both a K4 process restart and a host restart. This is
+       the normative meaning for §21. It creates no general storage-engine specification.
+D82-3  OQ21-02. (a) = A: every K4 audit record has an identity unique within the SCC instance, so
+       that later records can refer to earlier records, including UNKNOWN resolution, late
+       recording and B1 conditions. (b) = A: K4 audit records carry a monotonic sequence over
+       audit records within the SCC instance, permitting §21 to define K4 audit sequence-gap
+       detection. This provides no protection against a compromised K4. (c) is governed by D82-4.
+       Continuity across K7 restoration: D82-19.
+D82-4  OQ21-03 = A. SCC may claim (i) K4 audit sequence-gap detection and (ii) K4 ↔ K8
+       cross-check detection, limited as follows: sequence-gap detection concerns loss
+       detectable while the K4 writer is functioning honestly; the cross-check detects
+       discrepancies between K4 execution claims and K8 evidence; neither claim detects arbitrary
+       falsification by a compromised K4; neither provides protection against host or root
+       compromise; K8 lifetime-gap representation remains outside §21 on its established
+       lifecycle/recovery route; restore-related loss follows §22; retention-related
+       resolvability follows the §21 retention rules (D82-7).
+D82-5  OQ21-04. (a) = A: §21 defines no new on-host tamper-evidence mechanism for K4 audit and
+       creates no integrity mechanism inside K7; §21 defines the scope and limitations of its
+       tamper-evidence claim and the export content. (b) = X: the unresolved K8 tamper-evidence
+       mechanism requires assignment to the §16 Amendment Gate by a separate owner decision under
+       DEC-068 D68-D. §21 records only the dependency. This decision does not make that
+       assignment (D82-20) and does not modify §16.
+D82-6  OQ21-05 and findings R-1, R-3, R-4.
+       (a) = A: the §21-defined export content consists of K4 audit records and the anchor-change
+       observation records (D82-11). K8 journal records are not in the §21-defined export set;
+       their format and authority remain governed by §16. The anchor-change observation records
+       are the §21 content for the record named in DEC-072 D72-5; that name is not changed by
+       this decision and does not imply that the records establish legitimacy or completeness.
+       (b) = Q: the export uses an SCC-produced export artifact, which the external
+       root-administered facility (DEC-072) consumes. The facility is not granted, and does not
+       rely on, direct access to K7; T-23 is unchanged. The artifact is not an SCC authorization
+       mechanism and confers no authority. §21 does not define the artifact's implementation.
+       (R-1 = B) The artifact's permission and classification under §19 (S19-01) and its
+       lifecycle follow the established §19.22 → DEC-075 D75-3 → DEC-063 route and §22 (DEC-072
+       D72-6). The SCC-produced export artifact is not permitted to be produced until a D75-3
+       §19 decision permits and classifies it.
+       (R-3 = A) Failure to produce the artifact for an already-created K4 audit record produces
+       a B-class condition record when possible. Artifact-production failure does not alter
+       DEC-035 R5a or R5b, does not refuse audited operations, and creates no new fail-closed
+       dependency; export remains optional (DEC-072 D72-1). Failure to create the K7 audit
+       record remains governed by R5a/R5b; failure of the external facility is outside SCC
+       (DEC-072 D72-4).
+       (R-4) The export artifact is produced by K4 (identity C) from K7 audit records. It carries
+       no greater evidentiary weight than the records it contains. It can be falsified by a
+       compromised K4 or by root (§17.21; §15.15). Any off-host survival depends on the external
+       facility (DEC-072 D72-4) and cannot extend to content still on the host at the time of a
+       compromise (§15.15). It claims no completeness beyond what sequence-gap detection shows
+       while the writer is honest (D82-4). It carries no provenance beyond its K4 production. It
+       defines no cryptographic mechanism.
+       (c) = M: the §17.9 anchor-change observation records are the only anchor representation in
+       the export; no second, independent representation is created.
+D82-7  OQ21-06. (a) = A: K4 audit has no time-based expiry in v1; audit records are retained for
+       the life of the SCC instance. This is not a statement that records can never be removed:
+       removal occurs only through an explicitly defined disposition consistent with DEC-042
+       R12A-2, and there is no automatic time-based expiration rule. (b) = R1: while an audit
+       record is authoritative and retained, its referenced K8 evidence is subject to DEC-041
+       R11d and must remain resolvable for as long as the authoritative audit record requires the
+       reference to remain resolvable. K8 lifetime loss, reinitialization or restoration is
+       handled according to the established K8 lifecycle and §22 recovery semantics (DEC-048;
+       DEC-047 R17g); a K8 lifetime ending is not itself an architectural contradiction. K8
+       capacity is thereby coupled to audit retention; if K8 cannot retain required referenced
+       evidence, the existing locked K6 refusal behavior applies (X-29; S19-07). (c) = U: one
+       retention rule applies across the §21 audit classes; no class-specific periods in v1. No
+       numerical retention period is set.
+D82-8  OQ21-07. (a) = A and (b) = S. §17.18 is an explicit exception to the general A-35
+       recording rule for R0 `view` decisions: R0 `view` authorization decisions are exempt from
+       individual audit-record creation under §17.18. No aggregate audit record is required
+       solely by §17.18. R1 and above remain individually audited. Denied R0 `view` decisions
+       follow the same rule. Audit and K8-derived views remain R1 (§17.3; §17.5.3). This is an
+       owner reading of locked §17.18; it does not amend §17, does not eliminate A-35 generally,
+       and creates no R0 audit mechanism.
+D82-9  OQ21-08. (a) = A: §21 defines the B1 audit-write-failure record contract; §22 defines the
+       recovery and reconstruction procedure. (b) = X: when an A5 record could not be durably
+       written, it is written late once durable recording is possible and is marked as
+       late-recorded; the B1 record references the affected cancellation; this relies on D82-3(a).
+       (c) = Q: if a denial's audit record fails to become durable, a B-class operational-
+       condition record is written when possible; the denial remains a refusal. No authorization
+       bypass is created; DEC-035 R5a, R5b and the existing fail-closed requirements are
+       unchanged.
+D82-10 OQ21-09 and findings B-2, R-5. SYSTEM observation authorization is an A-35 Intent
+       Authorization and receives the required K4 audit record under the existing A-35 event
+       model; no new event category is created. The observation data itself is not copied into
+       the K4 audit record, and K4 is not made responsible for auditing observation content
+       (A-35; §17.18). K8 remains the execution evidence for the resulting K6 request; if K8 is
+       unavailable, the X-29 refusal behavior applies. State-changing SYSTEM cancellation remains
+       A5.
+       (B-2) Whether SYSTEM observation proceeds is settled by existing authority: it proceeds
+       when K7 authorization data is unavailable (§17.1.1; §17.16), and DEC-035 imposes no
+       audit-write dependency on ordinary SYSTEM observation. DEC-035 continues to govern and is
+       not superseded. (B2 = C) When a SYSTEM observation authorization record cannot be durably
+       recorded at the time, the original authorization record is written late once durable
+       recording is possible and marked as late-recorded, and a B-class condition record records
+       the audit-write failure and references it. If the pending record is lost before it can be
+       written late, its reconstruction is a §22 recovery matter.
+       (R-5 = A) The owner accepts, as a consequence of the adopted architecture, that
+       individually audited SYSTEM observation authorizations (to which the §17.18 R0 `view`
+       exception does not apply) grow audit volume under D82-7. Existing fail-closed behavior
+       applies to audited HUMAN operations when capacity is exhausted; SYSTEM observation
+       proceeds as stated above.
+D82-11 OQ21-10. (a) = B: the §17.9 anchor-change observation record is a B-class record under
+       DEC-071 D71-3(B) ("where an authoritative source requires one"; source: §17.9). (b) = O:
+       the record is attributed as "observed by K4" unless the architecture has independent
+       evidence establishing the actual changer; the change is not attributed to the Local Root
+       Operator merely because only the Local Root Operator is authorized to make it. (c) = Y:
+       the minimum locked fields remain the named Principal and the anchor digest (§17.9); §21
+       adds observation metadata and must define at least the normative observation timestamp
+       and the change kind. The record does not claim, and must not be presented as showing,
+       that the change was legitimate, that it was complete, or that no unobserved change
+       occurred. §17.9 is not modified.
+D82-12 OQ21-11 and finding R-2. Failed authentication at K4 is a §21 B-class audit record,
+       preserving baseline §10 "Failed authentication is audited". The record: (1) must not
+       attribute the attempt to a Principal based solely on an unverified authentication
+       assertion or claim (A-01); (2) may identify the authentication attempt and the failure
+       reason; (3) must not store raw authentication assertions or bearer credentials.
+       (4) Audit-noise control must not silently destroy required failed-authentication audit
+       evidence, and (5) capacity protection must therefore operate without simply dropping
+       required audit records. (R2-A = YES; R2-B = NO) §21 requires one audit record per
+       failed-authentication attempt; aggregation of attempts is not permitted. (R2-C = NO) A
+       refusal made by K4 before authentication processing, because of an audit or capacity
+       admission control, is not itself an audited event. (R2-D = NO) Intake limiting before K4
+       is not assigned to P2/K3 by this decision. (R2-E = ACCEPT) The owner accepts the
+       availability consequence that unbounded failed-authentication volume can exhaust K4
+       audit capacity, after which DEC-035 R5a can refuse audited HUMAN operations. Concrete
+       parameters remain implementation-level within this contract (DEC-071 D71-5). The P2/K3
+       gate remains responsible for transport and request failure semantics (DEC-080). K3 does
+       not become an authorization component.
+D82-13 OQ21-12 and finding B-1. (a) = A: K4 audit records the Job identity and the K6
+       `request_id`(s). (b) = D: §21 defines now the correlation field `p3_request_id`: the
+       request ID carried by a state-changing P3 request under §15.10, with semantics as
+       established by the architecture that §15.10 designates (§16/§17). §21 records the value K4
+       receives. It defines no generation, uniqueness, transport or lifecycle semantics and
+       applies only to state-changing P3 requests. No post-lock §21 amendment is required for
+       it. Where the P3 request-ID semantics are defined is not decided here (D82-22). The locked
+       and adopted fields remain: `authorization_ref`; Plan reference; `plan_digest`; K8
+       lifetime identity / `journal_seq` reference (§17.18; DEC-048 R18c).
+D82-14 OQ21-13: no owner decision. Derived: §17.18 requires "Conditions evaluated, with their
+       values." The field set approved by this decision introduces no DC-05 dependency (DEC-056
+       R06i).
+D82-15 OQ21-14 = B. Local Root Operator credential-lifecycle acts are left to §22 (DEC-076 D76-2);
+       §21 defines no record contract for them in this gate. If §22 later determines that a §21
+       contract is required, the matter returns to the owner; no general post-lock §21
+       amendment route exists.
+D82-16 OQ21-15 = B. K8 lifetime-change observation is left to §22. The §21 candidate may identify
+       the dependency but defines no K4 event for it. The K8-side architecture remains on its
+       established §16/lifecycle routing (§19.21.2 rows 1–2). §16 is not modified.
+D82-17 OQ21-16 = A. The unresolved question of K8 digests of credential-bearing content (DEC-058;
+       DEC-070 D70-D3(4)) requires assignment to the §16 Amendment Gate by a separate owner
+       decision under DEC-068 D68-D. §21 records only the dependency. This decision does not make
+       that assignment (D82-20) and does not modify §16.
+D82-18 OQ21-17 and OQ21-18: no owner decision; not §21 questions. CHANGE-023 remains unresolved
+       and outside §21 (DEC-071 D71-7). The conditional §18 rewrites (SC-17; T-18-09 / SR-12
+       scoping; SC-09; SRF-18-11; SR-13, SR-14) remain §18 work (DEC-072 D72-8); no conditional
+       §18 material becomes §21 authority.
+D82-19 K7 restoration and audit identity. Audit record identity and sequence semantics must
+       remain unambiguous across K7 restoration. A K7 restore may roll K7 state backward
+       (DEC-047 R17g); §21 must not assume that restarting the sequence from the restored K7
+       state preserves uniqueness or continuity, and the §21 contract must require that audit
+       identity and sequence remain unambiguous across restoration. §21 does not design a K7
+       lifecycle mechanism or define a restore-generation implementation; the representation of
+       restore or lifecycle generations belongs to the established lifecycle/recovery
+       architecture, including §22. The §21 candidate must identify this as a §22 dependency.
+D82-20 §16 Amendment Gate assignments. DEC-082 does not make either §16 Amendment Gate assignment
+       named in D82-5(b) (K8 tamper-evidence mechanism) and D82-17 (K8 digests of credential-
+       bearing content). Separate owner decisions under DEC-068 D68-D are required. They must be
+       completed before the §21 lock where DEC-071 D71-8 criterion 5 requires them as owning
+       routes.
+D82-21 Boundaries. §21 owns the K4 audit contract. §21 does not own K8 architecture and does not
+       redefine K8 events or fields (DEC-071 D71-9). §21 defines the audit ↔ K8 correlation
+       contract without merging K7 and K8 into one store (DEC-034). Recovery and lifecycle
+       procedures are §22's. K8 architectural changes belong to the §16 Amendment Gate where
+       explicitly assigned. P2 request and assertion semantics are P2/K3's (DEC-080). §18 remains
+       conditional.
+D82-22 Dependencies. D82-20 (separate §16 Amendment Gate assignments). D82-6(b) (a D75-3 §19
+       decision before any export artifact is produced; §22 for lifecycle, DEC-072 D72-6).
+       D82-13(b) (the location of P3 request-ID semantics under §15.10 remains an open owner
+       decision; any §16 location requires a D68-D assignment, and §17 has no amendment route;
+       this affects the P2/K3 lock and Phase 6, not the §21 lock). D82-9(a), D82-10, D82-15,
+       D82-16, D82-19 (§22). D82-7(b) couples K8 retention and capacity to audit retention
+       (DEC-041 R11d, R11e).
+D82-23 Non-effects. No amendment to §15 (including T-23 and §15.10), §16, §17 (including §17.9
+       and §17.18) or locked §19. DEC-001 … DEC-081, including DEC-035 and DEC-080, are
+       unchanged. No component (K2–K11) gains authority; the export facility gains no SCC
+       authority or K7 access. No §21 post-lock route is created. §21 is not written, locked or
+       moved.
+D82-24 No implementation authority. DEC-029 remains standing.
+```
+
+> **Transcription note (session process):** The decision text is the reviewed DEC-082 Revision 3 exactly as
+> presented for adoption; its status line ("CANDIDATE — NOT ADOPTED") is omitted. The owner's filled-in response
+> templates are reproduced as sent; option letters are defined in the preceding owner-disposition passes. The
+> authorization's repository-state, procedure, do-not-modify, validation, commit and report sections governed only
+> this change and are omitted. A rewritten DEC-082 text proposed during the adoption exchange was rejected by the
+> owner and is not recorded here.
+
+> **Index note (not owner wording):** DEC-082 records owner dispositions for the §21 gate. It does not write, lock or
+> move §21, does not make the §16 Amendment Gate assignments named in D82-20, does not make the D75-3 §19 decision
+> for the export artifact, does not amend §15–§17 or locked §19, and authorizes no implementation.
