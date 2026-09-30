@@ -156,6 +156,10 @@ No §16 text is changed. The §16 Amendment Gate is NOT SCHEDULED (DEC-070; DEC-
 | 9 | DEC-058 F05a, F05b | Interpretation of F19-05 |
 | 10 | DEC-061 F08c, F08d | Credential material in Operation output |
 | 11 | Q19-02 | Idempotency retention and key reuse (with §22) |
+| — | DEC-083 (DEC-082 D82-5(b)) | K8 tamper-evidence mechanism |
+| — | DEC-084 (DEC-082 D82-17) | K8 digests of credential-bearing content (declared resources) |
+
+Rows marked — are assigned by owner decision under DEC-068 D68-D and are not items of §19.21.2.
 
 ---
 

@@ -17,6 +17,8 @@
 > path.
 > DEC-081 records the §19.3 post-lock authority statement.
 > DEC-082 records the §21 Audit Events owner dispositions.
+> DEC-083 and DEC-084 assign the K8 tamper-evidence mechanism and K8 credential-bearing digest handling to the §16
+> Amendment Gate.
 
 # SCC Decision Log
 
@@ -104,6 +106,8 @@
 | DEC-080 | P2/K3 Gate Structure | CURRENT (adopted — P2/K3 gate structure; not locked) |
 | DEC-081 | §19.3 Post-Lock Authority Statement | CURRENT (adopted — one-time explicit owner amendment of §19.3; DEC-023 hierarchy governs locked §19) |
 | DEC-082 | §21 Audit Events Owner Dispositions | CURRENT (adopted — §21 owner dispositions; §21 not written, not locked) |
+| DEC-083 | Assignment of the K8 tamper-evidence mechanism to the §16 Amendment Gate | CURRENT (adopted — item assigned, scope A1; gate NOT SCHEDULED; undecided) |
+| DEC-084 | Assignment of K8 credential-bearing digest handling to the §16 Amendment Gate | CURRENT (adopted — item assigned, scope B2; D70-D3(4) "additional" reading closed; gate NOT SCHEDULED; undecided) |
 
 ---
 
@@ -6488,3 +6492,140 @@ D82-24 No implementation authority. DEC-029 remains standing.
 > **Index note (not owner wording):** DEC-082 records owner dispositions for the §21 gate. It does not write, lock or
 > move §21, does not make the §16 Amendment Gate assignments named in D82-20, does not make the D75-3 §19 decision
 > for the export artifact, does not amend §15–§17 or locked §19, and authorizes no implementation.
+
+---
+
+## DEC-083 — Assignment of the K8 tamper-evidence mechanism to the §16 Amendment Gate
+
+- **Status:** CURRENT (adopted — item assigned, scope A1; gate NOT SCHEDULED; undecided)
+- **Source:** Owner selection of Gate A = A1, Gate B = B2 and the registration instruction (2026-09-30); owner
+  D84-3 choice (ii) and adoption authorization for DEC-083 and DEC-084 (2026-09-30).
+- **Related:** DEC-068 (D68-C, D68-D, D68-G, D68-J); DEC-071 (D71-8, D71-9); DEC-072; DEC-082 (D82-4, D82-5, D82-20); §15.3 (K8); T-12; §16.15 Q-3; register §5B
+
+```text
+OWNER SELECTION
+
+Gate A — K8 Tamper-Evidence Mechanism:
+A1
+
+Gate B — K8 Credential-Bearing Digest Handling:
+B2
+
+Registration:
+Record each assignment in the owner decision and add a pointer in
+register §5B. Do not modify locked §19.21.2.
+
+ADOPTION AUTHORIZATION
+
+Now adopt DEC-083 and DEC-084 exactly as drafted, with that D84-3
+owner choice incorporated.
+```
+
+Decision text (D83-1 … D83-4, adopted by the authorization above):
+
+```text
+D83-1  Assignment. Under DEC-068 D68-D, the owner assigns to the §16 Amendment Gate the item
+       "K8 tamper-evidence mechanism" (DEC-082 D82-5(b), D82-20).
+D83-2  Scope (A1). The item covers whether any K8 tamper-evidence mechanism is adopted,
+       including: that no mechanism beyond the locked K8 properties (append-only, root-owned,
+       X-29) is adopted; an in-K8 integrity property maintained by K6; and K8 content made
+       available for off-host evidence through the external facility of DEC-072. Any
+       mechanism's claims are limited by the fact that K6 and root write K8 (§15.3; T-12).
+D83-3  Registration. The item is registered by this decision and by a pointer in register §5B.
+       Locked §19.21.2 is not modified.
+D83-4  Non-effects. This decision does not convene the gate (D68-C), decide the item (D68-G),
+       authorize any §16 amendment (D68-J), change §16.15 Q-3 or §19.21.2, assign anything to
+       §21 (DEC-071 D71-9), change DEC-072 or DEC-082, or create implementation, host or K6
+       authority. DEC-029 remains standing.
+```
+
+> **Transcription note (session process):** The decision text is the reviewed candidate exactly as drafted; its
+> status line ("CANDIDATE — NOT ADOPTED") is omitted. The authorization's verification, preservation,
+> validation, commit and report sections governed only this change and are omitted.
+
+> **Index note (not owner wording):** DEC-083 is an assignment decision only. It does not convene the §16 Amendment
+> Gate, decide the item, amend §16, modify §19.21.2 or §21, or create implementation authority.
+
+---
+
+## DEC-084 — Assignment of K8 credential-bearing digest handling to the §16 Amendment Gate
+
+- **Status:** CURRENT (adopted — item assigned, scope B2; D70-D3(4) "additional" reading closed; gate NOT SCHEDULED; undecided)
+- **Source:** Owner selection of Gate A = A1, Gate B = B2 and the registration instruction (2026-09-30); owner
+  D84-3 choice (ii) and adoption authorization for DEC-083 and DEC-084 (2026-09-30).
+- **Related:** DEC-058; DEC-068 (D68-C, D68-D, D68-G, D68-J); DEC-070 (Path A, D70-A3, D70-D3(2), D70-D3(4)); DEC-071 (D71-8, D71-9); DEC-082 (D82-17, D82-20); X-26; §16.7; §16.10.2; register §5B
+
+```text
+OWNER SELECTION
+
+Gate A — K8 Tamper-Evidence Mechanism:
+A1
+
+Gate B — K8 Credential-Bearing Digest Handling:
+B2
+
+Registration:
+Record each assignment in the owner decision and add a pointer in
+register §5B. Do not modify locked §19.21.2.
+
+OWNER CHOICE — D84-3
+
+Choose (ii).
+
+The owner closes the DEC-070 D70-D3(4) "additional digests or evidence"
+reading as not pursued.
+
+The reason is that the repository does not define a sufficiently
+bounded substantive item for that reading: it identifies neither the
+additional evidence nor its purpose. It therefore should not remain as
+an unrouted §16 / §21 dependency.
+
+This closure does NOT:
+
+- reopen DEC-070 Path A;
+- modify D70-A3;
+- modify R12B-1;
+- authorize content inspection;
+- authorize a runtime detector or classifier;
+- prohibit a future separately defined architecture question;
+- decide the substantive B2 gate question;
+- amend §16;
+- amend §19;
+- amend §21.
+
+D84-3 should therefore state that the DEC-070 D70-D3(4)
+"additional digests or evidence" reading is not pursued and is closed
+by DEC-084.
+
+ADOPTION AUTHORIZATION
+
+Now adopt DEC-083 and DEC-084 exactly as drafted, with that D84-3
+owner choice incorporated.
+```
+
+Decision text (D84-1 … D84-5, adopted by the authorization above):
+
+```text
+D84-1  Assignment. Under DEC-068 D68-D, the owner assigns to the §16 Amendment Gate the item
+       "K8 digests of credential-bearing content" (DEC-058; DEC-082 D82-17, D82-20).
+D84-2  Scope (B2). The item covers whether the existing K8 digests (§16.10.2 parameter and
+       pre-/post-state digests; §16.7 read content digests) are retained unchanged or reduced
+       for resources declared credential-bearing by the applicable execution contract.
+       "Credential-bearing" has the declaration-based meaning of DEC-070 D70-A3. No content
+       inspection, runtime detector or classifier is authorized (DEC-070). The undeclared-`blob`
+       residual (DEC-070 D70-D3(2)) is not within this item.
+D84-3  The DEC-070 D70-D3(4) "additional digests or evidence" reading is not pursued; the owner
+       closes it by this decision.
+D84-4  Registration. The item is registered by this decision and by a pointer in register §5B.
+       Locked §19.21.2 is not modified.
+D84-5  Non-effects. This decision does not convene the gate, decide the item, reopen DEC-070
+       Path A, D70-A3 or R12B-1, amend X-26, §16.7 or §16.10.2, authorize any §16 amendment
+       (D68-J), or create implementation authority. DEC-029 remains standing.
+```
+
+> **Transcription note (session process):** The decision text is the reviewed candidate exactly as drafted; its
+> status line ("CANDIDATE — NOT ADOPTED") is omitted. D84-3 records the owner's choice (ii) in place of the bracketed alternatives of the draft. The authorization's verification, preservation,
+> validation, commit and report sections governed only this change and are omitted.
+
+> **Index note (not owner wording):** DEC-084 is an assignment decision only. It does not convene the §16 Amendment
+> Gate, decide the item, amend §16, modify §19.21.2 or §21, or create implementation authority.
