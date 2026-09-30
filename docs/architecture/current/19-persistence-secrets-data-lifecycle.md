@@ -1,17 +1,21 @@
-> **Document status:** CANDIDATE — OWNER DISPOSITIONS RECORDED — NOT LOCKED [DEC-064]
-> **Authority category:** 4 — Conditional/open architecture (see [Authority Hierarchy](../README.md#authority-hierarchy))
+> **Document status:** LOCKED [DEC-075]
+> **Authority category:** 1 — Locked architecture, from DEC-075 forward (see [Authority Hierarchy](../README.md#authority-hierarchy)).
+> The earlier Category 4 classification is historical [DEC-074, DEC-075].
 > **Source:** §19 architecture gate (PHASE 2 of DEC-025). Replaces the earlier "NOT DESIGNED — GATE PENDING" stub.
 > Owner dispositions: DEC-031 … DEC-062. Post-lock resolution route: DEC-063. Change-set reconciliation
-> decisions: DEC-064. Pre-lock corrections: DEC-065. K11-held data ownership: DEC-066.
-> **Normative:** **No.** §19 is not locked. A passage tagged **[DEC-0xx]** points to the owner decision it implements.
+> decisions: DEC-064. Pre-lock corrections: DEC-065. K11-held data ownership: DEC-066. Locked form: DEC-074.
+> Lock: DEC-075.
+> **Normative:** Yes. A passage tagged **[DEC-0xx]** points to the owner decision it implements.
 > The decision log holds the complete owner wording and is its authoritative record (Category 2). A passage marked
 > *verbatim* reproduces the cited owner text exactly. Passages tagged **[LOCKED-DERIVED]** carry only the authority of
 > the locked text cited. Items marked OPEN or DEFERRED carry no authority beyond the requirement that they be resolved
 > at the gate named for them. Neither this document nor the decision log amends or locks §15–§17.
+> **Findings against this text:** none recorded. §19.5.3 records the disagreements and gaps the §19 gate found; it is
+> retained in the locked text [DEC-074].
 > **Implementation:** This document defines no schema, storage engine, key-management product, algorithm, service or
-> installer. It must not be used as an implementation specification until the owner locks it.
+> installer. Implementation remains subject to DEC-029 and DEC-079.
 
-# §19 — Persistence, Secrets & Data Lifecycle (Candidate)
+# §19 — Persistence, Secrets & Data Lifecycle
 
 ---
 
@@ -117,7 +121,7 @@ verification material; or how K4 learns credential-handle status.
 | D19-02 | Baseline §14 places Integration-specific configuration "within the Integration boundary", but K5 has no host access beyond its runtime (T-06), so an Integration cannot persist anything itself. | Baseline §14 vs §15 T-06 | Placement addressed [DEC-037]; write path and permitted contents OPEN [DEC-037 R7c, R7d]. |
 | D19-03 | §16.9 and §16.8 refer to K6 credential storage and retained pre-images, but §15's component catalogue names no persistent storage in the privileged domain other than K8. | §16.9, §16.8 vs §15.3 | Addressed [DEC-032]. |
 | D19-04 | §15.12 says assertion verification material exists "only in K4" but does not say where it is persisted or who provisions it; §15.14 says K2 key re-provisioning is a K9/lifecycle operation. | §15.12 vs §15.14 | OPEN — OD19-01 [DEC-051]. No authoritative home is assigned to DC-18. |
-| D19-05 | Credential-bearing content written through `file.replace` would pass through K4 (and K7, if the Plan is persisted) as a plaintext `blob`. Its relationship to T-18 (such credentials only in K6) is interpreted under DEC-058 F05a as an enforcement gap, category (ii) [DEC-070 D70-D1]. §16 provides handle substitution only for profile slots, not for staged file content. | §16.1.5, §16.8 vs T-18, §15.12 | Finding F19-05. OD19-04 addressed — Path A [DEC-070]. Interpretation: enforcement gap, category (ii); resolved for DEC-058 F05c [DEC-070 D70-D1, D70-E2]. K8 digest/journal handling (§16 / §21) and TH-31 (§18) remain on their existing routes [DEC-070 D70-D3]. Not in the known-findings index; index treatment is a separate owner decision [DEC-058 F05d; DEC-070 D70-I1]. |
+| D19-05 | Credential-bearing content written through `file.replace` would pass through K4 (and K7, if the Plan is persisted) as a plaintext `blob`. Its relationship to T-18 (such credentials only in K6) is interpreted under DEC-058 F05a as an enforcement gap, category (ii) [DEC-070 D70-D1]. §16 provides handle substitution only for profile slots, not for staged file content. | §16.1.5, §16.8 vs T-18, §15.12 | Finding F19-05. OD19-04 addressed — Path A [DEC-070]. Interpretation: enforcement gap, category (ii); resolved for DEC-058 F05c [DEC-070 D70-D1, D70-E2]. K8 digest/journal handling (§16 / §21) and TH-31 (§18) remain on their existing routes [DEC-070 D70-D3]. Indexed as KF-12 [DEC-073]. |
 | D19-06 | Finding F19-06, as decomposed in DEC-059 (F06a). | §16.5, X-16, §16.11 | Horizon: OD19-03. Approval evidence after K8 loss: §22 and the §16 Amendment Gate. Nonce retention: [DEC-041 R11b; DEC-053 R03b]. [DEC-059] |
 | D19-07 | K4 needs to know whether a credential handle is provisioned (to show a capability as unavailable before planning), but no `executor.*` Operation reports handle status, and provisioning is not a K6 request (so it is not journaled as one). | §16.1.3 (executor family), §16.9 | Rejected as a finding against locked text [DEC-060]. OD19-05 remains OPEN. |
 | D19-08 | Finding F19-08, split into two surfaces [DEC-061 F08a]. | §16.9 | Provisioning: governed by [DEC-046 R16c, R16j]. Operation output: OPEN — §16 Amendment Gate [DEC-061 F08c, F08d]. |
@@ -472,6 +476,9 @@ No §16 text is changed.
 | — | K11-held SCC data ownership under R1/R4 | DEC-066 |
 | — | F19-06 known-findings index treatment (KF-11) | DEC-067 |
 | — | OD19-04 Path A; F19-05 interpreted as enforcement gap (category ii) | DEC-070 |
+| — | F19-05 known-findings index treatment (KF-12) | DEC-073 |
+| — | §19 locked form | DEC-074 |
+| — | §19 lock | DEC-075 |
 
 ## 19.24 Gate Criteria
 
@@ -486,34 +493,38 @@ No §16 text is changed.
 
 ## 19.25 Gate Status
 
-**CANDIDATE — OWNER DISPOSITIONS RECORDED — NOT LOCKED.**
+**LOCKED [DEC-075].**
 
 - Owner dispositions are recorded as DEC-031 … DEC-062. The post-lock resolution route is DEC-063. Change-set
   reconciliation decisions are DEC-064. Pre-lock corrections are DEC-065 and K11-held data ownership is DEC-066; they do
-  not change the gate evaluation below.
-- **Gate evaluation at this revision (§19.24):**
+  not change the gate evaluation below. The F19-06 index treatment is DEC-067, the OD19-04 / F19-05 disposition is
+  DEC-070 and the F19-05 index treatment is DEC-073. The locked form is DEC-074 and the lock is DEC-075.
+- **Gate evaluation at lock (§19.24) [DEC-075 D75-1]:**
 
   | # | Result |
   |---|---|
   | 1 | **SATISFIED** |
   | 2 | **SATISFIED**, with the gates named by DEC-064 |
-  | 3 | **NOT SATISFIED**. Criterion 3 has not been amended [DEC-064]. |
+  | 3 | **SATISFIED** [DEC-067; DEC-073]. D19-06 is indexed as KF-11 and D19-05 as KF-12. Criterion 3 has not been amended [DEC-064]. |
   | 4 | **NO VIOLATION IDENTIFIED.** Supporting readings [DEC-064]: DEC-035 R5b is the owner's interpretation of the interaction between A-05 Fixed System Authority and the audit-record requirement; DEC-041 R11e applies X-29's existing K8 refusal consequence to an inability to preserve required records. §16 and §17 are not rewritten. |
   | 5 | **SATISFIED.** Criterion 5 applies to the explicit §19 deferrals enumerated in §19.21–§19.22, including §19.21.1. It does not require every "applicable architecture/contract/design" dependency phrase inside an owner decision to have an independently registered gate [DEC-064]. CHANGE-023 remains unresolved. |
 
-- §19 is **NOT LOCKABLE** at this revision, solely because criterion 3 is not satisfied. Criterion 3 has not been
-  amended.
-- Locking requires a separate, explicit owner decision recorded as a new DEC entry.
-- No implementation is authorized by this document or by DEC-031 … DEC-066. DEC-029 remains standing.
-- **Proposed lock statement (not adopted):**
+- §19 is **LOCKED** [DEC-075]. All five criteria are satisfied [DEC-075 D75-1].
+- The lock is the separate, explicit owner decision DEC-075. The locked form is established by DEC-074.
+- No implementation is authorized by this document or by DEC-031 … DEC-075. DEC-029 remains standing.
+- **Lock statement (adopted, DEC-075 D75-2):**
 
   > §19 is LOCKED as the persistence, secrets and data-lifecycle classification of SCC: the storage domains and data
   > classes of §19.6–§19.7, the ownership and access model of §19.8–§19.10, and invariants S19-01 … S19-15, as
-  > established by owner decisions DEC-031 … DEC-066. Items recorded as OPEN or DEFERRED in §19.21–§19.22 remain open
-  > at the gates named there and are resolved after lock through DEC-063.
+  > established by owner decisions DEC-031 … DEC-067, DEC-070 and DEC-073. (DEC-068 and DEC-069 are §16 Amendment
+  > Gate procedure and convening; they are not §19 content.)
 
-- This revision changes §19, the architecture index, the open register and the decision log (DEC-031 … DEC-066). It
-  does not change locked §15–§17, the baseline, the §18 documents or historical material.
+- **Post-lock route [DEC-075 D75-3]:** items recorded as OPEN or DEFERRED in §19.21–§19.22 remain open at the gates
+  named there. Their resolution after lock uses the DEC-063 procedure (§19.26), which DEC-075 D75-3 applies to
+  §19.21–§19.22 items. No other route changes locked §19 text.
+
+- This revision changes §19, the architecture index, the open register and the decision log (DEC-031 … DEC-075). It
+  does not change locked §15–§17, the baseline or historical material.
 
 ## 19.26 Post-Lock Resolution Route [DEC-063]
 

@@ -1,6 +1,7 @@
 > **Document status:** NOT DESIGNED — GATE PENDING
 > **Authority category:** 4 — Conditional/open architecture (see [Authority Hierarchy](../README.md#authority-hierarchy))
 > **Source:** DEC-024 (D-12), DEC-025 (D-13).
+> **Gate structure (pointers only):** Scope and gate structure: DEC-071. ODF-18-07 export disposition: DEC-072.
 > **Normative:** No. **This stub contains no normative behavior.** It must not be used to invent an audit or event
 > format.
 

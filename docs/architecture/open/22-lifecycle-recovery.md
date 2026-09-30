@@ -1,6 +1,8 @@
 > **Document status:** NOT DESIGNED — GATE PENDING
 > **Authority category:** 4 — Conditional/open architecture (see [Authority Hierarchy](../README.md#authority-hierarchy))
 > **Source:** DEC-021 (D-9), DEC-024 (D-12), DEC-025 (D-13).
+> **Gate structure (pointers only):** Scope and gate structure: DEC-076. Recovery gate identity: DEC-077. Post-lock
+> route: DEC-078.
 > **Normative:** No. **This stub contains no normative behavior.** It must not be used to design an installer,
 > bootstrap, recovery path or key provisioning.
 
@@ -14,8 +16,8 @@
 §19  →  §21  →  §22
 ```
 
-§22 is PHASE 4 of the implementation order ("Design §22 / recovery/lifecycle as required", DEC-025). Recovery
-authority may be handled by a separate recovery gate.
+§22 is PHASE 4 of the implementation order ("Design §22 / recovery/lifecycle as required", DEC-025). The
+recovery gate referenced by §15–§17 is this §22 gate (DEC-077).
 
 ## Known dependency
 

@@ -12,6 +12,9 @@
 > DEC-068 records the procedural framework of the §16 Amendment Gate.
 > DEC-069 convenes the §16 Amendment Gate for OD19-04 and the interpretation of F19-05.
 > DEC-070 records the OD19-04 / F19-05 gate outcome.
+> DEC-071 … DEC-080 record the §21, §22 and P2/K3 gate structures, the ODF-18-07 disposition, the F19-05 index
+> treatment, the §19 locked form and lock, the recovery-gate identity, the §22 post-lock route and the development
+> path.
 
 # SCC Decision Log
 
@@ -87,6 +90,16 @@
 | DEC-068 | §16 Amendment Gate — Procedural framework | CURRENT (adopted — procedural; gate NOT SCHEDULED) |
 | DEC-069 | §16 Amendment Gate — Convening for OD19-04 / F19-05 | CURRENT (adopted — gate OPEN; OD19-04 and F19-05 interpretation admitted, undecided) |
 | DEC-070 | §16 Amendment Gate — OD19-04 / F19-05 Disposition | CURRENT (adopted — OD19-04 Path A; F19-05 enforcement gap; gate NOT SCHEDULED) |
+| DEC-071 | §21 Scope and Gate Structure | CURRENT (adopted — §21 scope and gate structure; §21 NOT DESIGNED; not locked) |
+| DEC-072 | ODF-18-07 Disposition | CURRENT (adopted — ODF-18-07 Option B, mechanism (iii); KF-08 OPEN) |
+| DEC-073 | F19-05 Index Treatment | CURRENT (adopted — F19-05 indexed as KF-12; OPEN — enforcement gap, category (ii)) |
+| DEC-074 | §19 Locked Form | CURRENT (adopted — §19 locked in its existing form) |
+| DEC-075 | §19 Lock | CURRENT (adopted — §19 LOCKED) |
+| DEC-076 | §22 Scope and Gate Structure | CURRENT (adopted — §22 scope and gate structure; §22 NOT DESIGNED; not locked) |
+| DEC-077 | Recovery Gate Identity | CURRENT (adopted — recovery gate = §22 gate) |
+| DEC-078 | §22 Post-Lock Route | CURRENT (adopted — §22 post-lock route; applies after §22 lock) |
+| DEC-079 | Development Path and Phase-6 Entry Criteria | CURRENT (adopted — Phase-6 entry criteria; no implementation authority) |
+| DEC-080 | P2/K3 Gate Structure | CURRENT (adopted — P2/K3 gate structure; not locked) |
 
 ---
 
@@ -5082,3 +5095,894 @@ D70-L1  1. Register OD19-04 row: OPEN → ADDRESSED (§19.21; DEC-054; DEC-070, 
 > **Index note (not owner wording):** DEC-070 records Path A for OD19-04 and interprets F19-05 as an enforcement gap.
 > It does not amend §15–§17, does not index F19-05, and does not satisfy criterion 3. The §16 Amendment Gate returns
 > to NOT SCHEDULED under DEC-068 D68-H.
+
+---
+
+## DEC-071 — §21 Scope and Gate Structure
+
+- **Status:** CURRENT (adopted — §21 scope and gate structure; §21 NOT DESIGNED; not locked)
+- **Source:** Owner adoption authorization for DEC-071 … DEC-080 (2026-09-30), applying the owner-approved
+  decision set of the adoption-preparation pass and the owner rulings of the §21, §19-lock, §22 and P2/K3
+  drafting passes.
+- **Related:** DEC-024; DEC-025; DEC-035; DEC-039; DEC-049; DEC-056; DEC-064; DEC-072; §17.18; A-35; §19.12; register CHANGE-022
+
+```text
+I now authorize application of that exact adoption change set, subject to the controls below.
+
+Apply DEC-071 through DEC-080 exactly as reviewed.
+
+Final numbering:
+
+DEC-071 — §21 Scope and Gate Structure
+DEC-072 — ODF-18-07 Disposition
+DEC-073 — F19-05 Index Treatment
+DEC-074 — §19 Locked Form
+DEC-075 — §19 Lock
+DEC-076 — §22 Scope and Gate Structure
+DEC-077 — Recovery Gate Identity
+DEC-078 — §22 Post-Lock Route
+DEC-079 — Development Path and Phase-6 Entry Criteria
+DEC-080 — P2/K3 Gate Structure
+
+Do NOT renumber them differently.
+
+DEC-071
+--------
+Title:
+§21 Scope and Gate Structure
+
+Use the previously drafted DEC-071 content.
+
+It establishes the §21 scope and gate structure without inventing a hidden post-lock route.
+
+Preserve the owner ruling that §21 should attempt to close all §21-owned normative matters before lock. If an item remains genuinely unresolved, return it to the owner rather than inventing a generic post-lock mechanism.
+
+Do not create a §21 post-lock route.
+```
+
+Decision text (D71-1 … D71-10, adopted by the authorization above):
+
+```text
+D71-1  Authority. §21 is designed under DEC-025 PHASE 3, in the order fixed by DEC-024. It follows
+       the §19 pattern: candidate text, owner dispositions, and a separate lock DEC. No new gate is
+       created.
+D71-2  Lock scope. §21 will lock:
+       (a) the K4 audit-record contract for every event A-35 enumerates (Intent Authorization, Plan
+           Authorization, revalidation, approval acceptance or rejection, cancellation,
+           authorization-administration change), covering the §17.18 field set without redefining it;
+       (b) the meaning of "durably recorded" for DEC-035 R5a;
+       (c) the audit-write failure condition that DEC-035 R5b requires to be surfaced;
+       (d) the architectural scope of sequencing and gap detection;
+       (e) the tamper-evidence claim scope (what SCC may and must not claim), consistent with DEC-072;
+       (f) the minimal event model (D71-3);
+       (g) the export content under DEC-072;
+       (h) K4 audit retention and capacity details within the §19 floors (D71-4).
+       No tamper-evidence mechanism is selected by this decision.
+D71-3  Minimal event model. §21 defines only (A) K4 audit records required by A-35 / §17.18 and
+       (B) operational-condition records where an authoritative source requires one (at present:
+       the DEC-035 R5b audit-write failure condition). §21 creates no general-purpose domain-event bus,
+       no generic event architecture and no generic Attention-item lifecycle. CHANGE-022 is ADDRESSED
+       by this scope decision: no current authoritative requirement establishes a general-purpose
+       domain-event model as part of §21. This is not a finding that such a model is impossible or
+       undesirable.
+D71-4  Retention. K4 audit is "Defined by §21" (§19.12), and "§21 still owns audit format,
+       retention/capacity details and tamper-evidence" (DEC-035). The §19 floors remain binding:
+       DEC-039 R9a, R9e, R9h; DEC-049 R19g. Removal remains governed by §21, §22 and DEC-042
+       (DEC-039). DEC-056 R06a applies only to DC-05. §21 performs DEC-056 R06i: it identifies audit
+       or event records whose retention or resolvability depends on DC-05. Ownership of K4 audit
+       retention is not transferred to §19.
+D71-5  Deferrals. "Implementation" is not an architectural gate. A normative matter is either
+       resolved in §21 or deferred to an established owning gate. A non-normative detail that
+       cannot alter the §21 contract may remain for implementation; it is not an architectural
+       deferral and does not block §21. Existing routes are preserved unchanged: DEC-046 (orphan
+       reporting); DEC-058 / DEC-070 D70-D3(4) (K8 digests, §16 / §21); DEC-053 R03j (K8 capacity,
+       conditional on OD19-03); DEC-044 (K3/K5 logging); §17.24 P-8 (R0 view noise, "Blocks? No").
+D71-6  §22 hand-offs. Owned downstream by §22, with §21 supplying the record contract where one is
+       needed: migrated audit-record representation (DEC-049 R19g); K7/K8 consistency after restore
+       (DEC-047); K8 lifetime evidence (DEC-048 R18i); Local Root Operator lifecycle records
+       (DEC-060; DEC-046 R16c, R16h); recovery/removal interactions (DEC-039; DEC-042 (A));
+       the lifecycle of any SCC-produced export artifact (DEC-072 D72-6).
+D71-7  CHANGE-023 remains explicitly unresolved (DEC-064 item 10). It is outside §21 and is not
+       assigned to any owner.
+D71-8  Lock criteria. §21 may be locked when:
+       1. every §21-owned item is decided or explicitly deferred to a named/established gate where
+          required;
+       2. ODF-18-07 is dispositioned;
+       3. the audit contract covers every A-35 event and every §17.18 field and introduces no
+          host-execution facts;
+       4. no accepted decision widens authority, transfers responsibility between K2–K11,
+          contradicts §15–§17, or makes an unauthorized §15/§16 amendment;
+       5. every genuine architectural deferral has an established owning route (interpreted as in
+          D71-5);
+       6. no implementation authority is created, and §21 lock requires a separate explicit
+          owner DEC.
+D71-9  Non-ownership. §21 does not own or redefine: the K8 journal (§16.10), the §17.18 fields,
+       DC-05 retention, recovery, P2, K3, CyberPanel K2, the storage engine or schema, or
+       implementation authority.
+D71-10 Non-effects. No amendment to §15–§17. DEC-001 … DEC-070 unchanged. §21 is not locked.
+       No implementation authority. DEC-029 remains standing.
+```
+
+> **Transcription note (session process):** The decision text is the reviewed draft. Its status line ("CANDIDATE —
+> NOT ADOPTED") is omitted. The authorization's other sections (application rules, file requirements, prohibited
+> changes, validation, commit rule) governed only this change set and are omitted.
+
+> **Index note (not owner wording):** DEC-071 fixes the §21 scope, minimal event model and six lock criteria. It
+> does not lock §21, create a §21 post-lock route, amend §15–§17 or authorize implementation.
+
+---
+
+## DEC-072 — ODF-18-07 Disposition
+
+- **Status:** CURRENT (adopted — ODF-18-07 Option B, mechanism (iii); KF-08 OPEN)
+- **Source:** Owner adoption authorization for DEC-071 … DEC-080 (2026-09-30), applying the owner-approved
+  decision set of the adoption-preparation pass and the owner rulings of the §21, §19-lock, §22 and P2/K3
+  drafting passes.
+- **Related:** DEC-071; §18 owner-decision gate §8 (ODF-18-07); KF-08; §15.4 item 6; §16.1.3; register ODF-18-07
+
+```text
+I now authorize application of that exact adoption change set, subject to the controls below.
+
+Apply DEC-071 through DEC-080 exactly as reviewed.
+
+Final numbering:
+
+DEC-071 — §21 Scope and Gate Structure
+DEC-072 — ODF-18-07 Disposition
+DEC-073 — F19-05 Index Treatment
+DEC-074 — §19 Locked Form
+DEC-075 — §19 Lock
+DEC-076 — §22 Scope and Gate Structure
+DEC-077 — Recovery Gate Identity
+DEC-078 — §22 Post-Lock Route
+DEC-079 — Development Path and Phase-6 Entry Criteria
+DEC-080 — P2/K3 Gate Structure
+
+Do NOT renumber them differently.
+
+DEC-072
+--------
+Title:
+ODF-18-07 Disposition
+
+Use the previously drafted DEC-072 content.
+
+The owner ruling is:
+
+ODF-18-07 is dispositioned using mechanism (iii), host-level export outside the SCC runtime.
+
+Do not turn this into a new SCC runtime authority.
+```
+
+Decision text (D72-1 … D72-10, adopted by the authorization above):
+
+```text
+D72-1  ODF-18-07: OPTION B — "Supported but optional". Deployments opt in.
+D72-2  Mechanism (iii): "A host-level export facility administered by root outside the SCC runtime
+       needs no amendment." No §15, §16 or §17 amendment.
+D72-3  No K6 export Operation (mechanism (i)). No K4 egress (mechanism (ii)). §15.4 item 6, §16.1.3
+       and T-31 are unchanged.
+D72-4  The export facility is external, administered by root outside the SCC runtime and outside
+       SCC's security boundary (§15.15). It is not an SCC component. SCC gains no authority over it.
+D72-5  §21 defines the exported audit content, including the anchor-legitimacy record (source text
+       of Options A/B: "§19/§21 define what is exported, and the anchor-legitimacy record is
+       exported too").
+D72-6  Any SCC-produced artifact the facility reads "is a §19 matter" (source). Its lifecycle follows
+       the applicable §19 route and §22's downstream lifecycle/recovery treatment. This gives §19 no
+       ownership of the external export mechanism.
+D72-7  Security consequence (source): "SC-17 becomes conditional on export being enabled. Without
+       export, RR-03 fully applies, including to attribution."
+D72-8  §18 remains conditional/open. This decision does not lock §18 and does not perform the §18
+       post-decision rewrites (SC-17, T-18-09 / SR-12 scoping, SC-09, SRF-18-11). They remain
+       §18 follow-ups.
+D72-9  KF-08 remains OPEN: locked text still provides no export mechanism, and mechanism (iii) lies
+       outside the SCC runtime. Its owner pointer records this disposition.
+D72-10 No implementation authority. DEC-029 remains standing.
+```
+
+> **Transcription note (session process):** The decision text is the reviewed draft. Its status line ("CANDIDATE —
+> NOT ADOPTED") is omitted. The authorization's other sections (application rules, file requirements, prohibited
+> changes, validation, commit rule) governed only this change set and are omitted.
+
+> **Index note (not owner wording):** DEC-072 dispositions ODF-18-07 only. The export facility is outside SCC; KF-08
+> stays OPEN; §18 is not locked.
+
+---
+
+## DEC-073 — F19-05 Index Treatment
+
+- **Status:** CURRENT (adopted — F19-05 indexed as KF-12; OPEN — enforcement gap, category (ii))
+- **Source:** Owner adoption authorization for DEC-071 … DEC-080 (2026-09-30), applying the owner-approved
+  decision set of the adoption-preparation pass and the owner rulings of the §21, §19-lock, §22 and P2/K3
+  drafting passes.
+- **Related:** DEC-058 (F05d); DEC-065 (D65-5); DEC-067; DEC-070; §19.5.3 D19-05; KF-12; §19.24 criterion 3
+
+```text
+I now authorize application of that exact adoption change set, subject to the controls below.
+
+Apply DEC-071 through DEC-080 exactly as reviewed.
+
+Final numbering:
+
+DEC-071 — §21 Scope and Gate Structure
+DEC-072 — ODF-18-07 Disposition
+DEC-073 — F19-05 Index Treatment
+DEC-074 — §19 Locked Form
+DEC-075 — §19 Lock
+DEC-076 — §22 Scope and Gate Structure
+DEC-077 — Recovery Gate Identity
+DEC-078 — §22 Post-Lock Route
+DEC-079 — Development Path and Phase-6 Entry Criteria
+DEC-080 — P2/K3 Gate Structure
+
+Do NOT renumber them differently.
+
+DEC-073
+--------
+Title:
+F19-05 Index Treatment
+
+Use the previously drafted DEC-073 content.
+
+Owner ruling:
+
+F19-05 is indexed.
+
+Use the previously selected treatment:
+
+- Frame 2
+- status:
+  OPEN — enforcement gap, category (ii)
+
+Do not reopen DEC-070's Path A decision.
+
+Do not claim the gap has been resolved merely because it is indexed.
+
+Do not alter §16.
+```
+
+Decision text (D73-1 … D73-5, adopted by the authorization above):
+
+```text
+D73-1  F19-05 is recorded in the architecture index under "Known Findings Against Locked Text" as
+       KF-12, in the scope of §19.5.3 D19-05 as interpreted by DEC-070 (category (ii),
+       enforcement gap).
+D73-2  DEC-065 D65-5 states: "Do not add F19-05 or F19-06 to the Known Findings table." The owner
+       prospectively determines that this instruction no longer applies to F19-05, with effect from
+       this decision. The other D65-5 instructions are unaffected. DEC-065 is unchanged and remains
+       the historical record of the instruction as given.
+D73-3  KF-12 status: OPEN — enforcement gap, category (ii). The register's F19-05 status (ADDRESSED:
+       the interpretation has been addressed, DEC-070 D70-I3) is distinct from the Known Finding's
+       status (OPEN: the gap persists).
+D73-4  Indexing does not change category (ii), establish a new defect category, amend §15 or §16,
+       resolve the enforcement gap, or alter DEC-070. DEC-058 F05d is followed: the addition is made
+       by owner decision and change set, without modifying locked text.
+D73-5  No implementation authority. DEC-029 remains standing.
+```
+
+> **Transcription note (session process):** The decision text is the reviewed draft. Its status line ("CANDIDATE —
+> NOT ADOPTED") is omitted. The authorization's other sections (application rules, file requirements, prohibited
+> changes, validation, commit rule) governed only this change set and are omitted.
+
+> **Index note (not owner wording):** DEC-073 indexes F19-05 as KF-12 (OPEN — enforcement gap, category (ii)).
+> DEC-065 and DEC-070 are unchanged; the gap is not resolved.
+
+---
+
+## DEC-074 — §19 Locked Form
+
+- **Status:** CURRENT (adopted — §19 locked in its existing form)
+- **Source:** Owner adoption authorization for DEC-071 … DEC-080 (2026-09-30), applying the owner-approved
+  decision set of the adoption-preparation pass and the owner rulings of the §21, §19-lock, §22 and P2/K3
+  drafting passes.
+- **Related:** DEC-023; DEC-030 (Q2); DEC-064 (item 3); DEC-075
+
+```text
+I now authorize application of that exact adoption change set, subject to the controls below.
+
+Apply DEC-071 through DEC-080 exactly as reviewed.
+
+Final numbering:
+
+DEC-071 — §21 Scope and Gate Structure
+DEC-072 — ODF-18-07 Disposition
+DEC-073 — F19-05 Index Treatment
+DEC-074 — §19 Locked Form
+DEC-075 — §19 Lock
+DEC-076 — §22 Scope and Gate Structure
+DEC-077 — Recovery Gate Identity
+DEC-078 — §22 Post-Lock Route
+DEC-079 — Development Path and Phase-6 Entry Criteria
+DEC-080 — P2/K3 Gate Structure
+
+Do NOT renumber them differently.
+
+DEC-074
+--------
+Title:
+§19 Locked Form
+
+Use the previously drafted DEC-074 content, which was formerly draft DEC-076.
+
+The owner selected:
+
+1-A — lock §19 in its existing form.
+
+Important:
+- do NOT clean-transcribe §19
+- preserve its DEC tags
+- preserve its normative classification/findings structure
+- preserve its gate/lock record
+- do not rewrite locked §15–§17
+- DEC-030 Q2 remains specifically applicable to §15, §16 and §17
+- §19 may become Category 1 prospectively once locked
+```
+
+Decision text (D74-1 … D74-5, adopted by the authorization above):
+
+```text
+D74-1  §19 may be locked in its existing form. No clean transcription is made.
+D74-2  The [DEC-0xx] tags remain, as DEC-064 item 3 requires. The §19.5.3 compatibility and findings
+       material remains, as analogous to the compatibility, conflict and gate material retained in
+       locked §15.16/§15 Gate Assessment, §16.16 and §17's gate sections. The §19 gate and lock record
+       remains.
+D74-3  DEC-030 Q2 governs §15, §16 and §17 by name. README's locked-document statements are read with
+       that scope. From §19's lock forward they are clarified prospectively, not rewritten.
+D74-4  On §19's lock (DEC-075), §19 joins Category 1 prospectively. DEC-023 and §19's earlier
+       Category 4 classification remain historical.
+D74-5  Only the status, location and lock bookkeeping that DEC-075 requires changes. No authority is
+       widened. No §15–§17 amendment. No implementation authority; DEC-029 stands.
+```
+
+> **Transcription note (session process):** The decision text is the reviewed draft previously labelled DEC-076,
+> renumbered under the owner's numbering ruling: D76-1 … D76-5 → D74-1 … D74-5; "DEC-074" (the §19 lock) → DEC-075.
+> The draft status line is omitted. The authorization's other sections (application rules, file requirements,
+> prohibited changes, validation, commit rule) governed only this change set and are omitted.
+
+> **Index note (not owner wording):** DEC-074 fixes the form in which §19 is locked. The lock itself is DEC-075.
+
+---
+
+## DEC-075 — §19 Lock
+
+- **Status:** CURRENT (adopted — §19 LOCKED)
+- **Source:** Owner adoption authorization for DEC-071 … DEC-080 (2026-09-30), applying the owner-approved
+  decision set of the adoption-preparation pass and the owner rulings of the §21, §19-lock, §22 and P2/K3
+  drafting passes.
+- **Related:** DEC-063; DEC-064; DEC-067; DEC-070; DEC-073; DEC-074; §19.24; §19.25; §19.26. Adopted after DEC-073 and DEC-074.
+
+```text
+I now authorize application of that exact adoption change set, subject to the controls below.
+
+Apply DEC-071 through DEC-080 exactly as reviewed.
+
+Final numbering:
+
+DEC-071 — §21 Scope and Gate Structure
+DEC-072 — ODF-18-07 Disposition
+DEC-073 — F19-05 Index Treatment
+DEC-074 — §19 Locked Form
+DEC-075 — §19 Lock
+DEC-076 — §22 Scope and Gate Structure
+DEC-077 — Recovery Gate Identity
+DEC-078 — §22 Post-Lock Route
+DEC-079 — Development Path and Phase-6 Entry Criteria
+DEC-080 — P2/K3 Gate Structure
+
+Do NOT renumber them differently.
+
+DEC-075
+--------
+Title:
+§19 Lock
+
+Use the previously drafted DEC-075 content, formerly draft DEC-074.
+
+DEC-075 is the ACTUAL §19 LOCK DECISION.
+
+It depends on DEC-073 and DEC-074.
+
+Once adopted, §19 becomes locked.
+
+The repository change associated with this lock includes the approved move:
+
+FROM:
+  docs/architecture/open/19-persistence-secrets-data-lifecycle.md
+
+TO:
+  docs/architecture/current/19-persistence-secrets-data-lifecycle.md
+
+Do NOT perform that move during this pass.
+
+Only prepare it as part of the proposed adoption change set.
+
+The lock must not:
+- widen authority
+- amend §15–§17
+- create implementation authority
+- transfer responsibility between K2–K11
+```
+
+Decision text (D75-1 … D75-6, adopted by the authorization above):
+
+```text
+D75-1  Evaluation. §19.24 criteria 1–5 are satisfied (1: DEC-031 … DEC-050; 2: DEC-051 … DEC-057,
+       DEC-064, DEC-070; 3: DEC-067, DEC-073; 4: no violation identified; 5: DEC-064 §C-2).
+D75-2  Lock. §19 is LOCKED as the persistence, secrets and data-lifecycle classification of SCC: the
+       storage domains and data classes of §19.6–§19.7, the ownership and access model of
+       §19.8–§19.10, and invariants S19-01 … S19-15, as established by owner decisions DEC-031 …
+       DEC-067, DEC-070 and DEC-073. (DEC-068 and DEC-069 are §16 Amendment Gate procedure and
+       convening; they are not §19 content.)
+D75-3  Post-lock route. Items recorded as OPEN or DEFERRED in §19.21–§19.22 remain open at the gates
+       named there. Their resolution after lock uses the DEC-063 procedure: a new DEC identifying
+       each §19 passage it changes, and §19 amended to match. This decision applies that procedure
+       to §19.21–§19.22 items beyond the OD19 items, Q19 items and deferred findings named in DEC-063.
+       DEC-063 itself is not rewritten. No other route changes locked §19 text.
+D75-4  Authority tier. From this decision forward, §19 is added to the locked-architecture authority
+       tier (Category 1). DEC-023 remains the historical record. §19's earlier Category 4
+       classification remains historical. The hierarchy is supplemented prospectively, not rewritten.
+       The locked form is established by DEC-074.
+D75-5  Documentation state. On adoption, §19 moves from docs/architecture/open/ to
+       docs/architecture/current/ (convention: current/15-…, 16-…, 17-… hold the locked texts), and
+       its status header follows the locked-document convention.
+D75-6  No implementation authority. DEC-029 remains standing. §15–§17 are unchanged.
+```
+
+> **Transcription note (session process):** The decision text is the reviewed draft previously labelled DEC-074,
+> renumbered under the owner's numbering ruling: D74-1 … D74-6 → D75-1 … D75-6; D75-4 cites DEC-074 as the form
+> decision. The draft status line is omitted. The authorization's other sections (application rules, file
+> requirements, prohibited changes, validation, commit rule) governed only this change set and are omitted.
+
+> **Index note (not owner wording):** DEC-075 is the §19 lock. §19 moves to current/ and joins Category 1
+> prospectively; DEC-023 is not rewritten. No implementation authority.
+
+---
+
+## DEC-076 — §22 Scope and Gate Structure
+
+- **Status:** CURRENT (adopted — §22 scope and gate structure; §22 NOT DESIGNED; not locked)
+- **Source:** Owner adoption authorization for DEC-071 … DEC-080 (2026-09-30), applying the owner-approved
+  decision set of the adoption-preparation pass and the owner rulings of the §21, §19-lock, §22 and P2/K3
+  drafting passes.
+- **Related:** DEC-021; DEC-024; DEC-025; DEC-071 (D71-6); DEC-077; DEC-078; §17.1.5; A-07; T-23; T-29
+
+```text
+I now authorize application of that exact adoption change set, subject to the controls below.
+
+Apply DEC-071 through DEC-080 exactly as reviewed.
+
+Final numbering:
+
+DEC-071 — §21 Scope and Gate Structure
+DEC-072 — ODF-18-07 Disposition
+DEC-073 — F19-05 Index Treatment
+DEC-074 — §19 Locked Form
+DEC-075 — §19 Lock
+DEC-076 — §22 Scope and Gate Structure
+DEC-077 — Recovery Gate Identity
+DEC-078 — §22 Post-Lock Route
+DEC-079 — Development Path and Phase-6 Entry Criteria
+DEC-080 — P2/K3 Gate Structure
+
+Do NOT renumber them differently.
+
+DEC-076
+--------
+Title:
+§22 Scope and Gate Structure
+
+Use the previously drafted DEC-076 content, formerly draft DEC-077.
+
+Owner ruling:
+
+2-A — whole-section lock with explicit deferrals.
+
+§22 owns the lifecycle/recovery/bootstrap mechanics assigned by the existing architecture and owner decisions.
+
+Minimum pre-lock scope:
+
+1. Local Root Operator authority for first-admin bootstrap
+2. first `scc.administrator` membership mechanics
+3. K9 mechanics/authentication
+4. P11 K9 → K4 interface required by bootstrap
+5. bootstrap audit record under §21
+
+No temporary web bootstrap.
+
+K11 installer placement remains outside the minimum §22 subset and remains on the OQ-6 / recovery route.
+
+No partial §22 lock.
+```
+
+Decision text (D76-1 … D76-8, adopted by the authorization above):
+
+```text
+D76-1  Purpose. §22 designs SCC lifecycle and recovery under DEC-025 PHASE 4 ("Design §22 /
+       recovery/lifecycle as required"), in the DEC-024 order.
+D76-2  Ownership. §22 owns the lifecycle, recovery and bootstrap mechanics assigned to it by locked
+       architecture and routed to it by owner decisions: §15.18 OQ-6; §16.15 Q-1 (anchor provisioning
+       mechanics), Q-4, Q-5, Q-7 (refresh); §17.24 P-1 (mechanics), P-5; §17.1.5 bootstrap mechanics;
+       DEC-021; DEC-046 R16c/R16h; the §19.22 rows naming §22; the DEC-071 D71-6 hand-offs.
+       The gate identity follows DEC-077.
+D76-3  Required pre-lock scope, which the Phase-6 dependency needs:
+       (1) Local Root Operator authority for the first-admin bootstrap act;
+       (2) mechanics establishing the first `scc.administrator` membership (A-07; §17.1.5);
+       (3) K9 mechanics and Local Root Operator authentication for that act (R16c; T-29);
+       (4) the P11 K9 → K4 interface as the bootstrap act requires it (K7 is accessible only to
+           identity C, T-23);
+       (5) the bootstrap audit record, under the contract §21 supplies.
+       No temporary web bootstrap (DEC-021). The bootstrap is limited to A-07 (T-29).
+D76-4  Other §22 subjects may remain open at lock if each is explicitly recorded with its owning gate,
+       or as open at §22 under DEC-078.
+D76-5  K11 installer placement remains on its OQ-6 route. It is not in D76-3.
+D76-6  Process: candidate → owner dispositions (recorded as DEC entries in the consolidated decision
+       log, DEC-030 Q4) → a separate lock DEC. There is no partial lock.
+D76-7  Lock criteria. §22 may be locked when:
+       1. every D76-3 item is decided;
+       2. every other §22-owned item is decided, deferred to an established gate, or recorded as open
+          under DEC-078;
+       3. no accepted decision widens authority, transfers responsibility between K2–K11, contradicts
+          §15–§17, or makes an unauthorized §15/§16/§17 amendment;
+       4. no web-reachable recovery or bootstrap path is created (T-29; DEC-021);
+       5. every deferral names its owning gate;
+       6. no implementation authority is created, and the lock is a separate explicit owner DEC.
+D76-8  §22 does not redefine K4, K6, K9, K11 or P11 behavior established by locked architecture.
+       Post-lock changes use DEC-078. No §15–§17 amendment. No implementation authority. DEC-076 does
+       not lock §22.
+```
+
+> **Transcription note (session process):** The decision text is the reviewed draft previously labelled DEC-077,
+> renumbered under the owner's numbering ruling: D77-1 … D77-8 → D76-1 … D76-8; "DEC-077" (self) → DEC-076;
+> "DEC-078" (identity) → DEC-077; "DEC-079" (route) → DEC-078. The draft status line is omitted. The authorization's
+> other sections (application rules, file requirements, prohibited changes, validation, commit rule) governed only
+> this change set and are omitted.
+
+> **Index note (not owner wording):** DEC-076 fixes the §22 scope and gate structure. It does not lock §22; there is
+> no partial lock.
+
+---
+
+## DEC-077 — Recovery Gate Identity
+
+- **Status:** CURRENT (adopted — recovery gate = §22 gate)
+- **Source:** Owner adoption authorization for DEC-071 … DEC-080 (2026-09-30), applying the owner-approved
+  decision set of the adoption-preparation pass and the owner rulings of the §21, §19-lock, §22 and P2/K3
+  drafting passes.
+- **Related:** DEC-076; DEC-078; §15 ("§22 / recovery gate"); §16.15; §17 Local Root Operator row
+
+```text
+I now authorize application of that exact adoption change set, subject to the controls below.
+
+Apply DEC-071 through DEC-080 exactly as reviewed.
+
+Final numbering:
+
+DEC-071 — §21 Scope and Gate Structure
+DEC-072 — ODF-18-07 Disposition
+DEC-073 — F19-05 Index Treatment
+DEC-074 — §19 Locked Form
+DEC-075 — §19 Lock
+DEC-076 — §22 Scope and Gate Structure
+DEC-077 — Recovery Gate Identity
+DEC-078 — §22 Post-Lock Route
+DEC-079 — Development Path and Phase-6 Entry Criteria
+DEC-080 — P2/K3 Gate Structure
+
+Do NOT renumber them differently.
+
+DEC-077
+--------
+Title:
+Recovery Gate Identity
+
+Use the previously drafted DEC-077 content, formerly draft DEC-078.
+
+Owner ruling:
+
+The "recovery gate" referenced by locked §15–§17 and related architecture is the §22 Lifecycle / Recovery gate.
+
+This is an identity/organizational resolution only.
+
+It does NOT:
+- give §22 authority over K4
+- change K6 enforcement
+- change K9 authority
+- create web recovery
+- amend §15–§17
+
+MANDATORY D77-4 WORDING CHANGE
+
+In DEC-077 D77-4, replace the phrase:
+
+"the §22 stub statement is superseded prospectively"
+
+with:
+
+"the §22 stub statement is replaced prospectively by DEC-077."
+
+Do not otherwise change the substance of D77-4.
+```
+
+Decision text (D77-1 … D77-4, adopted by the authorization above):
+
+```text
+D77-1  The "recovery gate" referenced in locked §15 (lines "(§22 / recovery gate)", K9 row, P11,
+       T-29, OQ-6, the K8-unavailable row), §16.15 (Q-4, Q-5) and §17 (the Local Root Operator row,
+       P-5, the T-29 note) is the §22 gate.
+D77-2  This decision resolves gate identity only. Every locked reference stands unchanged:
+       P11 remains K9 → K4 / K6; Local Root Operator authority remains as §17 states; bootstrap
+       mechanics remain §22's (§17.1.5); R16c, T-29, Q-4, Q-5, Q-7, OQ-6 and P-5 are unchanged.
+D77-3  §22's status as the recovery gate grants it no authority over K4. K4 remains the authorization
+       point, K6 the execution enforcer, and K9 the host-local administrative interface. There is no
+       web recovery bypass (T-29).
+D77-4  The §22 stub's statement that recovery authority "may" be handled by a separate gate is
+       replaced prospectively by DEC-077 for documentation purposes. No separate gate is created.
+       No implementation authority.
+```
+
+> **Transcription note (session process):** The decision text is the reviewed draft previously labelled DEC-078,
+> renumbered under the owner's numbering ruling: D78-1 … D78-4 → D77-1 … D77-4; in D77-4 the draft words "is
+> superseded prospectively" are replaced by "is replaced prospectively by DEC-077", as the owner's mandatory wording
+> change requires, with no other change. The draft status line is omitted. The authorization's other sections
+> (application rules, file requirements, prohibited changes, validation, commit rule) governed only this change set
+> and are omitted.
+
+> **Index note (not owner wording):** DEC-077 resolves gate identity only; no locked reference changes and no
+> authority moves.
+
+---
+
+## DEC-078 — §22 Post-Lock Route
+
+- **Status:** CURRENT (adopted — §22 post-lock route; applies after §22 lock)
+- **Source:** Owner adoption authorization for DEC-071 … DEC-080 (2026-09-30), applying the owner-approved
+  decision set of the adoption-preparation pass and the owner rulings of the §21, §19-lock, §22 and P2/K3
+  drafting passes.
+- **Related:** DEC-063 (precedent only); DEC-068; DEC-076; DEC-077
+
+```text
+I now authorize application of that exact adoption change set, subject to the controls below.
+
+Apply DEC-071 through DEC-080 exactly as reviewed.
+
+Final numbering:
+
+DEC-071 — §21 Scope and Gate Structure
+DEC-072 — ODF-18-07 Disposition
+DEC-073 — F19-05 Index Treatment
+DEC-074 — §19 Locked Form
+DEC-075 — §19 Lock
+DEC-076 — §22 Scope and Gate Structure
+DEC-077 — Recovery Gate Identity
+DEC-078 — §22 Post-Lock Route
+DEC-079 — Development Path and Phase-6 Entry Criteria
+DEC-080 — P2/K3 Gate Structure
+
+Do NOT renumber them differently.
+
+DEC-078
+--------
+Title:
+§22 Post-Lock Route
+
+Use the previously drafted DEC-078 content, formerly draft DEC-079.
+
+Owner ruling:
+
+After §22 is locked, changes occur only through a new explicit DEC resolving an OPEN/DEFERRED item or a consequential change required by an adopted DEC of another gate.
+
+Any resulting §22 amendment must match the adopted decision.
+
+Do not create a generic architecture authority.
+
+Do not use this route to amend §15–§17 without the proper amendment path.
+```
+
+Decision text (D78-1 … D78-4, adopted by the authorization above):
+
+```text
+D78-1  After §22 is locked, locked §22 text changes only through a new DEC that (a) resolves an item
+       recorded as OPEN or DEFERRED in locked §22, or (b) records a consequential change required by
+       an adopted DEC of another established gate that resolves a dependency locked §22 records.
+D78-2  The DEC identifies each §22 passage it changes, and §22 is amended to match. No other route
+       changes locked §22 text. Silent edits are not permitted.
+D78-3  This route cannot widen authority, transfer responsibility between K2–K11, or amend §15, §16
+       or §17. A change requiring such an amendment must use the applicable established amendment
+       path (for §16: the §16 Amendment Gate, DEC-068). Where no amendment path is established, the
+       change cannot proceed through this route.
+D78-4  This route creates no general architecture-change authority. It does not apply to §19
+       (DEC-063), §21 or any other section. Historical decisions are preserved.
+```
+
+> **Transcription note (session process):** The decision text is the reviewed draft previously labelled DEC-079,
+> renumbered under the owner's numbering ruling: D79-1 … D79-4 → D78-1 … D78-4. The draft status line is omitted.
+> The authorization's other sections (application rules, file requirements, prohibited changes, validation, commit
+> rule) governed only this change set and are omitted.
+
+> **Index note (not owner wording):** DEC-078 applies only after §22 is locked and only to §22. It is not a general
+> amendment route.
+
+---
+
+## DEC-079 — Development Path and Phase-6 Entry Criteria
+
+- **Status:** CURRENT (adopted — Phase-6 entry criteria; no implementation authority)
+- **Source:** Owner adoption authorization for DEC-071 … DEC-080 (2026-09-30), applying the owner-approved
+  decision set of the adoption-preparation pass and the owner rulings of the §21, §19-lock, §22 and P2/K3
+  drafting passes.
+- **Related:** DEC-024; DEC-025; DEC-029; DEC-071; DEC-075; DEC-076; DEC-077; DEC-078; DEC-080; ODF-18-06; OD19-01
+
+```text
+I now authorize application of that exact adoption change set, subject to the controls below.
+
+Apply DEC-071 through DEC-080 exactly as reviewed.
+
+Final numbering:
+
+DEC-071 — §21 Scope and Gate Structure
+DEC-072 — ODF-18-07 Disposition
+DEC-073 — F19-05 Index Treatment
+DEC-074 — §19 Locked Form
+DEC-075 — §19 Lock
+DEC-076 — §22 Scope and Gate Structure
+DEC-077 — Recovery Gate Identity
+DEC-078 — §22 Post-Lock Route
+DEC-079 — Development Path and Phase-6 Entry Criteria
+DEC-080 — P2/K3 Gate Structure
+
+Do NOT renumber them differently.
+
+DEC-079
+--------
+Title:
+Development Path and Phase-6 Entry Criteria
+
+Use the revised content below.
+
+DEC-079 D79-5
+
+Use exactly this formulation:
+
+D79-5
+PHASE 5 is complete only when the P2/K3 gate structure established by DEC-080 has been fully designed, dispositioned, and separately locked by an explicit owner DEC, with no unresolved Phase-6-blocking architectural question.
+
+DEC-080 is NOT itself the P2/K3 lock.
+
+The eventual P2/K3 lock MUST be a separate explicit owner DEC.
+```
+
+Decision text (D79-1 … D79-9, adopted by the authorization above):
+
+```text
+D79-1  DEC-025 PHASE 6 "completed persistence/audit/lifecycle gates" means the applicable gates are
+       explicitly completed or locked by owner DEC. Drafting, design or committed documentation
+       alone does not satisfy Phase-6 entry.
+D79-2  The applicable gates are: §19 (locked by DEC-075); §21 (locked by its own lock DEC under
+       DEC-071); §22 (locked by its own lock DEC under DEC-076, with the required pre-lock scope of
+       DEC-076 D76-3 decided, and the DEC-078 route established before any §22 lock that leaves
+       items open).
+D79-3  The minimum lifecycle scope before Phase 6 is DEC-076 D76-3: Local Root Operator bootstrap
+       authority; first `scc.administrator` membership mechanics; K9 bootstrap mechanics and
+       authentication; the P11 K9 → K4 interface as the bootstrap act requires it; the bootstrap
+       audit record under §21. No temporary web bootstrap (DEC-021).
+D79-4  K11 installer placement is outside that scope. It remains on the OQ-6 route (recovery gate =
+       §22, DEC-077). It may be required for a runnable deployment.
+D79-5  PHASE 5 is complete only when the P2/K3 gate structure established by DEC-080 has been fully
+       designed, dispositioned, and separately locked by an explicit owner DEC, with no unresolved
+       Phase-6-blocking architectural question.
+       DEC-080 is NOT itself the P2/K3 lock.
+       The eventual P2/K3 lock MUST be a separate explicit owner DEC.
+D79-6  ODF-18-06 (request-bound assertions) is NON-BLOCKING and belongs to the Platform Adapter
+       gate. It does not block P2 lock, §21, §22 or Phase 6, and requires no §15/§16/§17 amendment.
+       It is not a Phase-5 prerequisite.
+D79-7  CyberPanel K2 implementation is not required to declare the platform-neutral P2/K3
+       architecture complete.
+D79-8  OD19-01 remains unresolved (DEC-051 R01b coordination). It blocks actual
+       assertion-verification implementation, not the abstract K4 authorization-and-audit core.
+D79-9  The DEC-024/DEC-025 sequencing is preserved. No implementation authority is created. DEC-029
+       remains standing. §15–§17 are unchanged.
+```
+
+> **Transcription note (session process):** The decision text is the owner-supplied text of the adoption-preparation
+> message, laid out in the log's indented format without changing its words. D79-5 uses the formulation given in the
+> adoption authorization. The authorization's other sections (application rules, file requirements, prohibited
+> changes, validation, commit rule) governed only this change set and are omitted.
+
+> **Index note (not owner wording):** DEC-079 interprets DEC-025 Phase-6 entry. It creates no implementation
+> authority; Phase 6 is not entered.
+
+---
+
+## DEC-080 — P2/K3 Gate Structure
+
+- **Status:** CURRENT (adopted — P2/K3 gate structure; not locked)
+- **Source:** Owner adoption authorization for DEC-071 … DEC-080 (2026-09-30), applying the owner-approved
+  decision set of the adoption-preparation pass and the owner rulings of the §21, §19-lock, §22 and P2/K3
+  drafting passes.
+- **Related:** DEC-025 (PHASE 5); DEC-026; DEC-051; DEC-079; §15.6; §15.10; §15.12; §17.2; §17.22; CyberPanel K2 gate
+
+```text
+I now authorize application of that exact adoption change set, subject to the controls below.
+
+Apply DEC-071 through DEC-080 exactly as reviewed.
+
+Final numbering:
+
+DEC-071 — §21 Scope and Gate Structure
+DEC-072 — ODF-18-07 Disposition
+DEC-073 — F19-05 Index Treatment
+DEC-074 — §19 Locked Form
+DEC-075 — §19 Lock
+DEC-076 — §22 Scope and Gate Structure
+DEC-077 — Recovery Gate Identity
+DEC-078 — §22 Post-Lock Route
+DEC-079 — Development Path and Phase-6 Entry Criteria
+DEC-080 — P2/K3 Gate Structure
+
+Do NOT renumber them differently.
+
+DEC-080
+--------
+Title:
+P2/K3 Gate Structure
+
+Use the previously drafted DEC-080 content exactly in substance.
+```
+
+Decision text (D80-1 … D80-9, adopted by the authorization above):
+
+```text
+D80-1  Authority. Designed under DEC-025 PHASE 5 and DEC-026, within locked §15.6, §15.10 (P2, P3),
+       §15.12, T-31, §17.2 and §17.22. No new gate beyond the P2 gate DEC-026 establishes; its scope
+       is stated here.
+D80-2  P2 scope (K2 → K3). The platform-neutral protocol elements of DEC-026: message format;
+       assertion format and contents sufficient for the §17 Authentication Context (assertion ID,
+       platform, subject, authentication time, method claims) and lifetime (§15.18 OQ-3); audience
+       binding; nonce/session binding; freshness and replay resistance; request binding as locked
+       §15.10 states it (not bound to request content); error model; transport (local-only);
+       endpoint exposure (T-31); and the signing-/verification-key relationship and rollover model
+       at protocol level (DEC-051 R01h).
+       Excluded: DC-18 storage and provisioning (OD19-01), which remain in DEC-051 coordination.
+D80-3  K3 service-boundary scope (P3, K3 → K4). The contract details locked text leaves open: the
+       request envelope carrying an assertion or SCC session token; the limits of K3's structural
+       (shape) validation, which is not a security control; relay semantics; behavior when K4 is
+       unavailable (no stale state presented as current); prohibited K3 persistence, caching and
+       logging (§15.6; T-19); SCC session semantics and whether session validation state is durable
+       (§19.22 → P2). The request-ID semantics of state-changing requests remain §16/§17 matters
+       ("details §16/§17") and are referenced, not redefined.
+D80-4  Identity flow. K2 → K3 → K4. K4 verifies end-to-end and derives the Authentication Context
+       (§17.2; §17.22 step 1). K3 performs no authorization and does not mint or alter identity. K2
+       has no direct path to K4, K5 or K6.
+D80-5  Platform neutrality. The contract accommodates both K2 relay and a platform-supported proxy
+       route (§15.6: "an adapter choice"). CyberPanel K2 gate questions (K2-Q1 … K2-Q7, including
+       presentation placement KF-01/KF-02, installation and re-registration, `platform_subject_id`
+       stability P-6, OQ-1) are not decided here. Presentation-content design is excluded.
+D80-6  Excluded items. ODF-18-06 stays with the Platform Adapter gate (NON-BLOCKING). OD19-01 stays
+       with the DEC-051 coordination. CHANGE-023 stays unresolved.
+D80-7  Process. Candidate (expanding open/p2-protocol.md) → owner dispositions (DEC entries, DEC-030
+       Q4) → a separate lock DEC. No partial lock. No post-lock route is created now. The candidate
+       closes every P2/K3-owned normative item; if one would remain open, it returns to the owner.
+D80-8  Phase-5 lock criteria. The P2/K3 gate may be locked when:
+       1. every D80-2 element is specified or explicitly deferred to an established gate;
+       2. every D80-3 item is specified within locked §15.6/§15.10;
+       3. the delivered assertion supports every §17.22 step-1 check and every §17 Authentication
+          Context field;
+       4. no CyberPanel-specific K2 question is decided, and both relay and proxy routes remain
+          admissible;
+       5. no accepted decision widens authority, transfers responsibility between K2–K11,
+          contradicts §15–§17, or makes an unauthorized amendment; K3 gains no authorization,
+          identity or state authority;
+       6. every deferral names an established owning gate;
+       7. no implementation authority is created, and the lock is a separate explicit owner DEC.
+D80-9  Non-effects. No §15–§17 amendment. No implementation authority; DEC-029 stands. K2/K3
+       implementation remains subject to this gate's lock (DEC-026) and, for CyberPanel, the
+       CyberPanel K2 gate ("Implementation prohibition until this gate answers K2-Q1").
+```
+
+> **Transcription note (session process):** The decision text is the owner-supplied text of the adoption-preparation
+> message, laid out in the log's indented format without changing its words. The authorization's other sections
+> (application rules, file requirements, prohibited changes, validation, commit rule) governed only this change set
+> and are omitted.
+
+> **Index note (not owner wording):** DEC-080 is the P2/K3 gate structure, not the P2/K3 lock. The lock requires a
+> separate explicit owner DEC (D79-5).

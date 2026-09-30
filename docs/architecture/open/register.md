@@ -84,7 +84,7 @@ architecture index. They are open and are not repeated here.
 | ODF-18-04 | Credential-derived argument slots | **OPEN** | Owner decision; possible §16 amendment (OD-3) |
 | ODF-18-05 | WRITE resource ownership | **OPEN** | Owner decision; possible §16 amendment (OD-5) |
 | ODF-18-06 | Request-bound assertions | **OPEN** | Owner decision; Platform Adapter / P2 |
-| ODF-18-07 | Off-host audit export (option and mechanism) | **OPEN** | Owner decision; §19 / §21; mechanism may affect §15.4 or §16.1.3 |
+| ODF-18-07 | Off-host audit export (option and mechanism) | ADDRESSED | DEC-072 (B, iii) |
 | ODF-18-08 | Minimum approval-key custody | **OPEN** | Owner decision; §22 |
 | ODF-18-09 | Platform-configuration writes | **OPEN** | Owner decision; possible §16 clarification |
 
@@ -114,8 +114,9 @@ architecture index. They are open and are not repeated here.
 
 ## 5A. §19 candidate items (pointers only)
 
-§19 is CANDIDATE — OWNER DISPOSITIONS RECORDED — NOT LOCKED. Its open items are listed here as pointers; the §19
-document is the source. See [`19-persistence-secrets-data-lifecycle.md`](19-persistence-secrets-data-lifecycle.md).
+§19 is LOCKED (DEC-075). Its open items are listed here as pointers; the §19 document is the source. Items recorded
+as OPEN or DEFERRED in §19.21–§19.22 are resolved through the route in DEC-075 D75-3. See
+[`19-persistence-secrets-data-lifecycle.md`](../current/19-persistence-secrets-data-lifecycle.md).
 
 | ID | Subject | Status | Pointer / owner |
 |---|---|---|---|
@@ -127,7 +128,7 @@ document is the source. See [`19-persistence-secrets-data-lifecycle.md`](19-pers
 | OD19-06 | Health and evidence history retention | **OPEN** | §19.21; DEC-056; **§19**; §21 and §20 dependency inputs |
 | OD19-07 | Pre-image retention bounds in K11 content | **OPEN** | §19.21; DEC-057; §16 Amendment Gate; §22 |
 | PD19-01 … PD19-20 | Proposed §19 decisions | ADDRESSED | DEC-031 … DEC-050 |
-| F19-05 | Credential-bearing `file.replace` content | ADDRESSED | DEC-058; DEC-070 (enforcement gap, category ii); unindexed — index treatment separate (F05d) |
+| F19-05 | Credential-bearing `file.replace` content | ADDRESSED | DEC-058; DEC-070 (enforcement gap, category ii); indexed as KF-12 (DEC-073) |
 | F19-06 | Approval horizon; approval evidence after K8 loss | **OPEN** | DEC-059; OD19-03; §22; §16 Amendment Gate |
 | F19-07 | K4 visibility of handle state | **REJECTED (as a finding)** | DEC-060; OD19-05 remains OPEN |
 | F19-08 | Generated credentials: provisioning / output | PARTIAL | DEC-061; provisioning half DEC-046; output half OPEN — §16 Amendment Gate |
@@ -140,7 +141,7 @@ document is the source. See [`19-persistence-secrets-data-lifecycle.md`](19-pers
 ## 5B. §16 Amendment Gate items arising from §19 (pointers only)
 
 No §16 text is changed. The §16 Amendment Gate is NOT SCHEDULED (DEC-070; DEC-068 D68-H). The §19 document is the source; see
-§19.21.2 of [`19-persistence-secrets-data-lifecycle.md`](19-persistence-secrets-data-lifecycle.md).
+§19.21.2 of [`19-persistence-secrets-data-lifecycle.md`](../current/19-persistence-secrets-data-lifecycle.md).
 
 | # | Source | Item |
 |---|---|---|
@@ -197,7 +198,7 @@ CHANGE-001 … CHANGE-027. Their current standing:
 | CHANGE-019 | Integration state vocabulary | **OPEN** | Unassigned — no gate currently owns it; baseline ANN-01 |
 | CHANGE-020 | `not_applicable`; "configured"; "supported" | **OPEN** | Unassigned — no gate currently owns it |
 | CHANGE-021 | Many-to-many System ↔ Integration | **OPEN** | Unassigned — no gate currently owns it; baseline ANN-05, ANN-30 |
-| CHANGE-022 | Domain event model; Attention items | **OPEN** | §21 |
+| CHANGE-022 | Domain event model; Attention items | ADDRESSED | DEC-071 D71-3 |
 | CHANGE-023 | Sensitivity classification | PARTIAL | §16.7 exposure modes; classification OPEN — §19; §19.22 attributes it to §21 / owner — discrepancy unresolved |
 | CHANGE-024 | Fallback theme; status semantics; UI integrity | **OPEN** | Per-platform K2 gate; §18 SR-01 (conditional) |
 | CHANGE-025 | SCC lifecycle (install, bootstrap, removal, downgrade) | **OPEN** | §22 |
@@ -210,11 +211,11 @@ CHANGE-001 … CHANGE-027. Their current standing:
 
 | Gate | Status | Stub |
 |---|---|---|
-| §19 Persistence, Secrets & Data Lifecycle | CANDIDATE — OWNER DISPOSITIONS RECORDED — NOT LOCKED | [`19-persistence-secrets-data-lifecycle.md`](19-persistence-secrets-data-lifecycle.md) |
+| §19 Persistence, Secrets & Data Lifecycle | LOCKED (DEC-075) | [`19-persistence-secrets-data-lifecycle.md`](../current/19-persistence-secrets-data-lifecycle.md) |
 | §20 Reconciliation / Desired State / Drift | NOT DESIGNED — GATE PENDING | [`20-reconciliation-desired-state-drift.md`](20-reconciliation-desired-state-drift.md) |
-| §21 Audit / Events | NOT DESIGNED — GATE PENDING | [`21-audit-events.md`](21-audit-events.md) |
-| §22 Lifecycle / Recovery | NOT DESIGNED — GATE PENDING | [`22-lifecycle-recovery.md`](22-lifecycle-recovery.md) |
-| P2 protocol | NOT DESIGNED — GATE PENDING | [`p2-protocol.md`](p2-protocol.md) |
+| §21 Audit / Events | NOT DESIGNED — GATE PENDING; scope and gate structure DEC-071 | [`21-audit-events.md`](21-audit-events.md) |
+| §22 Lifecycle / Recovery | NOT DESIGNED — GATE PENDING; scope and gate structure DEC-076; recovery gate = §22 (DEC-077); post-lock route DEC-078 | [`22-lifecycle-recovery.md`](22-lifecycle-recovery.md) |
+| P2 protocol | NOT DESIGNED — GATE PENDING; P2/K3 scope and gate structure DEC-080 | [`p2-protocol.md`](p2-protocol.md) |
 | CyberPanel K2 gate | OPEN | [`../../platforms/cyberpanel/k2-gate.md`](../../platforms/cyberpanel/k2-gate.md) |
 | §16 Amendment Gate | NOT SCHEDULED (DEC-070; DEC-068 D68-H); procedure DEC-068 | §5B |
 | §19 Owner Decision Gate | OPEN (DEC-064) | OD19-02, OD19-03, Q19-01, Q19-03, Q19-05, Q19-06 (§19.21, §19.21.1) |

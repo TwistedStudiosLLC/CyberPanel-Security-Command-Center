@@ -1,6 +1,8 @@
 > **Document status:** NOT DESIGNED — GATE PENDING
 > **Authority category:** 4 — Conditional/open architecture (see [Authority Hierarchy](../README.md#authority-hierarchy))
 > **Source:** DEC-026 (D-14).
+> **Gate structure (pointers only):** P2/K3 scope and gate structure: DEC-080 (covers P2 and the P3 K3 → K4 service
+> boundary).
 > **Normative:** No. **This stub contains no normative behavior.** It must not be used to invent the P2 protocol.
 
 # P2 — K2 ↔ K3 Protocol
