@@ -83,7 +83,7 @@ set of definitions can compete with the locked text.
 
 | Document | Status |
 |---|---|
-| [`decisions/decision-log.md`](decisions/decision-log.md) | **CURRENT — OWNER DECISIONS** (DEC-001 … DEC-080) |
+| [`decisions/decision-log.md`](decisions/decision-log.md) | **CURRENT — OWNER DECISIONS** (DEC-001 … DEC-081) |
 
 ### Category 3 — Foundational principles
 

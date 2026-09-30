@@ -53,9 +53,13 @@ backup/restore, upgrade/migration and recovery *dependencies*; cross-boundary da
 
 ## 19.3 Authority
 
-This document is Category 4 (conditional/open). Where it conflicts with §15, §16, §17 or the decision log, those
-control. Where it conflicts with the foundational baseline, this candidate does **not** override the baseline until
-locked; conflicts are listed in §19.5.3. Historical material (forensic audit, §18 gate review) is evidence only.
+This document is Category 1 (locked architecture) from DEC-075 forward; its earlier Category 4 classification is
+historical [DEC-075 D75-4; DEC-081]. Where it conflicts with §15, §16 or §17, those control. Otherwise the DEC-023
+hierarchy governs: a decision-log entry does not supersede this text, and a change to it takes effect only when this
+document is amended to match an owner decision [DEC-081]. The decision log is the authoritative record of the
+complete owner wording [DEC-064]. Where this document conflicts with the foundational baseline, the baseline override
+rule (DEC-014) and DEC-023 apply; conflicts are listed in §19.5.3. Historical material (forensic audit, §18 gate
+review) is evidence only.
 
 ## 19.4 Governing Locked Constraints
 
@@ -479,6 +483,7 @@ No §16 text is changed.
 | — | F19-05 known-findings index treatment (KF-12) | DEC-073 |
 | — | §19 locked form | DEC-074 |
 | — | §19 lock | DEC-075 |
+| — | §19.3 post-lock authority statement | DEC-081 |
 
 ## 19.24 Gate Criteria
 

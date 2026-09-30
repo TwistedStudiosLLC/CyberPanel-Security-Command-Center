@@ -15,6 +15,7 @@
 > DEC-071 … DEC-080 record the §21, §22 and P2/K3 gate structures, the ODF-18-07 disposition, the F19-05 index
 > treatment, the §19 locked form and lock, the recovery-gate identity, the §22 post-lock route and the development
 > path.
+> DEC-081 records the §19.3 post-lock authority statement.
 
 # SCC Decision Log
 
@@ -100,6 +101,7 @@
 | DEC-078 | §22 Post-Lock Route | CURRENT (adopted — §22 post-lock route; applies after §22 lock) |
 | DEC-079 | Development Path and Phase-6 Entry Criteria | CURRENT (adopted — Phase-6 entry criteria; no implementation authority) |
 | DEC-080 | P2/K3 Gate Structure | CURRENT (adopted — P2/K3 gate structure; not locked) |
+| DEC-081 | §19.3 Post-Lock Authority Statement | CURRENT (adopted — one-time explicit owner amendment of §19.3; DEC-023 hierarchy governs locked §19) |
 
 ---
 
@@ -5986,3 +5988,136 @@ D80-9  Non-effects. No §15–§17 amendment. No implementation authority; DEC-0
 
 > **Index note (not owner wording):** DEC-080 is the P2/K3 gate structure, not the P2/K3 lock. The lock requires a
 > separate explicit owner DEC (D79-5).
+
+---
+
+## DEC-081 — §19.3 Post-Lock Authority Statement
+
+- **Status:** CURRENT (adopted — one-time explicit owner amendment of §19.3; DEC-023 hierarchy governs locked §19)
+- **Source:** Owner authorization for DEC-081 (2026-09-30): ruling B(i) and confirmations 1–7, approving the
+  reviewed DEC-081 draft and the exact §19.3 replacement.
+- **Related:** DEC-023; DEC-063; DEC-064 (item 3); DEC-074 (D74-1); DEC-075 (D75-3, D75-4); §19.3; §19.23
+
+```text
+OWNER AUTHORIZATION
+
+The owner has reviewed and approved DEC-081.
+
+The owner has selected and LOCKED IN:
+
+B(i) — DEC-023's authority hierarchy governs.
+
+The owner has additionally confirmed:
+
+1. DEC-081 is a ONE-TIME EXPLICIT OWNER AMENDMENT to §19.3.
+
+2. DEC-081 does NOT create a general §19 amendment route.
+
+3. §19.21–§19.22 items continue to use the existing DEC-075
+   D75-3 / DEC-063 route.
+
+4. A future post-lock §19 issue outside §19.21–§19.22 does NOT
+   automatically acquire a route from DEC-081.
+
+5. Such a future issue must return to the owner for an explicit
+   decision.
+
+6. DEC-081 is a procedural one-time authorization to amend §19.3.
+   It is NOT an exception to the Category 1 authority hierarchy.
+
+7. Category 2 does NOT gain authority to silently override Category 1.
+
+EXACT §19.3 REPLACEMENT
+
+Replace ONLY the first paragraph of §19.3 with exactly:
+
+This document is Category 1 (locked architecture) from DEC-075 forward; its earlier Category 4 classification is
+historical [DEC-075 D75-4; DEC-081]. Where it conflicts with §15, §16 or §17, those control. Otherwise the DEC-023
+hierarchy governs: a decision-log entry does not supersede this text, and a change to it takes effect only when this
+document is amended to match an owner decision [DEC-081]. The decision log is the authoritative record of the
+complete owner wording [DEC-064]. Where this document conflicts with the foundational baseline, the baseline override
+rule (DEC-014) and DEC-023 apply; conflicts are listed in §19.5.3. Historical material (forensic audit, §18 gate
+review) is evidence only.
+
+Do NOT modify the §19.3 heading.
+
+Do NOT modify the next paragraph.
+
+Do NOT modify §19.5.3.
+
+Do NOT modify any other §19 text.
+
+CRITICAL PROCEDURAL RULE
+
+DEC-081 is a one-time explicit owner amendment.
+
+It does NOT establish:
+
+- a general §19 amendment procedure
+- a new §19 post-lock route
+- a generic architecture-change route
+- an exception to DEC-023
+- Category 2 override authority
+- any new authority for K2–K11
+
+D81-6 MUST remain exactly as drafted.
+
+Do NOT add language saying that future §19 amendments may use
+DEC-081.
+
+Do NOT add a new route to the register.
+```
+
+Decision text (D81-1 … D81-10, adopted by the authorization above):
+
+```text
+D81-1  Authority and source basis. Owner ruling B(i) on the post-lock review of §19.3. Sources:
+       DEC-023 ("When documents conflict, the higher authoritative category wins."); DEC-064
+       item 3 ("The decision log is the authoritative record of the complete owner wording.");
+       DEC-074 D74-1 (§19 locked in its existing form); DEC-075 D75-3 and D75-4.
+D81-2  Problem. §19.3, locked in its existing form by DEC-074 D74-1, still states "This document is
+       Category 4 (conditional/open)", states that the decision log controls where it conflicts with
+       §19, and states that "this candidate does not override the baseline until locked". DEC-075
+       D75-4 added §19 to Category 1. §19.3 is not an item in §19.21–§19.22, so DEC-075 D75-3 does
+       not reach it.
+D81-3  Category. §19 is Category 1 (locked architecture) from DEC-075 forward (DEC-075 D75-4). Its
+       earlier Category 4 classification is historical.
+D81-4  Precedence (owner ruling B(i)). The DEC-023 hierarchy governs locked §19. Where §19
+       conflicts with §15, §16 or §17, those control. A Category 2 owner decision or decision-log
+       entry does not supersede locked §19 text. The clause of §19.3 stating that the decision log
+       controls where it conflicts with §19 is replaced by this provision. No §19-specific
+       exception permitting Category 2 to override Category 1 is created.
+D81-5  Decision log. The decision log remains the authoritative record of owner decisions, their
+       complete wording and their history (DEC-064 item 3). That role does not make a decision-log
+       entry a substitute for, or a direct override of, the resulting locked §19 text.
+D81-6  Changes to locked §19. An owner decision that requires a change to locked §19 has
+       architectural effect in §19 only when §19 is amended to match it. Items within DEC-075 D75-3
+       use that route (the DEC-063 procedure). This decision creates no other route and does not
+       alter DEC-063 or DEC-075 D75-3.
+D81-7  Amendment made by this decision. This decision is the explicit owner decision identifying
+       §19.3 and amending it to match D81-3 … D81-5. It amends §19.3's first paragraph only, as set
+       out in D81-9. The statement that "this candidate does not override the baseline until
+       locked" no longer applies after DEC-075 and is replaced by a reference to the baseline
+       override rule (DEC-014) and DEC-023.
+D81-8  Non-effects. DEC-023, DEC-064, DEC-074 and DEC-075 are unchanged and remain the historical
+       record; DEC-023 is applied to §19, not rewritten, and was not written for §19. The Category 1
+       and Category 2 definitions are unchanged. No amendment to §15–§17. §19.21–§19.22 and their
+       routing are unchanged. §19's substantive persistence, secrets and data-lifecycle
+       architecture, the §19 lock, §19.5.1 and §19.5.3 are unchanged. §18, §20, §21, §22, P2/K3
+       and the CyberPanel K2 gate are unaffected. No component (K2–K11) gains or loses authority.
+       This decision creates no general hierarchy rule for any other document.
+D81-9  Documentation. §19.3 first paragraph replaced as follows; §19.23 gains a pointer row for
+       DEC-081; the decision log gains this entry, its index row and header note; the README
+       decision range becomes DEC-001 … DEC-081. No other file changes.
+D81-10 No implementation authority. DEC-029 remains standing.
+```
+
+> **Transcription note (session process):** The decision text is the reviewed DEC-081 draft; its status line
+> ("CANDIDATE — NOT ADOPTED") is omitted. The replacement text referred to in D81-9 is the EXACT §19.3 REPLACEMENT
+> reproduced in the authorization above. The authorization's repository-state, mutation, §19.23, §19.25, decision
+> log, README, files, forbidden-change, validation, commit and output sections governed only this change and are
+> omitted.
+
+> **Index note (not owner wording):** DEC-081 is a one-time explicit owner amendment of §19.3. It creates no general
+> §19 amendment route and no exception to DEC-023; §19.21–§19.22 items continue to use DEC-075 D75-3 / DEC-063. It
+> does not amend §15–§17 and authorizes no implementation.
