@@ -217,7 +217,7 @@ CHANGE-001 … CHANGE-027. Their current standing:
 |---|---|---|
 | §19 Persistence, Secrets & Data Lifecycle | LOCKED (DEC-075) | [`19-persistence-secrets-data-lifecycle.md`](../current/19-persistence-secrets-data-lifecycle.md) |
 | §20 Reconciliation / Desired State / Drift | NOT DESIGNED — GATE PENDING | [`20-reconciliation-desired-state-drift.md`](20-reconciliation-desired-state-drift.md) |
-| §21 Audit / Events | NOT DESIGNED — GATE PENDING; scope and gate structure DEC-071 | [`21-audit-events.md`](21-audit-events.md) |
+| §21 Audit / Events | LOCKED (DEC-085) | [`21-audit-events.md`](../current/21-audit-events.md) |
 | §22 Lifecycle / Recovery | NOT DESIGNED — GATE PENDING; scope and gate structure DEC-076; recovery gate = §22 (DEC-077); post-lock route DEC-078 | [`22-lifecycle-recovery.md`](22-lifecycle-recovery.md) |
 | P2 protocol | NOT DESIGNED — GATE PENDING; P2/K3 scope and gate structure DEC-080 | [`p2-protocol.md`](p2-protocol.md) |
 | CyberPanel K2 gate | OPEN | [`../../platforms/cyberpanel/k2-gate.md`](../../platforms/cyberpanel/k2-gate.md) |

@@ -19,6 +19,7 @@
 > DEC-082 records the §21 Audit Events owner dispositions.
 > DEC-083 and DEC-084 assign the K8 tamper-evidence mechanism and K8 credential-bearing digest handling to the §16
 > Amendment Gate.
+> DEC-085 records the §21 candidate-review dispositions and locks §21.
 
 # SCC Decision Log
 
@@ -108,6 +109,7 @@
 | DEC-082 | §21 Audit Events Owner Dispositions | CURRENT (adopted — §21 owner dispositions; §21 not written, not locked) |
 | DEC-083 | Assignment of the K8 tamper-evidence mechanism to the §16 Amendment Gate | CURRENT (adopted — item assigned, scope A1; gate NOT SCHEDULED; undecided) |
 | DEC-084 | Assignment of K8 credential-bearing digest handling to the §16 Amendment Gate | CURRENT (adopted — item assigned, scope B2; D70-D3(4) "additional" reading closed; gate NOT SCHEDULED; undecided) |
+| DEC-085 | §21 Audit Events Lock | CURRENT (adopted — §21 LOCKED; Category 1 from DEC-085) |
 
 ---
 
@@ -6629,3 +6631,371 @@ D84-5  Non-effects. This decision does not convene the gate, decide the item, re
 
 > **Index note (not owner wording):** DEC-084 is an assignment decision only. It does not convene the §16 Amendment
 > Gate, decide the item, amend §16, modify §19.21.2 or §21, or create implementation authority.
+
+---
+
+## DEC-085 — §21 Audit Events Lock
+
+- **Status:** CURRENT (adopted — §21 LOCKED; Category 1 from DEC-085)
+- **Source:** Owner dispositions of the §21 candidate review (2026-09-30, 2026-10-01): C1–C4, C6, C7 and the
+  approvals F-1, F-2, §21.14, §21.15; owner choices D85-8 … D85-10 (2026-10-01); owner adoption authorization.
+- **Related:** DEC-023; DEC-025; DEC-035; DEC-071 (D71-1 … D71-9); DEC-072; DEC-075 (D75-3, D75-4, D75-5); DEC-076;
+  DEC-079; DEC-080; DEC-081; DEC-082; DEC-083; DEC-084; §17.9; §17.16; §17.18; §17.22; current/21-audit-events.md
+
+```text
+OWNER DISPOSITIONS — §21 CANDIDATE REVIEW (2026-09-30)
+
+3. Apply these owner dispositions exactly
+OQ-C1 — A7 scope
+
+CLOSED — (a).
+
+A7 K6-reported outcome records cover K6 requests issued as Job steps only.
+
+Therefore:
+
+§17.22 step 14 Job execution outcomes are A7.
+SYSTEM observation requests do not receive an A7 merely because K4 issued a K6 request.
+SYSTEM observation authorization remains A1 under §21.13.
+K8 remains the execution evidence for SYSTEM observation.
+Observation content is never copied into §21.
+Do not create a second SYSTEM-observation outcome event.
+
+Update all affected wording, tables, consequences, and adversarial findings so there is no remaining ambiguity.
+
+OQ-C2 — A7 write failure
+
+CLOSED — (a).
+
+If K4 cannot durably record an A7 K6-reported outcome:
+
+the Job does not proceed to its next step;
+the Job does not reach a terminal state requiring that A7 record;
+there is no A7 late-recording mechanism;
+do not extend B1/R5b late-recording semantics to A7;
+K8 remains execution evidence;
+K4 does not treat the Job as having progressed past the point requiring the A7 record.
+
+Do not broaden this into a general statement that every K6 request is audit-fail-closed.
+
+Update §21.6, §21.11, §21.12 and all relevant dependency/adversarial material.
+
+OQ-C3 — Bootstrap record
+
+CLOSED — (a).
+
+The bootstrap A6 record shall contain:
+
+actor_type = Local Root Operator;
+authority_basis = Local Root Operator bootstrap authority (A-07);
+an abstract Local Root Operator authentication reference.
+
+The authentication-reference field must be defined only at the record-contract level by §21.
+
+Its semantics and authentication mechanics belong to §22.
+
+Use the same architectural pattern as p3_request_id:
+
+§21 records the reference;
+§22 later defines what the reference means and how authentication works.
+
+Do not define Local Root Operator authentication mechanics in §21.
+
+Update §21.6, §21.7, §21.14/§21.21/§21.22 where necessary, and downstream dependency wording.
+
+OQ-C4 — Failed authentication identification
+
+CLOSED — (b).
+
+B2 may contain the claimed assertion ID only, explicitly marked unverified.
+
+It must not:
+
+establish Principal attribution;
+establish authenticity of the assertion;
+establish that the claimed subject is the actor;
+contain the raw assertion;
+contain bearer credentials.
+
+Do not retain the claimed platform subject.
+
+Make the distinction explicit between:
+
+an unverified identifier of an authentication attempt, and
+a verified/resolved Principal.
+
+Update the B2 field contract and adversarial review accordingly.
+
+OQ-C5
+
+There is no OQ-C5.
+
+The anchor change_kind vocabulary is a §21-owned proposal and is approved:
+
+added
+revoked
+removed
+modified
+
+Preserve the existing conservative fallback where the §22 anchor representation cannot distinguish revoked from removed.
+
+The record must not imply:
+
+legitimacy;
+authorization;
+completeness;
+absence of unobserved changes.
+OQ-C6 — B1 denial-record failure
+
+CLOSED — (a).
+
+When a denial's own audit record cannot be durably written, B1 contains only the minimal failure-condition information:
+
+condition kind;
+time;
+count;
+
+plus the fields necessary for B1's own identity/sequence/recording metadata.
+
+Do not reproduce:
+
+Actor;
+Principal;
+capability;
+targets;
+full authorization data;
+the original denial record.
+
+Do not turn B1 into a late-recorded denial.
+
+Preserve the distinction between:
+
+“the denial record could not be written”
+
+and
+
+“a failure-condition record documenting that write failure was written.”
+
+Update §21.12 and all affected review material.
+
+4. Additional approved [C21] material
+
+The owner also approves the following:
+
+F-1 — Reason codes
+
+Keep decision / reason_code as recorded audit information without creating a new normative closed reason-code vocabulary in §21.
+
+Reason-code values remain non-normative §21 detail.
+
+Do not create a new reason-code registry.
+
+F-2 — Audit sequence
+
+Approved:
+
+audit_seq is recording order, not event order.
+
+A late-recorded record receives its sequence position when it becomes durably recorded.
+
+timestamp and recorded_at remain distinct.
+
+Do not infer event chronology from audit_seq.
+
+§21.14 verified assertion / failed Principal-state check
+
+Approved.
+
+If the assertion itself was verified and K4 actually resolves a Principal whose Binding or Principal-state check subsequently fails, the resolved Principal may be recorded as the Principal associated with the failed check.
+
+This does not permit Principal attribution from an unverified claim.
+
+§21.15 anchor vocabulary
+
+Approved as above.
+
+OWNER DISPOSITION — OQ-C7 (2026-10-01)
+
+OQ-C7: (a)
+
+When a B3 anchor-change observation record cannot be durably written,
+K4 does not rely on the changed anchor set, for example for approval
+verification, until the observation record is durable.
+
+This does not create a late-recording rule for B3 and does not
+supersede the separately approved A5/SYSTEM late-recording behavior.
+
+OWNER CONFIRMATION — OQ-C7 INTERPRETATION (2026-10-01)
+
+Confirmed: the interpretation of OQ-C7(a) is correct.
+
+The §21 candidate shall mean:
+
+- when a B3 anchor-change observation cannot be durably recorded,
+  K4 does not treat the changed anchor set as established;
+- K4 MUST NOT fall back to a stale, cached, previously observed, or
+  assumed anchor set;
+- §17.16's K11-anchors-unreadable behavior therefore applies:
+  R4 is denied;
+- no B3 late-recording rule is created;
+- the separately approved A5/SYSTEM-observation late-recording behavior
+  remains unchanged.
+
+This is a reliance/authorization-state rule, not a claim that the anchor
+change did not occur.
+
+OWNER CHOICES — D85-8 … D85-10 (2026-10-01)
+
+Owner choices:
+
+D85-8 = A
+D85-9 = A
+D85-10 = A
+
+Rationale/intent:
+
+- §21 becomes Category 1 locked architecture prospectively, following
+  the DEC-075 D75-4 precedent used for §19.
+- The historical Category 4 classification remains historical; DEC-023
+  is not rewritten.
+- §21 moves from docs/architecture/open/ to
+  docs/architecture/current/.
+- §21 is locked in the completed candidate form itself.
+- [OD] tags are replaced with references to DEC-085.
+- Only the required status/header/location/tag bookkeeping changes.
+- No substantive §21 wording is to be rewritten during this transition.
+
+ADOPTION AUTHORIZATION (2026-10-02)
+
+Adoption authorization:
+
+I authorize adoption of DEC-085 exactly as proposed in the reviewed
+dec085-adoption.diff, using the one-commit shape.
+
+Use the D85-8 = A, D85-9 = A, and D85-10 = A choices exactly as
+specified in the proposed adoption.
+
+The adoption is authorized only for the reviewed change set:
+
+1. Adopt DEC-085.
+2. Move §21 from:
+   docs/architecture/open/21-audit-events.md
+   to:
+   docs/architecture/current/21-audit-events.md
+3. Apply the reviewed §21 lock/status/title/tag changes exactly.
+4. Apply the reviewed README bookkeeping exactly.
+5. Apply the reviewed §8 register bookkeeping exactly.
+6. Preserve DEC-001 through DEC-084 exactly.
+7. Do not modify §15, §16, §17, locked §19, §22, §18, P2/K3,
+   CyberPanel/K2 material, or any other architecture text.
+8. Do not perform the separate pointer-cleanup pass mentioned in your
+   notes.
+9. Do not alter the §21.22 "Blocks §21 lock?" column.
+10. Do not make any additional cleanup, normalization, wording,
+    formatting, or reconciliation changes.
+
+Commit shape: ONE local commit containing the complete adoption.
+```
+
+Decision text (D85-1 … D85-13, adopted by the authorization above):
+
+```text
+D85-1  Authority and scope. This decision records the owner's §21 candidate-review dispositions
+       and locks §21 under DEC-071 (D71-1, D71-8). It follows the candidate → owner dispositions →
+       separate lock DEC pattern. Its subject is §21 only.
+D85-2  Owner dispositions (candidate review). The following are recorded as owner decisions and
+       form part of the §21 authority record:
+       C1 = (a)  A7 K6-reported outcome records cover K6 requests issued as Job steps only. SYSTEM
+                 observation requests and SYSTEM cancellation requests do not receive A7; SYSTEM
+                 observation authorization remains A1; K8 remains the execution evidence for SYSTEM
+                 observation; observation content is never copied; no separate SYSTEM-observation
+                 outcome event exists.
+       C2 = (a)  If an A7 record cannot be durably recorded, the Job does not proceed to its next step
+                 and does not reach a terminal state requiring that record, and K4 does not treat the
+                 Job as having progressed past that point. There is no A7 late-recording mechanism;
+                 B1 and DEC-035 R5b semantics do not extend to A7. This applies to Job-step A7 records
+                 only and does not make every K6 request audit-fail-closed.
+       C3 = (a)  The bootstrap A6 record contains `actor_type` = Local Root Operator, `authority_basis`
+                 = Local Root Operator bootstrap authority (A-07), and `lro_auth_ref`: "the Local Root
+                 Operator authentication reference for the bootstrap act, with semantics as
+                 established by §22 (DEC-076 D76-3(3)). §21 records the value K4 receives. It defines
+                 no authentication mechanics, format or lifecycle."
+       C4 = (b)  A B2 failed-authentication record may contain the claimed assertion ID only,
+                 explicitly marked unverified. It does not establish Principal attribution, the
+                 authenticity of the assertion, or that a claimed subject is the Actor, and contains no
+                 raw assertion, no claimed platform subject and no bearer credential.
+       C6 = (a)  When a denial's own record cannot be durably written, B1 contains only condition kind,
+                 time and count, with its own identity, sequence and recording fields. It does not
+                 reproduce the Actor, Principal, capability, targets, authorization data or the denial
+                 record, and is not a late-recorded denial.
+       C7 = (a)  When a B3 anchor-change observation record cannot be durably recorded, K4 does not
+                 treat the changed anchor set as established and MUST NOT fall back to a stale, cached,
+                 previously observed or assumed anchor set; §17.16's K11-anchors-unreadable behaviour
+                 applies (R4 is denied). No B3 late-recording rule is created; the A5 and
+                 SYSTEM-observation late-recording behaviour is unchanged. This is a reliance and
+                 authorization-state rule, not a claim that the anchor change did not occur.
+       There is no C5.
+D85-3  Approved candidate content. Also recorded as owner decisions:
+       F-1    `decision` and `reason_code` are recorded; §21 creates no closed reason-code vocabulary
+              or registry; reason-code values are non-normative §21 detail.
+       F-2    `audit_seq` is recording order, not event order; a late-recorded record receives its
+              position when it becomes durably recorded; `timestamp` and `recorded_at` are distinct;
+              event chronology is not inferred from `audit_seq`.
+       §21.14 Where the assertion was verified and K4 resolved a Principal whose Binding or
+              Principal-state check then failed, the resolved Principal may be recorded as the
+              Principal associated with the failed check. This does not permit attribution from an
+              unverified claim.
+       §21.15 `change_kind` is `added`, `revoked`, `removed` or `modified`; where the §22 anchor
+              representation cannot distinguish `revoked` from `removed`, K4 records the state it
+              observed. The record does not imply legitimacy, authorization, completeness or the
+              absence of unobserved changes.
+D85-4  Completed candidate. The §21 candidate text, as reviewed by the owner on 2026-10-01,
+       incorporates DEC-071, DEC-072, DEC-082, DEC-083, DEC-084 and D85-2 … D85-3, and has no
+       unresolved §21-owned item.
+D85-5  Lock criteria (DEC-071 D71-8). (1) Every §21-owned item is decided (DEC-082; D85-2; D85-3)
+       or explicitly deferred to an established gate (D85-6). (2) ODF-18-07 is dispositioned
+       (DEC-072). (3) The audit contract covers every A-35 event and every §17.18 field, with
+       K6-reported outcome coverage limited by C1, and introduces no host-execution facts,
+       observation content or credential material. (4) No accepted decision widens authority,
+       transfers responsibility between K2–K11, contradicts §15–§17 or locked §19, or makes an
+       unauthorized §15/§16 amendment. (5) Every genuine architectural deferral has an established
+       owning route (D85-6). (6) No implementation authority is created, and this decision is the
+       separate explicit owner lock DEC.
+D85-6  Dependencies and deferrals. These are established routes and do not reopen the §21
+       contract: the §16 Amendment Gate assignments DEC-083 (K8 tamper-evidence mechanism) and
+       DEC-084 (K8 digests of credential-bearing content), the gate being NOT SCHEDULED; locked
+       §19.21.2 rows 1–2 (K8 lifetime identity; K6 acceptance after K8 reinitialization); the
+       DEC-075 D75-3 §19 decision required before any export artifact is produced (DEC-082 D82-6);
+       the §22 recovery and lifecycle dependencies named in §21.22 (DEC-076); and conditional §18
+       material (DEC-072 D72-8). External to §21 and not §21 deferrals: P3 request-ID semantics
+       (B1-B), which affect the P2/K3 lock and Phase 6; and CHANGE-023, which remains outside §21
+       (DEC-071 D71-7).
+D85-7  Lock. §21 becomes locked architecture upon adoption of this decision.
+D85-8  Authority category. From this decision forward, §21 is added to the locked-architecture
+       authority tier (Category 1), supplementing DEC-023 prospectively as DEC-075 D75-4 did for
+       §19. DEC-023 remains the historical record, and §21's earlier Category 4 classification
+       remains historical. The hierarchy is supplemented prospectively, not rewritten.
+D85-9  Documentation state. On adoption, §21 moves from docs/architecture/open/ to
+       docs/architecture/current/, and its status header follows the locked-document convention.
+D85-10 Locked form. §21 is locked in its completed candidate form, retaining its [DEC-0xx] and [L]
+       tags. Each [OD] tag is replaced by a reference to DEC-085, and the status header and title
+       are updated; no other text changes. No clean transcription is made.
+D85-11 No post-lock route. This decision creates no post-lock §21 amendment route. A future change
+       to locked §21 returns to the owner for an explicit decision.
+D85-12 Non-effects. This decision does not lock, amend or change §15, §16, §17, locked §19, §22,
+       §18, P2/K3 or the CyberPanel K2 gate; does not convene the §16 Amendment Gate or decide the
+       DEC-083 or DEC-084 items; does not make the D75-3 §19 export-artifact decision; does not
+       resolve B1-B or CHANGE-023; and does not declare Phase-6 readiness (DEC-079). DEC-001 …
+       DEC-084 are unchanged. No component (K2–K11) gains authority.
+D85-13 No implementation authority. §21 is locked as architecture, not implemented. DEC-029
+       remains standing.
+```
+
+> **Transcription note (session process):** The decision text is the reviewed DEC-085 candidate with the owner's
+> choices for D85-8, D85-9 and D85-10 (all A) in place of the bracketed alternatives; its status line ("CANDIDATE —
+> NOT ADOPTED") is omitted. The owner messages are reproduced from their disposition sections; their verification,
+> consistency-pass, report and repository-rule sections governed only those review steps and are omitted.
+
+> **Index note (not owner wording):** DEC-085 locks §21 and moves it to current/. It does not lock or change §15–§17,
+> §19, §22, §18 or P2/K3, does not decide the DEC-083 or DEC-084 items, creates no post-lock §21 route, and authorizes
+> no implementation.
