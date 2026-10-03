@@ -24,6 +24,7 @@
 > DEC-087 assigns P3 request-ID semantics to the §16 Amendment Gate. DEC-088 records the P2/K3 dispositions and locks
 > the P2/K3 gate.
 > DEC-089 authorizes the first Phase 6 implementation slice: the abstract K4 authorization-and-audit core.
+> DEC-090 records owner interpretations of five Phase 6 authorization semantics questions.
 
 # SCC Decision Log
 
@@ -118,6 +119,7 @@
 | DEC-087 | Assignment of P3 request-ID semantics to the §16 Amendment Gate | CURRENT (adopted — item assigned; gate NOT SCHEDULED; undecided) |
 | DEC-088 | P2/K3 Gate Lock | CURRENT (adopted — P2/K3 LOCKED; Phase 5 complete; Category 1 from DEC-088) |
 | DEC-089 | Phase 6 Implementation Authorization: K4 Authorization and Audit Core | CURRENT (adopted — first Phase 6 implementation slice authorized; no amendment; DEC-029 standing) |
+| DEC-090 | Phase 6 Authorization Semantics Clarification | CURRENT (adopted — owner interpretations for the Phase 6 K4 core; no amendment; corrections documented, not implemented) |
 
 ---
 
@@ -8619,3 +8621,510 @@ D89-21 Non-effects. This decision does not amend or change §15, §16, §17, loc
 > (A3 not exercised), R4a and R5a (R5b not triggered) and the K4 side of the bootstrap act; DC-08 is not written (Q3
 > as adopted). Authorizing steps 1–10 does not authorize every consequence of them (D89-8). It amends nothing and
 > leaves OD19-01 blocking actual assertion verification. Under owner ruling Q7 it carries no Category 1 label.
+
+---
+
+## DEC-090 — Phase 6 Authorization Semantics Clarification
+
+- **Status:** CURRENT (adopted — owner interpretations for the Phase 6 K4 core; no amendment; corrections documented, not implemented)
+- **Source:** Owner DEC-090 request and authorization (2026-10-03); owner rulings on Q5 (option (a)) and Q3 ("any amount")
+  (2026-10-03); owner ruling on Q2 (option C) with the adoption instruction (2026-10-03).
+- **Related:** DEC-023; DEC-029; DEC-081; DEC-088; DEC-089 (D89-4, D89-5, D89-9, D89-10, D89-11, D89-17, Q4); §16.2.2; §16.3; §16.4.1;
+  §16.5; X-16; §17.3; §17.4; §17.5.2; §17.7; §17.8; §17.10; §17.11; §17.14; §17.16; §17.19; §17.20; §17.22; A-13;
+  A-23; A-24; A-26; §19 DC-07 … DC-10; §21.7; P2/K3 §P.4; k4core/IMPLEMENTATION_BOUNDARY.md
+
+```text
+OWNER DEC-090 REQUEST AND AUTHORIZATION (2026-10-03)
+
+============================================================
+2. PURPOSE OF DEC-090
+============================================================
+
+DEC-090 is NOT a new architecture gate.
+
+It is a narrowly scoped owner decision addressing semantic interpretations exposed by the first K4 implementation.
+
+The purpose is to prevent implementation-specific behavior from silently becoming architecture.
+
+DEC-090 MUST NOT:
+
+- amend §15;
+- amend §16;
+- amend §17;
+- amend §19;
+- amend §21;
+- amend §22;
+- amend P2/K3;
+- reopen DEC-089 generally;
+- authorize new subsystems;
+- authorize new authority paths;
+- authorize new implementation scope.
+
+If any question requires amendment to locked architecture, STOP and report that it must go through the appropriate architecture gate.
+
+============================================================
+4. DEC-090 QUESTIONS
+============================================================
+
+DEC-090 must address these five semantic questions.
+
+------------------------------------------------------------
+Q1 — ACTION VS PLAN TIER
+------------------------------------------------------------
+
+Current implementation interpretation:
+
+Where the locked architecture refers to the tier of "the Action or Plan", the applicable tier is the higher of the Action's tier and the Plan's tier for:
+
+- step-up;
+- approval requirement;
+- separation-of-duties evaluation.
+
+The implementation does NOT add an independent requirement that a Plan must "realize" or otherwise contain the Action merely because the Action supplied the tier.
+
+Owner decision:
+
+CONFIRM this interpretation for the current implementation.
+
+Do not invent an additional Action-to-Plan realization rule.
+
+If the locked text does not define such a rule, leave it undefined.
+
+------------------------------------------------------------
+Q2 — K11 approval_required FLAG
+------------------------------------------------------------
+
+Current implementation interpretation:
+
+A Plan step covered by a K11 scope entry with:
+
+approval_required = true
+
+causes the Plan to require approval.
+
+This interpretation must be examined carefully.
+
+Do NOT assume it merely because it is convenient.
+
+Determine from the locked text whether:
+
+A. any applicable flagged scope entry makes the entire Plan approval-required;
+
+B. the flag applies only to the corresponding request;
+
+C. the locked architecture does not define the mapping.
+
+If the mapping is genuinely undefined, DEC-090 must say so rather than invent it.
+
+If an owner interpretation can resolve it without contradicting locked architecture, record that interpretation explicitly.
+
+Do NOT change §17.
+
+------------------------------------------------------------
+Q3 — FUTURE AUTHENTICATION / OBSERVATION TIMES
+------------------------------------------------------------
+
+Current implementation behavior:
+
+An authentication or observation timestamp later than K4's current clock is currently treated as fresh.
+
+We need an explicit owner interpretation.
+
+First verify whether locked text already defines the treatment of future timestamps.
+
+If it does, follow the locked text.
+
+If it does not:
+
+Owner decision should be:
+
+A timestamp materially in the future relative to K4's current clock does NOT satisfy freshness.
+
+Such input must fail closed through the applicable locked denial/error path.
+
+Do not invent a clock-skew tolerance unless the locked architecture already specifies one.
+
+Do not create a new timestamp protocol.
+
+The implementation must not allow an arbitrarily future timestamp to satisfy freshness.
+
+------------------------------------------------------------
+Q4 — ROLE-SUBJECT GRANTS
+------------------------------------------------------------
+
+Current implementation behavior:
+
+Grants whose subject is a built-in Role are ignored because this Phase 6 slice has no path that creates such K7 Grant rows.
+
+This MUST be reviewed carefully.
+
+Do not silently turn:
+
+"this slice cannot create Role Grants"
+
+into:
+
+"Role Grants in K7 are semantically ignored."
+
+Determine whether the locked architecture explicitly specifies how existing Role-subject Grant rows are handled.
+
+If it does, follow that rule.
+
+If it does not:
+
+DEC-090 should NOT invent an ignore rule.
+
+The preferred boundary is:
+
+- this slice does not create Role-subject Grant rows;
+- if such a row is encountered and the locked architecture does not define its treatment, K4 must not silently discard it;
+- implementation should fail closed / report an unsupported semantic rather than inventing behavior.
+
+Do not modify the locked Grant model.
+
+------------------------------------------------------------
+Q5 — REUSED plan_ref / DECISION INVALIDATION
+------------------------------------------------------------
+
+Current implementation behavior:
+
+Committing a different Plan under an existing plan_ref can invalidate an earlier Decision, even when:
+
+- the new Plan belongs to a different Principal; and
+- the new authorization is denied.
+
+This behavior must NOT be accepted merely because it is convenient for the current SQLite implementation.
+
+Determine exactly what §17.11, §17.19, §19, and DEC-089 establish about:
+
+- Plan identity;
+- plan_ref;
+- Decision identity;
+- Principal ownership;
+- invalidation;
+- when a Plan change occurs.
+
+If the locked architecture does not explicitly authorize cross-Principal invalidation from a denied request:
+
+DEC-090 must prohibit that behavior.
+
+The implementation must NOT invalidate an existing Decision belonging to another Principal merely because a denied request reused the same plan_ref.
+
+A denied Plan commit must not create an unrelated cross-Principal state effect.
+
+If the architecture does not provide enough identity semantics to safely determine which prior Decision a Plan mutation relates to:
+
+STOP and report the semantic gap rather than inventing an identity rule.
+
+============================================================
+5. EXPLICITLY OUT OF SCOPE
+============================================================
+
+DEC-090 does NOT decide:
+
+- P2;
+- P3;
+- authentication protocol;
+- Ed25519;
+- CBOR;
+- K6;
+- K8;
+- K11 implementation;
+- K5;
+- Job state;
+- Phase IV;
+- A3;
+- A5;
+- administrative mutation;
+- recovery;
+- CyberPanel;
+- host operations;
+- schema requirements beyond correcting the current implementation if required by DEC-090.
+
+It does not authorize a new implementation slice.
+
+============================================================
+6. IMPLEMENTATION BOUNDARY
+============================================================
+
+DEC-090 must distinguish:
+
+LOCKED ARCHITECTURE
+from
+OWNER INTERPRETATION
+from
+IMPLEMENTATION CHOICE.
+
+Do not promote Python, SQLite, SHA-256, internal data structures, module layout, or other implementation choices into architecture.
+
+The existing:
+
+k4core/IMPLEMENTATION_BOUNDARY.md
+
+may be updated later if DEC-090 is adopted, but do not modify it during the decision-drafting stage unless the adoption procedure explicitly includes the update.
+
+============================================================
+7. DEC-090 DRAFT REQUIREMENTS
+============================================================
+
+Draft DEC-090 as an owner decision.
+
+Do NOT label it Category 1.
+
+Under DEC-023, a decision-log entry is a Category 2 owner decision.
+
+DEC-090 should contain:
+
+- title;
+- purpose/scope;
+- source mapping;
+- Q1 ruling;
+- Q2 ruling;
+- Q3 ruling;
+- Q4 ruling;
+- Q5 ruling;
+- explicit non-effects;
+- statement that DEC-029 remains controlling;
+- statement that no locked architecture document is amended;
+- statement that unresolved semantics remain unresolved where applicable.
+
+Every substantive ruling must distinguish:
+
+"the locked architecture requires this"
+
+from:
+
+"the owner is selecting this interpretation because the locked architecture leaves it open."
+
+============================================================
+8. NO CODE CHANGES YET
+============================================================
+
+Do NOT modify production code during this task.
+
+Do NOT modify tests.
+
+Do NOT modify schema.
+
+Do NOT modify k4core.
+
+Do NOT modify the implementation boundary file yet.
+
+This task is:
+
+inspect → draft → adversarially review → adopt DEC-090.
+
+If a ruling requires a code correction, document the required correction in DEC-090 but do not implement it yet.
+
+============================================================
+OWNER AUTHORIZATION
+============================================================
+
+I authorize preparation, adversarial review, and adoption of DEC-090 exactly within the scope above.
+
+I do NOT authorize implementation changes in this task.
+
+If any of Q1–Q5 cannot be resolved without amending locked architecture, STOP and report the required architecture gate instead of inventing a resolution.
+
+Otherwise adopt DEC-090 in one local commit and stop.
+
+OWNER RULINGS ON Q5 AND Q3 AND ADOPTION INSTRUCTION (2026-10-03)
+
+Proceed with Q5(a), confirm Q3's "any amount" interpretation, draft DEC-090 with the complete source mapping, run the mechanical and independent adversarial reviews, and adopt only if both pass.
+
+No code changes in this task. One local DEC-090 commit, no push, no merge/rebase/force-push/amend.
+
+OWNER RULING ON Q2 AND ADOPTION INSTRUCTION (2026-10-03)
+
+C — fail closed.
+For the specific unresolved case:
+A Plan contains a K11-flagged scope entry, but there is no §17.8 K4 approval trigger, no applicable §17.20 local setting, and no other approval requirement.
+K4 should refuse the Plan as an unsupported case rather than infer that the K6 enforcement flag itself creates a K4 approval requirement.
+That keeps the layers distinct:
+
+* K4: does not treat the K11 flag itself as a Plan-level approval trigger.
+* K6: remains responsible for the locked per-request enforcement of the flag.
+* K4: does not authorize a Plan whose treatment of that flagged-below-R4 case is architecturally undefined.
+* Fail closed: refusal is recorded according to the already-locked audit semantics; don't invent a new approval trigger or authority path.
+
+So the ruling should be recorded explicitly as an owner interpretation, not represented as something already established by §17.
+Proceed with the scratch-draft correction, fresh 57+ mechanical checks, and independent adversarial review. If those pass, adopt DEC-090 in one local commit only. No push, merge, rebase, force-push, or implementation changes.
+```
+
+Decision text (D90-1 … D90-9, adopted by the authorization above):
+
+```text
+D90-1  Authority, subject and form. This decision is an owner decision recorded in the decision log
+       under the DEC-023 authority hierarchy; it carries no Category 1 label and is not an architecture
+       gate. Its subject is five semantic questions exposed by the first PHASE 6 implementation (DEC-089
+       slice; commit 94bfdc1d0c3807cc49753a6d5a332659ec0599a4). Each ruling distinguishes [L] what
+       locked text requires, [OI] what the owner selects because locked text leaves it open, and [U]
+       what remains unresolved. Locked §15, §16, §17, §19, §21, §22 and the locked P2/K3 gate control
+       this decision (DEC-023; DEC-081 B(i)).
+D90-2  Q1 — Action versus Plan tier.
+       [L] §17.10 trigger: "The effective tier of the Action or Plan (§17.5.3), plus any
+           `APPROVAL_REQUIRED` conditions". §17.8: "Which Actions require approval: Effective tier R4,
+           plus any Grant carrying `APPROVAL_REQUIRED`". §17.22 step 6: "Plan tier is the highest
+           effective tier among its steps"; step 8: "Check `AUTH_FRESH` against the tier". §17.8 and
+           §17.20: separation of duties is an optional, narrowing local policy that "can be enabled per
+           tier".
+       [OI] For step-up (whether REAUTH and APPROVAL apply, and the REAUTH maximum age), the approval
+            requirement and the separation-of-duties tier, the applicable tier is the higher of the
+            Action's effective tier and the Plan tier. This confirms the current implementation for
+            these purposes only.
+       [U] §17.5.2 defines a Plan as "The concrete, digested set of steps K4 accepts in order to realize
+           the Action", but no locked rule requires K4 to verify that a Plan realizes or contains its
+           Action. DEC-090 creates no such rule; the question remains undefined.
+D90-3  Q2 — K11 per-scope-entry `approval_required` flag.
+       [L] §16.2.2: scope entries carry an "`approval_required` flag (reserved for §17)". X-16: "Where
+           K11 requires approval evidence, K6 MUST verify signature, anchor, digest binding, expiry and
+           nonce single use." §16.4.1 layer 15 and §16.5: K6 verifies approval evidence where K11
+           requires it, per request. §17.7: `APPROVAL_REQUIRED` "Adds APPROVAL whenever this Grant is
+           used, even below R4. K4 enforces it; K6 enforces it only where K11 also flags the scope
+           entry". §17.8: "Which Actions require approval: Effective tier R4, plus any Grant carrying
+           `APPROVAL_REQUIRED`". §17.20: local settings may "add `APPROVAL_REQUIRED` to tiers below R4".
+           §17.8 authoring rule and A-23: the flag MUST be set on scope entries used by R4 capabilities.
+           Locked consequences: the flag's locked effect is per request, at K6. The K4 approval triggers
+           the locked text states are effective tier R4 (§17.8; §17.10), a Grant carrying
+           `APPROVAL_REQUIRED` (§17.8) and the §17.20 local setting; the flag is not among them. The
+           authoring rule sets a minimum and does not limit the flag to entries used by R4 capabilities;
+           §17.7 contemplates flagged entries used below R4.
+       [U] Whether a Plan that uses a flagged entry, and otherwise requires no approval, requires
+           approval at K4 is not defined by the locked text. That is the only case in which the flag,
+           treated as a Plan-level trigger, could change whether the Plan requires approval. It remains
+           unresolved; DEC-090 does not define it.
+       [OI] Owner ruling (option C, 2026-10-03), an owner interpretation and not something §17
+            establishes:
+           (i) K4 does not treat the K11 flag itself as a Plan-level approval trigger;
+           (ii) K6 remains responsible for the locked per-request enforcement of the flag;
+           (iii) where a Plan contains a K11-flagged scope entry and no other approval requirement
+                 applies (no §17.8 trigger, no applicable §17.20 local setting), K4 does not authorize
+                 the Plan: it refuses it as an unsupported case, failing closed, and records the refusal
+                 under the already-locked audit semantics for Plan Authorization (an A2 denial). No
+                 approval trigger and no authority path is created.
+       D89-22 (recorded only in k4core/IMPLEMENTATION_BOUNDARY.md) states that the flag "remains an
+       additional locked input/condition"; the current implementation reads that as a Plan-wide K4
+       trigger. DEC-090 does not adopt or ratify D89-22; D90-3 governs its flag bullet.
+D90-4  Q3 — Authentication and observation times later than K4's clock.
+       [L] §17.7: `AUTH_FRESH(max_age)` holds when "The Authentication Context's authentication time is
+           within `max_age`"; `PLAN_MAX_AGE(max_age)` when "At Decision time, the Plan's newest input
+           observation is within `max_age`". §17.10: REAUTH requires "the authentication time is within
+           the tier's configured maximum age when the Decision is made". §17.16: "if authorization
+           cannot be positively established, the Action is refused"; A-13: a condition that cannot be
+           evaluated counts as false. No locked text defines clock skew or the treatment of an
+           authentication or observation time later than K4's clock. P2/K3 §P.4.1 ("not yet valid")
+           concerns the assertion's own validity window, checked in step-1 verification, which is
+           abstract in this slice (DEC-089 D89-4); it does not govern authentication-time freshness.
+       [OI] An authentication time or newest-observation time later than K4's current clock, by any
+            amount, does not satisfy `AUTH_FRESH`, REAUTH, `PLAN_MAX_AGE` or the Plan maximum age
+            applied at Decision time (§17.11; §17.19) (owner confirmation of "any amount", 2026-10-03).
+            It fails closed through the existing locked paths only: a condition that does not hold (that
+            Grant does not match; a denial, recorded as A1 or A2, follows where no other Grant covers,
+            §17.4.2), a REAUTH failure (A2 denial) or a Plan maximum-age failure (A2 denial). No
+            clock-skew tolerance, timestamp protocol or error path is created. Introducing a tolerance
+            would require a further owner decision. The current implementation treats such times as
+            fresh and must be corrected (D90-7(b)).
+D90-5  Q4 — Grants whose subject is a built-in Role.
+       [L] §17 Terms: a Grant "confers one Permission on a HUMAN Principal or a Role". §17.4.1: the
+           Grant subject is "`principal_id` (HUMAN only) or a built-in `role_id`". §17.4.2: a Permission
+           is held through "at least one effective Grant (direct, or through an ACTIVE Role
+           Membership)". §17.3: "built-in, immutable, release-defined roles only"; a Role's "Grants are
+           evaluated exactly like direct Grants". §17.20: the release baseline contains the built-in
+           Roles. Locked §19 DC-07: Grants are K7 authorization state. §17.16: unavailable Grant state
+           denies HUMAN Actions, and "if authorization cannot be positively established, the Action is
+           refused".
+       [U] The locked text does not specify how a K7 Grant row whose subject is a built-in `role_id`
+           relates to that Role's release-defined bundle: it permits such a subject while describing
+           Roles as immutable and release-defined. §17.4.2 counts Grants held "through an ACTIVE Role
+           Membership" and §17.3 evaluates a Role's Grants "exactly like direct Grants", but neither
+           says whether a K7 Grant row naming a Role adds to the release-defined Role, which §17.3 calls
+           immutable. That treatment remains unresolved; DEC-090 defines no Role-Grant semantics and
+           does not modify the Grant model.
+       [OI] This slice creates no Role-subject Grant rows (DEC-089 D89-10, D89-11). K4 does not silently
+            ignore one. Where, in an evaluation at §17.22 step 4, 7 or 10, K4 encounters any K7 Grant
+            row whose subject is a Role the evaluated Principal holds through an effective Role
+            Membership, whether or not that row would match, the evaluation fails closed as Grant state
+            that cannot be positively established (§17.16): at steps 4 and 7 the request is denied (A1
+            or A2); at step 10 the approval is rejected (A4). The current implementation's ignore rule
+            is withdrawn and must be corrected (D90-7(c)).
+D90-6  Q5 — `plan_ref`, Plan identity and Decision invalidation (owner selection (a), 2026-10-03).
+       [L] §17.11: "The Decision is bound to `plan_digest`. The Plan refers to its Decision"; "Any
+           change to the Plan changes its digest and requires a new Decision. The old Decision becomes
+           `INVALIDATED`." §17.14 (Plan invalidated: "Its Decision becomes `INVALIDATED`"). A-24.
+           §17.19: a Decision binds the Principal, the Authentication Context reference, the capability
+           set, the Action, the target set, `plan_digest`, the policy revisions, the Grants used, the
+           required step-up and `expires_at`. A-26. §16.3: `plan_ref`'s "Created by" entry is "K4".
+           §21.7: `plan_ref` has origin "K4" (generated by K4). Locked §19 DC-09, DC-10. DEC-089 Q4: K4
+           "may write the locked `INVALIDATED` DC-09 status when the Plan changes, subject to the
+           existing atomicity/audit contract".
+           Locked consequence: a Decision is bound to one Principal, one Action and one `plan_digest`.
+       [U] The locked text does not define what makes a later proposal a change to an existing Plan
+           rather than a new Plan, or how a proposal identifies the Plan it changes; the K5 proposal
+           interface is excluded (DEC-089 D89-5). Plan-change identity remains unresolved and is routed
+           to the §17/K4 Architecture Gate or a later owner decision. DEC-090 creates no Plan-identity
+           rule.
+       [OI] Owner rulings (Q5 option (a)):
+           (i) a denied Plan commit has no invalidation effect (a standing rule);
+           (ii) no Plan commit invalidates a Decision bound to another Principal (a standing rule);
+           (iii) `plan_ref` is generated by K4 and is not taken from the Plan proposal. This is the
+                 owner's reading of the §16.3 "Created by" entry "K4" and the §21.7 Origin "K4"; those
+                 passages describe the P6 request field and the audit field and do not mention the Plan
+                 proposal; (iv) until Plan-change identity is defined, K4 writes no `INVALIDATED` status
+                 in this slice. No Plan change can yet be identified, so the condition "when the Plan
+                 changes" (DEC-089 Q4), and the Plan-change condition of §17.11, D89-9(d) and D89-10(c),
+                 cannot be established; §17.11 is not displaced and applies once identity is defined.
+                 A-24 is unaffected: every authorized Plan commit creates its own new Decision bound to
+                 its own `plan_digest`.
+           The current implementation takes `plan_ref` from the proposal, treats a matching `plan_ref`
+           as Plan identity and invalidates on denied and cross-Principal commits; it must be corrected
+           (D90-7(d)).
+D90-7  Required corrections (documented, not implemented). The following corrections to commit 94bfdc1
+       are required by D90-3 … D90-6. They are not made by this decision and require a separate
+       owner-authorized implementation task:
+       (a) Q2: replace the K11-flag Plan-wide approval trigger with the D90-3(iii) refusal: a Plan that
+           uses a flagged entry and otherwise requires no approval is refused (A2 denial); a Plan that
+           requires approval on another ground is unaffected by the flag as a Plan-level trigger.
+           DEC-090 does not decide which requests within an approval-requiring Plan are
+           approval-requiring.
+       (b) Q3: treat an authentication time or newest-observation time later than K4's clock as not
+           fresh in `AUTH_FRESH`, REAUTH and `PLAN_MAX_AGE`, including the policy Plan maximum age.
+       (c) Q4: replace the Role-subject Grant ignore rule with the D90-5 fail-closed denial at steps 4,
+           7 and 10.
+       (d) Q5: generate `plan_ref` in K4; stop using a proposal-supplied `plan_ref` as Plan identity;
+           write no `INVALIDATED` status; ensure a denied commit has no DC-09 effect and no commit
+           affects another Principal's Decision; preserve A-24, re-basing the current
+           one-Decision-per-digest check, which is keyed on the proposal's `plan_ref`, once `plan_ref`
+           is generated by K4. The re-based check creates no Plan-identity rule and no cross-Principal
+           effect; if it cannot be keyed without one, the key choice returns to the owner.
+       (e) Update k4core/IMPLEMENTATION_BOUNDARY.md and the affected tests to match.
+D90-8  Locked architecture, owner interpretation and implementation choice. Python, SQLite, SHA-256, the
+       K7 schema, internal data structures and module layout remain implementation choices under DEC-089
+       D89-17. They are not architecture and acquire no architectural meaning from DEC-090.
+D90-9  Non-effects. DEC-090 does not amend or change §15, §16, §17, locked §19, locked §21, locked §22
+       or the locked P2/K3 gate, and authorizes no architecture amendment. It does not reopen DEC-089;
+       DEC-089 Q4 stands. DEC-090 does not adopt or ratify D89-22, which remains recorded only in
+       k4core/IMPLEMENTATION_BOUNDARY.md; D90-3 governs its flag bullet. It creates no authority path,
+       no subsystem and no implementation scope, and does not itself authorize any code change. It does
+       not decide P2, P3, authentication protocol, Ed25519, CBOR, K5, K6, K8, K11 implementation, Job
+       state, Phase IV, A3, A5, administrative mutation, recovery, CyberPanel or host operations.
+       DEC-029 remains controlling. Unresolved semantics remain unresolved: Action-to-Plan realization
+       (D90-2), the K4 meaning of a flagged entry in a Plan otherwise requiring no approval and the
+       request-level mapping within an approval-requiring Plan (D90-3), any clock-skew tolerance
+       (D90-4), Role-subject Grant semantics (D90-5) and Plan-change identity (D90-6). No item of
+       DEC-090 may be read as permission to resolve another open question. DEC-001 … DEC-089 are
+       unchanged.
+```
+
+> **Transcription note (session process):** The first owner message is reproduced from its purpose, question,
+> out-of-scope, implementation-boundary, draft-requirement, no-code and authorization sections; its starting-state,
+> source-review, adversarial-review, adoption and final-report sections governed only this change set and are omitted.
+> The second and third owner messages are reproduced in full. The second selects option (a) for Q5 and confirms the
+> "any amount" reading for Q3; the third selects option C for Q2. The options were presented in the pre-adoption
+> reviews of 2026-10-03.
+
+> **Index note (not owner wording):** DEC-090 records owner interpretations for five semantic questions exposed by the
+> first Phase 6 implementation, separating locked requirements from owner interpretations and open questions. It
+> confirms Q1, reverses the implementation's readings on Q2 (a flagged entry in a Plan otherwise requiring no approval
+> is refused) and Q4, sets future times as not fresh (Q3), and for Q5
+> forbids denied and cross-Principal invalidation and suspends `INVALIDATED` writes until Plan-change identity is
+> defined. It amends nothing and implements nothing; corrections are listed in D90-7.
