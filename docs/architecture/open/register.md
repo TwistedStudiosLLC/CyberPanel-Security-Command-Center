@@ -158,6 +158,7 @@ No §16 text is changed. The §16 Amendment Gate is NOT SCHEDULED (DEC-070; DEC-
 | 11 | Q19-02 | Idempotency retention and key reuse (with §22) |
 | — | DEC-083 (DEC-082 D82-5(b)) | K8 tamper-evidence mechanism |
 | — | DEC-084 (DEC-082 D82-17) | K8 digests of credential-bearing content (declared resources) |
+| — | DEC-087 (DEC-080 D80-3; §15.10 P3) | P3 request-ID semantics |
 
 Rows marked — are assigned by owner decision under DEC-068 D68-D and are not items of §19.21.2.
 
@@ -219,7 +220,7 @@ CHANGE-001 … CHANGE-027. Their current standing:
 | §20 Reconciliation / Desired State / Drift | NOT DESIGNED — GATE PENDING | [`20-reconciliation-desired-state-drift.md`](20-reconciliation-desired-state-drift.md) |
 | §21 Audit / Events | LOCKED (DEC-085) | [`21-audit-events.md`](../current/21-audit-events.md) |
 | §22 Lifecycle / Recovery | LOCKED (DEC-086); recovery gate = §22 (DEC-077); post-lock route DEC-078 | [`22-lifecycle-recovery.md`](../current/22-lifecycle-recovery.md) |
-| P2 protocol | NOT DESIGNED — GATE PENDING; P2/K3 scope and gate structure DEC-080 | [`p2-protocol.md`](p2-protocol.md) |
+| P2 protocol | LOCKED (DEC-088); P3 request-ID semantics routed to the §16 Amendment Gate (DEC-087) | [`p2-protocol.md`](../current/p2-protocol.md) |
 | CyberPanel K2 gate | OPEN | [`../../platforms/cyberpanel/k2-gate.md`](../../platforms/cyberpanel/k2-gate.md) |
 | §16 Amendment Gate | NOT SCHEDULED (DEC-070; DEC-068 D68-H); procedure DEC-068 | §5B |
 | §19 Owner Decision Gate | OPEN (DEC-064) | OD19-02, OD19-03, Q19-01, Q19-03, Q19-05, Q19-06 (§19.21, §19.21.1) |

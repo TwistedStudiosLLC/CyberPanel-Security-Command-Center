@@ -21,6 +21,8 @@
 > Amendment Gate.
 > DEC-085 records the §21 candidate-review dispositions and locks §21.
 > DEC-086 records the §22 candidate dispositions and locks §22.
+> DEC-087 assigns P3 request-ID semantics to the §16 Amendment Gate. DEC-088 records the P2/K3 dispositions and locks
+> the P2/K3 gate.
 
 # SCC Decision Log
 
@@ -112,6 +114,8 @@
 | DEC-084 | Assignment of K8 credential-bearing digest handling to the §16 Amendment Gate | CURRENT (adopted — item assigned, scope B2; D70-D3(4) "additional" reading closed; gate NOT SCHEDULED; undecided) |
 | DEC-085 | §21 Audit Events Lock | CURRENT (adopted — §21 LOCKED; Category 1 from DEC-085) |
 | DEC-086 | §22 Lifecycle / Recovery Lock | CURRENT (adopted — §22 LOCKED; bootstrap scope; Category 1 from DEC-086) |
+| DEC-087 | Assignment of P3 request-ID semantics to the §16 Amendment Gate | CURRENT (adopted — item assigned; gate NOT SCHEDULED; undecided) |
+| DEC-088 | P2/K3 Gate Lock | CURRENT (adopted — P2/K3 LOCKED; Phase 5 complete; Category 1 from DEC-088) |
 
 ---
 
@@ -7253,3 +7257,766 @@ D86-13 No implementation authority. §22 is locked as architecture, not implemen
 
 > **Index note (not owner wording):** DEC-086 locks §22 with the D76-3 bootstrap scope decided and O-1 … O-18 open
 > under DEC-078. It does not enter Phase 6, does not change §15–§17, §19 or §21, and authorizes no implementation.
+
+---
+
+## DEC-087 — Assignment of P3 request-ID semantics to the §16 Amendment Gate
+
+- **Status:** CURRENT (adopted — item assigned; gate NOT SCHEDULED; undecided)
+- **Source:** Owner dispositions of the P2/K3 candidate (2026-10-02, two messages); owner adoption authorization.
+- **Related:** DEC-068 (D68-C, D68-D, D68-G, D68-J); DEC-080 (D80-3, D80-8); DEC-082 (D82-13); §15.10 P3; register §5B
+
+```text
+OWNER DISPOSITION — B1-B (2026-10-02)
+
+### B1-B
+
+Choose R1.
+
+Assign:
+
+"P3 request-ID semantics referenced by §15.10"
+
+to the existing §16 Amendment Gate under DEC-068 D68-D.
+
+This establishes the owning route for B1-B.
+
+It does NOT convene the §16 Amendment Gate.
+It does NOT amend §16.
+It does NOT define the P3 request-ID semantics now.
+
+The P2/K3 contract must explicitly state that the semantics remain
+deferred to that established §16 Amendment Gate route.
+
+Do not create a new §17 amendment route.
+
+Do not use R3.
+
+The existing locked §21 `p3_request_id` field remains unchanged.
+
+OWNER DISPOSITION — B1-B CONFIRMED (2026-10-02)
+
+### B1-B
+
+Choose R1.
+
+Assign:
+
+"P3 request-ID semantics referenced by §15.10"
+
+to the existing §16 Amendment Gate under DEC-068 D68-D.
+
+Adopt DEC-087 as part of the P2/K3 lock adoption.
+
+DEC-087:
+
+D87-1 assigns the P3 request-ID semantics to the §16 Amendment Gate.
+
+D87-2 registers the item.
+
+D87-3 preserves all stated non-effects:
+
+- does not convene the §16 gate;
+- does not define P3 request-ID semantics;
+- does not amend §16 or §17;
+- does not create a §17 amendment route;
+- does not alter locked §21 `p3_request_id`;
+- does not create implementation authority;
+- DEC-029 remains in force.
+
+The existing §21 `p3_request_id` field remains unchanged.
+
+ADOPTION AUTHORIZATION
+
+Adoption authorization:
+
+I authorize adoption of DEC-087 and DEC-088 exactly as proposed in the
+reviewed dec087-088-adoption.diff, with the reviewed correction that the
+CBOR and Ed25519 choices are attributed to DEC-088 and not to DEC-026.
+
+I authorize ONE local commit containing both DEC-087 and DEC-088.
+
+DEC-087 is authorized exactly as proposed:
+
+1. Assign "P3 request-ID semantics referenced by §15.10" to the existing
+   §16 Amendment Gate under DEC-068 D68-D.
+2. Register the assignment through the §5B register row.
+3. Do not convene the §16 Amendment Gate.
+4. Do not define the P3 request-ID semantics.
+5. Do not amend §16 or §17.
+6. Do not create a §17 amendment route.
+7. Do not modify locked §21 `p3_request_id`.
+8. Do not create implementation authority.
+9. DEC-029 remains in force.
+
+DEC-088 is authorized exactly as proposed:
+
+1. Adopt the P2/K3 gate lock.
+2. Complete the DEC-079 D79-5 / Phase-5 gate.
+3. Do not enter Phase 6.
+4. Do not create implementation authority.
+
+The following are explicit owner choices under DEC-088 and must NOT be
+attributed to DEC-026, DEC-044, DEC-051, DEC-080, or another prior
+source:
+
+- CBOR assertion encoding;
+- Ed25519 assertion signatures;
+- 60-second maximum assertion lifetime;
+- Unix domain socket transport with OS peer-credential verification;
+- stateful K4-owned SCC sessions;
+- opaque, unsigned session tokens;
+- volatile K4 session validation state;
+- the §15.12 interpretation permitting transient K1/K2 session-token
+  transit subject to the stated non-persistence, non-logging,
+  non-minting, non-altering and non-authorizing restrictions.
+
+The §15.12 interpretation is an owner reading of locked §15 text and is
+NOT an amendment or override of §15.
+
+The role fact is approved exactly as proposed:
+
+- adapter-normalized;
+- restrictive only;
+- cannot independently grant authority;
+- cannot widen K11;
+- cannot bypass K4;
+- cannot override K7;
+- K3 does not evaluate it.
+
+B1-B remains routed to the §16 Amendment Gate by DEC-087 and is not
+resolved by DEC-088.
+
+The following remain unresolved and routed exactly as stated in the
+reviewed package:
+
+- OD19-01;
+- §22 O-4;
+- CyberPanel K2 gate;
+- ODF-18-06;
+- §16 Amendment Gate;
+- DEC-083;
+- DEC-084;
+- §19.21.2 items.
+
+Do not modify or reopen §15, §16, §17, §19, §21 or §22.
+
+Do not modify DEC-001 through DEC-086.
+
+Do not modify the three flagged stale links/references:
+
+1. DEC-026's protected Related line referencing
+   `../open/p2-protocol.md`;
+2. `docs/platforms/cyberpanel/k2-gate.md`'s reference to the old P2 path;
+3. the existing register pointer rows OQ-3 and D-14.
+
+Do not modify D80-7's historical/prose reference to
+`open/p2-protocol.md`.
+
+Those are separate documentation/pointer-cleanup work and are NOT part
+of DEC-087/088.
+
+The P2/K3 document may move from:
+
+docs/architecture/open/p2-protocol.md
+
+to:
+
+docs/architecture/current/p2-protocol.md
+
+with the reviewed locked-form changes.
+
+Preserve the reviewed candidate text exactly except for the explicitly
+authorized dispositions, lock bookkeeping, marker substitutions, title
+and header changes.
+```
+
+Decision text (D87-1 … D87-3, adopted by the authorization above):
+
+```text
+D87-1  Assignment. Under DEC-068 D68-D, the owner assigns to the §16 Amendment Gate the item
+       "P3 request-ID semantics referenced by §15.10" (§15.10 P3: "state-changing requests carry
+       request IDs (details §16/§17)"; DEC-080 D80-3; B1-B).
+D87-2  Registration. The item is registered by this decision and by a pointer in register §5B.
+       Locked §19.21.2 is not modified.
+D87-3  Non-effects. This decision does not convene the gate, define the semantics, amend §16 or §17,
+       create a §17 amendment route, change locked §21's `p3_request_id`, or create
+       implementation authority. DEC-029 remains standing.
+```
+
+> **Transcription note (session process):** The owner messages are reproduced from their disposition sections; their verification, preparation and repository-rule sections governed only those review steps and are omitted.
+
+> **Index note (not owner wording):** DEC-087 is an assignment decision only. It does not convene the §16 Amendment Gate, define P3 request-ID
+> semantics, amend §16 or §17, or create implementation authority.
+
+---
+
+## DEC-088 — P2/K3 Gate Lock
+
+- **Status:** CURRENT (adopted — P2/K3 LOCKED; Phase 5 complete; Category 1 from DEC-088)
+- **Source:** Owner dispositions of the P2/K3 candidate (2026-10-02, two messages); owner adoption authorization.
+- **Related:** DEC-023; DEC-025; DEC-026; DEC-044; DEC-051; DEC-075 (D75-4); DEC-079 (D79-5); DEC-080; DEC-085 (D85-8);
+  DEC-086 (D86-8); DEC-087; §15.6; §15.10; §15.12; T-13; T-19; T-20; T-30; T-31; §17.2; §17.22; A-04; current/p2-protocol.md
+
+```text
+OWNER DISPOSITIONS — P2/K3 CANDIDATE (2026-10-02)
+
+Owner dispositions for the P2/K3 candidate:
+
+### B1-B
+
+Choose R1.
+
+Assign:
+
+"P3 request-ID semantics referenced by §15.10"
+
+to the existing §16 Amendment Gate under DEC-068 D68-D.
+
+This establishes the owning route for B1-B.
+
+It does NOT convene the §16 Amendment Gate.
+It does NOT amend §16.
+It does NOT define the P3 request-ID semantics now.
+
+The P2/K3 contract must explicitly state that the semantics remain
+deferred to that established §16 Amendment Gate route.
+
+Do not create a new §17 amendment route.
+
+Do not use R3.
+
+The existing locked §21 `p3_request_id` field remains unchanged.
+
+### OQ-P1
+
+Choose (b).
+
+The P2/K3 protocol contract must be formally specified before
+implementation, including:
+
+- assertion encoding;
+- signature algorithm;
+- maximum assertion lifetime;
+- transport mechanism.
+
+However, do NOT invent concrete cryptographic, encoding, lifetime or
+transport values merely to satisfy this disposition.
+
+Use only choices supported by the governing architecture and adopted
+decisions.
+
+Where the existing sources establish a concrete value, preserve it.
+
+Where the sources do not support a concrete value, identify the exact
+remaining owner decision required rather than silently inventing one.
+
+Preserve the existing DEC-051 key relationship and all §15 constraints.
+
+Do not introduce a new credential or secret class.
+
+### OQ-P2
+
+Choose (b): STATEFUL SCC SESSIONS.
+
+The contract must establish:
+
+- an assertion can establish a K4-owned SCC session;
+- K4 owns session validation state;
+- K4 owns session invalidation;
+- session lifetime is bounded by K4 policy;
+- K3 holds no session authority or authorization state;
+- session state is not recoverable through K3;
+- no persistent signing secret is introduced by the session model;
+- K3 never mints or alters an assertion or session token;
+- K4 remains the authorization authority.
+
+This choice preserves the admissibility of both relay and proxy routes.
+
+Do not introduce stateless signed-session tokens.
+
+Do not create a new signing-secret custody mechanism.
+
+### OQ-P3
+
+Choose (a): the assertion carries the adapter-normalized role fact.
+
+The role fact must remain restrictive only.
+
+It may restrict K4 authorization based on the platform-side role state,
+but it cannot grant authority independently of K4's authorization state.
+
+Preserve A-04.
+
+Do not make K3 an authorization layer.
+
+Do not allow a role claim to widen K11, bypass K4 authorization,
+override K7 state, or otherwise grant authority.
+
+### Candidate approval
+
+Approve the candidate's [CP] passages, incorporating the above
+dispositions and preserving all already-locked terminology.
+
+Do not broaden the P2/K3 scope.
+
+Do not modify §15, §16, §17, §19, §21 or §22.
+
+Do not resolve OD19-01.
+
+Do not resolve §22 O-4.
+
+Do not resolve CyberPanel K2 questions.
+
+Do not resolve the §16 Amendment Gate itself.
+
+Do not define B1-B semantics in the P2/K3 document.
+
+OWNER DISPOSITIONS — P2/K3 GATE (2026-10-02)
+
+Owner dispositions for the P2/K3 gate:
+
+These are explicit owner architectural choices. They are NOT claims that
+the existing sources independently selected these concrete values.
+
+### B1-B
+
+Choose R1.
+
+Assign:
+
+"P3 request-ID semantics referenced by §15.10"
+
+to the existing §16 Amendment Gate under DEC-068 D68-D.
+
+Adopt DEC-087 as part of the P2/K3 lock adoption.
+
+DEC-087:
+
+D87-1 assigns the P3 request-ID semantics to the §16 Amendment Gate.
+
+D87-2 registers the item.
+
+D87-3 preserves all stated non-effects:
+
+- does not convene the §16 gate;
+- does not define P3 request-ID semantics;
+- does not amend §16 or §17;
+- does not create a §17 amendment route;
+- does not alter locked §21 `p3_request_id`;
+- does not create implementation authority;
+- DEC-029 remains in force.
+
+The existing §21 `p3_request_id` field remains unchanged.
+
+### OQ-P1-E — assertion encoding
+
+Choose:
+
+CBOR.
+
+The P2/K3 contract shall specify CBOR as the assertion encoding.
+
+Do not introduce additional serialization formats.
+
+### OQ-P1-A — signature algorithm
+
+Choose:
+
+Ed25519.
+
+The assertion signature shall use Ed25519.
+
+Preserve the existing asymmetric verification requirement:
+the verifier cannot mint assertions.
+
+Do not introduce symmetric signing or verification keys.
+
+### OQ-P1-L — maximum assertion lifetime
+
+Choose:
+
+60 seconds maximum.
+
+An assertion's validity window MUST NOT exceed 60 seconds from
+`issued_at` to `expires_at`.
+
+Preserve the existing freshness checks and single-use assertion-ID
+requirement.
+
+The 60-second value is an explicit owner decision; do not claim it was
+derived from an existing source.
+
+### OQ-P1-T — transport
+
+Choose:
+
+Unix domain socket with OS peer-credential verification.
+
+The P2/K3 communication path shall use a host-local Unix domain socket
+and OS-established peer identity.
+
+There shall be no externally reachable listener for this protocol.
+
+Do not introduce TCP, HTTP listener exposure, or another external
+transport.
+
+Do not define implementation-specific socket paths in the architecture
+unless an existing source requires one.
+
+### OQ-P2 — SCC sessions
+
+Choose (b): STATEFUL SCC SESSIONS.
+
+K4 owns:
+
+- session validation state;
+- session invalidation;
+- session lifetime;
+- authorization decisions involving the session.
+
+K3 owns none of these.
+
+SCC session tokens are opaque references and are not signed.
+
+Do not introduce a session signing secret.
+
+Do not implement stateless signed sessions.
+
+### OQ-P4 — session validation-state durability
+
+Choose (a): VOLATILE K4 STATE.
+
+Session validation state exists only in K4 runtime state.
+
+K4 restart terminates all active SCC sessions.
+
+Do not place SCC session validation state in K7.
+
+Do not modify locked §19 DC-19.
+
+Do not create a new recovery mechanism for sessions.
+
+Do not make sessions recoverable across K4 restart.
+
+This deliberately keeps session durability out of the first
+implementation path.
+
+### OQ-P5 — session token transit through K1/K2
+
+Choose (a).
+
+Record this as an explicit owner interpretation of the locked §15.12
+impact rule, NOT as an amendment to §15.
+
+The interpretation is:
+
+- a stateful SCC session token may be transiently present in K1/K2 while
+  passing through the existing platform path;
+- K1/K2 must not persist it;
+- K1/K2 must not log it;
+- K1/K2 must not mint it;
+- K1/K2 must not alter it;
+- K1/K2 must not independently authorize with it;
+- K3 may transiently relay it within its already-locked boundary;
+- K4 remains the sole authority for session validation and authorization.
+
+The fact that K1/K2 compromise is root-equivalent does not create a new
+trust boundary or authorization capability.
+
+Do not interpret this decision as granting K1/K2 any SCC authorization
+authority.
+
+Do not amend §15.
+
+If the candidate cannot express this as an owner reading of §15.12
+without modifying locked text, STOP and report the exact conflict
+rather than silently changing §15.
+
+### OQ-P3 — role fact
+
+Choose (a).
+
+The assertion carries the adapter-normalized role fact.
+
+The role fact is restrictive only.
+
+It may restrict K4 authorization but cannot:
+
+- grant authority independently of K4;
+- widen K11;
+- bypass K4;
+- override K7 authorization state;
+- create a role;
+- create a Grant;
+- substitute for K4 authorization.
+
+K3 does not evaluate the role fact.
+
+### Approval of candidate
+
+Approve the candidate's [CP] passages, incorporating all dispositions
+above.
+
+Preserve all locked §15–§17 terminology.
+
+Do not modify:
+
+- §15;
+- §16;
+- §17;
+- §19;
+- §21;
+- §22.
+
+Do not resolve:
+
+- OD19-01;
+- §22 O-4;
+- CyberPanel K2 gate;
+- §16 Amendment Gate itself;
+- §19.21.2 K8 lifetime items;
+- DEC-083;
+- DEC-084.
+
+B1-B is only ROUTED, not solved.
+
+### Important architectural distinction
+
+The following are explicit owner decisions and must be identified as
+such in the lock decision:
+
+- CBOR;
+- Ed25519;
+- 60-second assertion maximum lifetime;
+- Unix domain socket transport;
+- volatile K4 session state;
+- the §15.12 impact-rule interpretation for transient K1/K2 session
+  token transit.
+
+Do not attribute these concrete choices to DEC-026, DEC-044, DEC-051,
+DEC-080, or any other source unless that source actually states them.
+
+### D80-8
+
+Re-evaluate every D80-8 criterion after these dispositions.
+
+Criterion 1 must now be satisfied.
+
+Criterion 2 must identify DEC-087.
+
+Criterion 3 must cover the Authentication Context and §17.22 step-1
+requirements.
+
+Criterion 4 must be satisfied by stateful sessions and the explicit
+P5 interpretation.
+
+Criterion 5 must preserve the restrictive-only role fact.
+
+Criterion 6 must identify DEC-087 / the §16 Amendment Gate as the
+established route.
+
+Criterion 7 remains a separate P2/K3 lock decision.
+
+### Lock boundary
+
+Adoption of the P2/K3 lock:
+
+- completes the DEC-079 D79-5 / Phase-5 gate;
+- does NOT enter Phase 6;
+- does NOT authorize implementation;
+- does NOT authorize K4 code;
+- does NOT resolve OD19-01;
+- does NOT resolve the CyberPanel K2 gate.
+
+ADOPTION AUTHORIZATION
+
+Adoption authorization:
+
+I authorize adoption of DEC-087 and DEC-088 exactly as proposed in the
+reviewed dec087-088-adoption.diff, with the reviewed correction that the
+CBOR and Ed25519 choices are attributed to DEC-088 and not to DEC-026.
+
+I authorize ONE local commit containing both DEC-087 and DEC-088.
+
+DEC-087 is authorized exactly as proposed:
+
+1. Assign "P3 request-ID semantics referenced by §15.10" to the existing
+   §16 Amendment Gate under DEC-068 D68-D.
+2. Register the assignment through the §5B register row.
+3. Do not convene the §16 Amendment Gate.
+4. Do not define the P3 request-ID semantics.
+5. Do not amend §16 or §17.
+6. Do not create a §17 amendment route.
+7. Do not modify locked §21 `p3_request_id`.
+8. Do not create implementation authority.
+9. DEC-029 remains in force.
+
+DEC-088 is authorized exactly as proposed:
+
+1. Adopt the P2/K3 gate lock.
+2. Complete the DEC-079 D79-5 / Phase-5 gate.
+3. Do not enter Phase 6.
+4. Do not create implementation authority.
+
+The following are explicit owner choices under DEC-088 and must NOT be
+attributed to DEC-026, DEC-044, DEC-051, DEC-080, or another prior
+source:
+
+- CBOR assertion encoding;
+- Ed25519 assertion signatures;
+- 60-second maximum assertion lifetime;
+- Unix domain socket transport with OS peer-credential verification;
+- stateful K4-owned SCC sessions;
+- opaque, unsigned session tokens;
+- volatile K4 session validation state;
+- the §15.12 interpretation permitting transient K1/K2 session-token
+  transit subject to the stated non-persistence, non-logging,
+  non-minting, non-altering and non-authorizing restrictions.
+
+The §15.12 interpretation is an owner reading of locked §15 text and is
+NOT an amendment or override of §15.
+
+The role fact is approved exactly as proposed:
+
+- adapter-normalized;
+- restrictive only;
+- cannot independently grant authority;
+- cannot widen K11;
+- cannot bypass K4;
+- cannot override K7;
+- K3 does not evaluate it.
+
+B1-B remains routed to the §16 Amendment Gate by DEC-087 and is not
+resolved by DEC-088.
+
+The following remain unresolved and routed exactly as stated in the
+reviewed package:
+
+- OD19-01;
+- §22 O-4;
+- CyberPanel K2 gate;
+- ODF-18-06;
+- §16 Amendment Gate;
+- DEC-083;
+- DEC-084;
+- §19.21.2 items.
+
+Do not modify or reopen §15, §16, §17, §19, §21 or §22.
+
+Do not modify DEC-001 through DEC-086.
+
+Do not modify the three flagged stale links/references:
+
+1. DEC-026's protected Related line referencing
+   `../open/p2-protocol.md`;
+2. `docs/platforms/cyberpanel/k2-gate.md`'s reference to the old P2 path;
+3. the existing register pointer rows OQ-3 and D-14.
+
+Do not modify D80-7's historical/prose reference to
+`open/p2-protocol.md`.
+
+Those are separate documentation/pointer-cleanup work and are NOT part
+of DEC-087/088.
+
+The P2/K3 document may move from:
+
+docs/architecture/open/p2-protocol.md
+
+to:
+
+docs/architecture/current/p2-protocol.md
+
+with the reviewed locked-form changes.
+
+Preserve the reviewed candidate text exactly except for the explicitly
+authorized dispositions, lock bookkeeping, marker substitutions, title
+and header changes.
+```
+
+Decision text (D88-1 … D88-13, adopted by the authorization above):
+
+```text
+D88-1  Authority and scope. This decision records the owner's dispositions of the P2/K3 candidate and
+       locks the P2/K3 gate under DEC-080 (D80-7, D80-8), completing PHASE 5 (DEC-025; DEC-079 D79-5).
+       Its subject is the P2/K3 gate only.
+D88-2  Explicit owner choices. The following concrete choices are owner architectural decisions made
+       by this decision. They are not attributed to DEC-026, DEC-044, DEC-051, DEC-080 or any other
+       source:
+       (a) assertion encoding: CBOR; no other serialization format;
+       (b) assertion signature algorithm: Ed25519, asymmetric, so the verifier cannot mint; no
+           symmetric signing or verification keys;
+       (c) maximum assertion lifetime: 60 seconds; the validity window from `issued_at` to
+           `expires_at` MUST NOT exceed 60 seconds; the freshness checks and single-use
+           `assertion_id` requirement are unchanged;
+       (d) transport: host-local Unix domain socket with OS peer-credential verification; no
+           externally reachable listener; no TCP, HTTP listener exposure or other external
+           transport; no socket path is defined architecturally;
+       (e) SCC sessions (OQ-P2 = b): stateful; K4 owns session validation state, invalidation,
+           lifetime and every authorization decision involving a session; K3 owns none of these;
+           SCC session tokens are opaque references, not signed; no session signing secret and no
+           stateless signed session;
+       (f) session durability (OQ-P4 = a): session validation state exists only in K4 runtime
+           state; K4 restart terminates every active SCC session; session state is not placed in K7,
+           is not recoverable across K4 restart, and has no recovery mechanism; locked §19 DC-19 is
+           not modified;
+       (g) §15.12 reading (OQ-P5 = a): an explicit owner interpretation of the locked §15.12 impact
+           rule, not an amendment to §15: a stateful SCC session token may be transiently present in
+           K1/K2 while passing through the existing platform path; K1/K2 must not persist, log, mint,
+           alter or independently authorize with it; K3 may transiently relay it within its locked
+           boundary; K4 remains the sole authority for session validation and authorization. K1/K2
+           being root-equivalent creates no new trust boundary and no SCC authorization authority
+           for K1/K2.
+D88-3  Role fact (OQ-P3 = a). The assertion carries the adapter-normalized platform role fact. It is
+       restrictive only: it may restrict K4 authorization but cannot grant authority independently
+       of K4, widen K11, bypass K4, override K7 authorization state, create a role or a Grant, or
+       substitute for K4 authorization (T-13; A-04; A-10). K3 does not evaluate it.
+D88-4  B1-B. P3 request-ID semantics are routed to the §16 Amendment Gate by DEC-087. The P2/K3
+       contract references them and does not define them. Locked §21's `p3_request_id` is unchanged.
+D88-5  Candidate approval. The owner approves every [CP] passage of the P2/K3 candidate as revised by
+       D88-2 … D88-4 (OQ-P1 = b; OQ-P2 = b; OQ-P3 = a).
+D88-6  Lock criteria (DEC-080 D80-8). (1) Every D80-2 element is specified (D88-2; D88-3; the
+       candidate) or explicitly deferred to an established gate (D88-7). (2) Every D80-3 item is
+       specified within §15.6/§15.10, and request-ID semantics are referenced and routed by DEC-087.
+       (3) The assertion supports every §17.22 step-1 check (signature, audience, freshness, single
+       use) and carries every §17 Authentication Context field. (4) No CyberPanel-specific K2
+       question is decided; stateful sessions and the D88-2(g) reading keep both relay and proxy
+       routes admissible. (5) No accepted decision widens authority, transfers responsibility
+       between K2–K11, contradicts §15–§17 or makes an unauthorized amendment; K3 gains no
+       authorization, identity or state authority; the role fact is restrictive only. (6) Every
+       deferral names an established owning gate, including the §16 Amendment Gate for request-ID
+       semantics (DEC-087). (7) No implementation authority is created, and this decision is the
+       separate explicit owner lock DEC.
+D88-7  Open items and routes: assertion-verification material storage and provisioning (OD19-01;
+       DEC-051 R01b); K2 signing-key provisioning and re-registration (locked §22 O-4); CyberPanel
+       route verification including whether the platform edge can reach K3 over the Unix domain
+       socket on a proxy route, presentation placement, installation and `platform_subject_id`
+       stability (CyberPanel K2 gate; OQ-1; P-6; KF-01, KF-02); request-bound assertions (Platform
+       Adapter gate, ODF-18-06, NON-BLOCKING); P3 request-ID semantics (§16 Amendment Gate,
+       DEC-087).
+D88-8  Lock. The P2/K3 gate becomes locked architecture upon adoption of this decision.
+D88-9  Authority category. From this decision forward, the P2/K3 document is added to the
+       locked-architecture authority tier (Category 1), supplementing DEC-023 prospectively as DEC-075
+       D75-4, DEC-085 D85-8 and DEC-086 D86-8 did. DEC-023 remains the historical record, and the
+       earlier Category 4 classification remains historical.
+D88-10 Documentation state. On adoption, the P2/K3 document moves from docs/architecture/open/ to
+       docs/architecture/current/, and its status header follows the locked-document convention.
+D88-11 Locked form. The P2/K3 document is locked in its candidate form with D88-2 … D88-4 applied,
+       retaining its [DEC-0xx] and [L] tags. [CP], [OD] and open-question markers are replaced by
+       references to DEC-088 (DEC-087 for request-ID routing), and the status header and title are
+       updated; no other text changes.
+D88-12 Phase boundary. This lock completes the DEC-079 D79-5 Phase-5 requirement. It does not enter
+       Phase 6, does not authorize implementation or K4 code, and does not resolve OD19-01 or the
+       CyberPanel K2 gate. A separate owner decision is required to authorize any implementation
+       slice.
+D88-13 Non-effects. This decision does not amend or change §15 (the D88-2(g) reading is an
+       interpretation, not an amendment), §16, §17, locked §19 (including DC-19), locked §21 or
+       locked §22; does not convene the §16 Amendment Gate or affect DEC-083, DEC-084 or §19.21.2;
+       gives K1, K2 or K3 no authorization, identity or state authority; and creates no new secret
+       or credential class. DEC-001 … DEC-086 are unchanged. DEC-029 remains standing.
+```
+
+> **Transcription note (session process):** The owner messages are reproduced from their disposition sections; their verification, preparation and repository-rule sections governed only those review steps and are omitted.
+
+> **Index note (not owner wording):** DEC-088 locks the P2/K3 gate and completes Phase 5. It does not enter Phase 6, authorize implementation,
+> amend §15 (D88-2(g) is a reading), or resolve OD19-01 or the CyberPanel K2 gate.
