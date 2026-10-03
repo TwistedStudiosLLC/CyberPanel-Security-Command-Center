@@ -237,8 +237,9 @@ def step(
     )
 
 
-def plan(*steps, plan_ref="plan-1", observed_at=None) -> PlanProposal:
-    return PlanProposal(plan_ref, tuple(steps), observed_at)
+def plan(*steps, observed_at=None) -> PlanProposal:
+    """A Plan proposal. It carries no plan_ref: K4 generates one per commit (DEC-090 D90-6)."""
+    return PlanProposal(tuple(steps), observed_at)
 
 
 def anchor_read(*pairs, changes=()) -> K11AnchorRead:
@@ -325,6 +326,21 @@ class CoreTestCase(unittest.TestCase):
     def establish(self, *pairs, changes=None):
         changes = changes if changes is not None else [added(p, d) for p, d in pairs]
         return self.core.observe_anchor_read(anchor_read(*pairs, changes=changes))
+
+    def decision_rows(self) -> list[tuple[str, str, str]]:
+        """(authorization_ref, plan_ref, plan_digest) of every stored Decision."""
+        conn = sqlite3.connect(self.path)
+        rows = conn.execute(
+            "SELECT authorization_ref, plan_ref, plan_digest FROM decisions ORDER BY created_at"
+        ).fetchall()
+        conn.close()
+        return rows
+
+    def plan_rows(self) -> int:
+        conn = sqlite3.connect(self.path)
+        n = conn.execute("SELECT COUNT(*) FROM plans").fetchone()[0]
+        conn.close()
+        return n
 
     def audit(self, kind: str | None = None) -> list[dict]:
         recs = self.store.audit_records()

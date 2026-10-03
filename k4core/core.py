@@ -78,7 +78,7 @@ from .serialization import (
     sha256_hex,
     to_iso,
 )
-from .store import K7Store, K7Unavailable
+from .store import K7Store, K7Unavailable, RoleSubjectGrantUnsupported
 
 ACTOR_HUMAN = "HUMAN"
 ACTOR_LOCAL_ROOT_OPERATOR = "Local Root Operator"
@@ -264,6 +264,11 @@ class K4Core:
         """Report that a K11 anchor read failed. No earlier read is relied on afterwards (§21.12; §17.16)."""
         self._current_read = None
 
+    @staticmethod
+    def _new_plan_ref() -> str:
+        """A fresh K4-generated plan_ref for each commit (DEC-090 D90-6(iii))."""
+        return uuid.uuid4().hex
+
     def _anchors_ok(self, anchors: EstablishedAnchors | None) -> bool:
         return (
             anchors is not None
@@ -426,10 +431,10 @@ class K4Core:
                         tier,
                         cap_decl,
                     )
-        except K7Unavailable:
+        except K7Unavailable as exc:
             return (
                 self._deny_a1(
-                    ctx, request, targets, tier, Outcome.FORBIDDEN, "k7_unavailable"
+                    ctx, request, targets, tier, Outcome.FORBIDDEN, _k7_reason(exc)
                 ),
                 targets,
                 tier,
@@ -634,6 +639,12 @@ class K4Core:
         for m in self._store.memberships_of(principal_id):
             if not m.effective(now):
                 continue
+            # D90-5: a K7 Grant row naming a held Role is never ignored; its relation to the release-defined Role
+            # is unresolved, so the evaluation fails closed (§17.16).
+            if self._store.role_subject_grant_exists(m.role_id):
+                raise RoleSubjectGrantUnsupported(
+                    f"Role-subject Grant row for held Role {m.role_id}"
+                )
             for i, spec in enumerate(policy.role_grants(m.role_id)):
                 grants.append(
                     (
@@ -803,13 +814,9 @@ class K4Core:
             )
         if request.permission is not Permission.REQUEST:
             raise ValueError("a Plan realizes a requested Action")
-        if (
-            not isinstance(plan, PlanProposal)
-            or not isinstance(plan.plan_ref, str)
-            or not plan.plan_ref
-        ):
-            # No plan_ref exists to record an A2 against; the envelope is refused by schema validation with no
-            # state or audit effect (§15.10 P3; P2/K3 §P.5 MALFORMED).
+        if not isinstance(plan, PlanProposal):
+            # Not a Plan proposal: refused by schema validation with no state or audit effect
+            # (§15.10 P3; P2/K3 §P.5 MALFORMED).
             return Result(Outcome.MALFORMED, "plan_envelope_malformed", [])
         self._flush_pending_b1()
         ctx = _Ctx(now=self._clock(), trace=[])
@@ -828,6 +835,9 @@ class K4Core:
         a1_ids = list(intent.audit_ids)
         assert ctx.policy is not None
         pol = ctx.policy
+        # DEC-090 D90-6: K4 generates plan_ref, and every commit creates a new Plan. K4 deliberately establishes
+        # no Plan-change identity, so no commit is linked to an earlier Plan or Decision.
+        plan_ref = self._new_plan_ref()
 
         # ---- Step 5: K5 proposes; K4 validates structure and K11 coverage, computes plan_digest -----------------
         ctx.trace.append("step5:plan_validation")
@@ -836,13 +846,20 @@ class K4Core:
         try:
             steps_info, reason = self._validate_plan(plan, declarations, inventory, pol)
             if steps_info is not None:
-                content = canonical_json(_plan_content(plan))
+                content = canonical_json(_plan_content(plan, plan_ref))
                 digest = sha256_hex(content)
         except (EncodingError, TypeError, ValueError, AttributeError, RecursionError):
             steps_info, reason = None, "plan_malformed"
         if steps_info is None or digest is None:
             return self._deny_a2(
-                ctx, request, plan, None, [], None, reason or "plan_malformed", a1_ids
+                ctx,
+                request,
+                plan_ref,
+                None,
+                [],
+                None,
+                reason or "plan_malformed",
+                a1_ids,
             )
 
         # ---- Step 6: Plan tier --------------------------------------------------------------------------------
@@ -863,7 +880,7 @@ class K4Core:
             return self._deny_a2(
                 ctx,
                 request,
-                plan,
+                plan_ref,
                 digest,
                 all_targets,
                 step_up_tier,
@@ -887,22 +904,22 @@ class K4Core:
                         return self._deny_a2(
                             ctx,
                             request,
-                            plan,
+                            plan_ref,
                             digest,
                             all_targets,
                             step_up_tier,
                             "plan_not_covered",
                             a1_ids,
                         )
-        except K7Unavailable:
+        except K7Unavailable as exc:
             return self._deny_a2(
                 ctx,
                 request,
-                plan,
+                plan_ref,
                 digest,
                 all_targets,
                 step_up_tier,
-                "k7_unavailable",
+                _k7_reason(exc),
                 a1_ids,
             )
         # Every matched Grant is used, including those matched at step 4, so each PLAN_MAX_AGE condition of a used
@@ -912,9 +929,7 @@ class K4Core:
                 if not isinstance(c, PlanMaxAge):
                     continue
                 obs = plan.newest_input_observation_at
-                fresh = obs is not None and ctx.now - obs <= timedelta(
-                    seconds=c.max_age_seconds
-                )
+                fresh = _within(obs, ctx.now, c.max_age_seconds)
                 ctx.conditions.append(
                     {
                         "grant_id": g.grant_id,
@@ -927,7 +942,7 @@ class K4Core:
                     return self._deny_a2(
                         ctx,
                         request,
-                        plan,
+                        plan_ref,
                         digest,
                         all_targets,
                         step_up_tier,
@@ -937,9 +952,7 @@ class K4Core:
         policy_plan_age = pol.plan_max_age
         if policy_plan_age is not None:
             obs = plan.newest_input_observation_at
-            fresh = obs is not None and ctx.now - obs <= timedelta(
-                seconds=policy_plan_age
-            )
+            fresh = _within(obs, ctx.now, policy_plan_age)
             ctx.conditions.append(
                 {
                     "policy": "PLAN_MAX_AGE",
@@ -951,7 +964,7 @@ class K4Core:
                 return self._deny_a2(
                     ctx,
                     request,
-                    plan,
+                    plan_ref,
                     digest,
                     all_targets,
                     step_up_tier,
@@ -965,8 +978,8 @@ class K4Core:
         if REAUTH in step_up:
             max_age = pol.reauth_max_age(step_up_tier)
             assert ctx.auth is not None
-            fresh = max_age is not None and ctx.now - ctx.auth.auth_time <= timedelta(
-                seconds=max_age
+            fresh = max_age is not None and _within(
+                ctx.auth.auth_time, ctx.now, max_age
             )
             ctx.conditions.append(
                 {
@@ -982,7 +995,7 @@ class K4Core:
                 return self._deny_a2(
                     ctx,
                     request,
-                    plan,
+                    plan_ref,
                     digest,
                     all_targets,
                     step_up_tier,
@@ -997,10 +1010,22 @@ class K4Core:
             for c in g.conditions
         ):
             step_up.add(APPROVAL)
-        # D89-22: the K11 per-scope-entry approval_required flag remains an additional input/condition.
-        if any(info["k11_approval_flag"] for info in steps_info.values()):
-            step_up.add(APPROVAL)
         approval_required = APPROVAL in step_up
+        # DEC-090 D90-3: the K11 flag is not a K4 Plan-level approval trigger (its locked effect is per request,
+        # at K6). A Plan using a flagged entry with no K4 approval requirement is an unsupported case (option C).
+        if not approval_required and any(
+            info["k11_approval_flag"] for info in steps_info.values()
+        ):
+            return self._deny_a2(
+                ctx,
+                request,
+                plan_ref,
+                digest,
+                all_targets,
+                step_up_tier,
+                "k11_flag_without_k4_approval_requirement",
+                a1_ids,
+            )
         # D89-22: when the Plan requires approval, every K6 request in it is approval-requiring.
         approval_steps = sorted(steps_info) if approval_required else []
         # §17.22 step 5 / A-21: approval-requiring requests must be fully determined.
@@ -1010,7 +1035,7 @@ class K4Core:
                 return self._deny_a2(
                     ctx,
                     request,
-                    plan,
+                    plan_ref,
                     digest,
                     all_targets,
                     step_up_tier,
@@ -1025,7 +1050,7 @@ class K4Core:
             return self._deny_a2(
                 ctx,
                 request,
-                plan,
+                plan_ref,
                 digest,
                 all_targets,
                 step_up_tier,
@@ -1050,7 +1075,7 @@ class K4Core:
             return self._deny_a2(
                 ctx,
                 request,
-                plan,
+                plan_ref,
                 digest,
                 all_targets,
                 step_up_tier,
@@ -1083,7 +1108,7 @@ class K4Core:
             "action": request.action,
             "action_capability": request.capability.key,
             "target_set": all_targets,
-            "plan_ref": plan.plan_ref,
+            "plan_ref": plan_ref,
             "plan_digest": digest,
             "policy_revisions": pol.revisions,
             "grants_used": sorted(ctx.matched),
@@ -1107,7 +1132,7 @@ class K4Core:
         record = self._a2(
             ctx,
             request,
-            plan.plan_ref,
+            plan_ref,
             digest,
             all_targets,
             step_up_tier,
@@ -1118,16 +1143,14 @@ class K4Core:
         )
 
         def mutate(tx: Any) -> None:
-            # Read under the commit's write lock, so the A-24 check and invalidation cannot race.
-            if any(
-                d == digest for _, d in self._store.decisions_for_plan(plan.plan_ref)
-            ):
-                raise _PlanAlreadyDecided  # A-24: exactly one Decision per plan_digest
-            prior_open = self._open_decisions(plan.plan_ref)
-            for ref, _d in prior_open:
-                tx.append_status(ref, DecisionStatus.INVALIDATED, ctx.now)  # §17.11; Q4
-            tx.store_plan(plan.plan_ref, digest, content, ctx.now)
-            tx.create_decision(authorization_ref, plan.plan_ref, digest, body, ctx.now)
+            # Read under the commit's write lock, so the A-24 check cannot race.
+            # A-24: exactly one Decision per plan_digest. The digest covers the K4-generated plan_ref, so this
+            # check links no commit to another and has no effect on any other Decision (DEC-090 D90-6, D90-7(d)).
+            if self._store.decision_exists_for_digest(digest):
+                raise _PlanAlreadyDecided
+            # No INVALIDATED status is written: Plan-change identity is undefined (DEC-090 D90-6(iv)).
+            tx.store_plan(plan_ref, digest, content, ctx.now)
+            tx.create_decision(authorization_ref, plan_ref, digest, body, ctx.now)
             tx.append_status(authorization_ref, status, ctx.now)
 
         try:
@@ -1136,7 +1159,7 @@ class K4Core:
             return self._deny_a2(
                 ctx,
                 request,
-                plan,
+                plan_ref,
                 digest,
                 all_targets,
                 step_up_tier,
@@ -1174,11 +1197,7 @@ class K4Core:
         inventory: InventoryResolution,
         pol: EffectivePolicy,
     ) -> tuple[dict[str, dict] | None, str | None]:
-        if (
-            not isinstance(plan, PlanProposal)
-            or not isinstance(plan.plan_ref, str)
-            or not plan.plan_ref
-        ):
+        if not isinstance(plan, PlanProposal):
             return None, "plan_malformed"
         if not isinstance(plan.steps, tuple) or not plan.steps:
             return None, "plan_malformed"
@@ -1298,7 +1317,7 @@ class K4Core:
         self,
         ctx: _Ctx,
         request: ActionRequest,
-        plan: PlanProposal,
+        plan_ref: str,
         digest: str | None,
         targets: list[str],
         tier: Tier | None,
@@ -1309,7 +1328,7 @@ class K4Core:
         record = self._a2(
             ctx,
             request,
-            plan.plan_ref,
+            plan_ref,
             digest,
             targets,
             tier,
@@ -1319,15 +1338,7 @@ class K4Core:
             None,
         )
 
-        def mutate(tx: Any) -> None:
-            # Read under the commit's write lock. A read failure fails the whole commit: the denial stays a
-            # refusal (§21.12) and no partial state is committed.
-            for ref, d in self._open_decisions(plan.plan_ref):
-                if d != digest:
-                    tx.append_status(
-                        ref, DecisionStatus.INVALIDATED, ctx.now
-                    )  # §17.11; Q4
-
+        # A denied Plan commit has no state effect (DEC-090 D90-6(i)).
         res = Result(
             Outcome.FORBIDDEN,
             reason,
@@ -1337,17 +1348,9 @@ class K4Core:
             plan_digest=digest,
             audit_ids=list(a1_ids),
         )
-        if self._record([record], mutate if digest is not None else None, denial=True):
+        if self._record([record], None, denial=True):
             res.audit_ids.append(record.fields["audit_id"])
         return res
-
-    def _open_decisions(self, plan_ref: str) -> list[tuple[str, str]]:
-        """Decisions bound to plan_ref that are not yet INVALIDATED, as (authorization_ref, plan_digest)."""
-        return [
-            (ref, d)
-            for ref, d in self._store.decisions_for_plan(plan_ref)
-            if self._store.latest_status(ref) is not DecisionStatus.INVALIDATED
-        ]
 
     # =============================================================================================================
     # Phase III — step 10: Approvals
@@ -1537,8 +1540,8 @@ class K4Core:
                     return "approver_lacks_approve_grant"
                 for g in matched:
                     ctx.matched[g.grant_id] = g
-        except K7Unavailable:
-            return "k7_unavailable"
+        except K7Unavailable as exc:
+            return _k7_reason(exc)
         if (
             ctx.policy.separation_of_duties(Tier[decision["step_up_tier"]])
             and approver == decision["principal_id"]
@@ -1646,6 +1649,17 @@ class _BootstrapUnavailable(Exception):
     """Raised inside the commit when an `scc.administrator` membership record appeared concurrently."""
 
 
+def _within(t: datetime | None, now: datetime, max_age_seconds: int) -> bool:
+    """Freshness: t is not later than K4's clock, by any amount, and is within max_age (DEC-090 D90-4)."""
+    return t is not None and t <= now and now - t <= timedelta(seconds=max_age_seconds)
+
+
+def _k7_reason(exc: K7Unavailable) -> str:
+    if isinstance(exc, RoleSubjectGrantUnsupported):
+        return "role_subject_grant_unsupported"  # DEC-090 D90-5
+    return "k7_unavailable"
+
+
 class _ApprovalStateChanged(Exception):
     """Raised inside the commit to roll it back when the Decision or step changed concurrently."""
 
@@ -1666,9 +1680,9 @@ def _str_tuple(value: object) -> bool:
     return isinstance(value, tuple) and all(isinstance(v, str) for v in value)
 
 
-def _plan_content(plan: PlanProposal) -> dict:
+def _plan_content(plan: PlanProposal, plan_ref: str) -> dict:
     return {
-        "plan_ref": plan.plan_ref,
+        "plan_ref": plan_ref,
         "newest_input_observation_at": plan.newest_input_observation_at,
         "steps": [
             {
@@ -1759,9 +1773,7 @@ def _evaluate_condition(
 ) -> bool | str:
     """§17.7. A condition that cannot be evaluated counts as false (A-13)."""
     if isinstance(cond, AuthFresh):
-        return auth is not None and now - auth.auth_time <= timedelta(
-            seconds=cond.max_age_seconds
-        )
+        return auth is not None and _within(auth.auth_time, now, cond.max_age_seconds)
     if isinstance(cond, PlatformRole):
         if cond.role != PLATFORM_ADMIN:
             return False  # no other adapter-normalized role is defined in v1
@@ -1771,9 +1783,7 @@ def _evaluate_condition(
             return (
                 "not_applicable"  # applies when the Decision is made (§17.11; step 7)
             )
-        return plan_observed_at is not None and now - plan_observed_at <= timedelta(
-            seconds=cond.max_age_seconds
-        )
+        return _within(plan_observed_at, now, cond.max_age_seconds)
     if isinstance(cond, ApprovalRequired):
         return True  # adds APPROVAL; does not restrict matching
     if isinstance(cond, TargetManagementIn):

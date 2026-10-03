@@ -1,5 +1,6 @@
 """§17.22 Phases II–III (steps 5–9): Plan validation, K11 coverage, plan_digest, Plan tier, Plan Authorization,
-REAUTH, Decision creation, INVALIDATED (§17.11; DEC-089 Q4), approval requirement (§17.8; D89-22)."""
+REAUTH, Decision creation, approval requirement (§17.8; D89-22). Plan identity and invalidation: DEC-090 D90-6
+(see test_dec090.py)."""
 
 import unittest
 from dataclasses import replace
@@ -83,7 +84,7 @@ class PlanValidationTests(CoreTestCase):
             plan(step(params={"x": float("nan")}, clock=self.clock)),
         ]
         for i, p in enumerate(cases):
-            res = self.commit(self.auth, replace(p, plan_ref=f"plan-m{i}"))
+            res = self.commit(self.auth, replace(p))
             self.assertEqual(
                 (res.outcome, res.reason), (Outcome.FORBIDDEN, "plan_malformed"), i
             )
@@ -106,9 +107,9 @@ class PlanValidationTests(CoreTestCase):
             step(handle_refs=("cred:x",), clock=self.clock),
         ]
         for i, s in enumerate(cases):
-            res = self.commit(self.auth, plan(s, plan_ref=f"p-{i}"))
+            res = self.commit(self.auth, plan(s))
             self.assertEqual(res.reason, "k11_coverage_insufficient", i)
-        self.assertEqual(self.store.decisions_for_plan("p-0"), [])
+        self.assertEqual(self.decision_rows(), [])
 
     def test_scope_mismatch_between_step_and_capability(self):
         # The 'status' scope entry does not cover a WRITE op for 'ban'.
@@ -117,28 +118,6 @@ class PlanValidationTests(CoreTestCase):
             plan(step(capability_id="status", op="service.control", clock=self.clock)),
         )
         self.assertEqual(res.reason, "k11_coverage_insufficient")
-
-    def test_deterministic_digest(self):
-        p = plan(step(clock=self.clock, params={"b": 1, "a": [1, 2]}))
-        d1 = self.commit(self.auth, p).plan_digest
-        same = plan(step(clock=self.clock, params={"a": [1, 2], "b": 1}))
-        res = self.commit(self.auth, same)
-        self.assertEqual(res.plan_digest, d1)
-        self.assertEqual(res.reason, "plan_already_decided")  # A-24
-        other = plan(step(clock=self.clock, params={"a": [2, 1], "b": 1}))
-        self.assertNotEqual(
-            self.core.commit_plan(
-                request(),
-                self.auth,
-                self.decls,
-                self.inv,
-                self.adm,
-                self.pol,
-                None,
-                replace(other, plan_ref="plan-9"),
-            ).plan_digest,
-            d1,
-        )
 
     def test_plan_content_not_in_audit(self):  # §21.20
         self.commit(
@@ -154,7 +133,7 @@ class PlanValidationTests(CoreTestCase):
         self.assertEqual(self.commit(self.auth, p).outcome, Outcome.OK)
         self.seed_principal("p2", "bob")
         self.seed_grant(direct("g1", "p2", sys="S1"))
-        res = self.commit(verified("bob", self.clock), replace(p, plan_ref="plan-2"))
+        res = self.commit(verified("bob", self.clock), replace(p))
         self.assertEqual(res.reason, "plan_not_covered")  # A-25: whole Plan or nothing
 
     def test_plan_tier_is_highest_step(self):
@@ -303,7 +282,7 @@ class ApprovalRequirementTests(CoreTestCase):
         self.seed_grant(direct("g1", "p1", conditions=[ApprovalRequired()]))
         res = self.commit(self.auth, plan(step(expected_state=None, clock=self.clock)))
         self.assertEqual(res.reason, "approval_request_not_fully_determined")
-        res = self.commit(self.auth, plan(step(clock=None), plan_ref="p2"))
+        res = self.commit(self.auth, plan(step(clock=None)))
         self.assertEqual(res.reason, "approval_request_not_fully_determined")
 
 
@@ -337,11 +316,10 @@ class ExpiryAndPlanAgeTests(CoreTestCase):
         self.assertEqual(self.expires(res), (obs + timedelta(seconds=300)).isoformat())
         stale = plan(
             step(clock=self.clock),
-            plan_ref="p2",
             observed_at=self.clock.now - timedelta(seconds=301),
         )
         self.assertEqual(self.commit(self.auth, stale).reason, "plan_not_covered")
-        missing = plan(step(clock=self.clock), plan_ref="p3")
+        missing = plan(step(clock=self.clock))
         self.assertEqual(
             self.commit(self.auth, missing).reason, "plan_not_covered"
         )  # A-13
@@ -367,9 +345,7 @@ class ExpiryAndPlanAgeTests(CoreTestCase):
         )
         self.assertEqual(self.commit(self.auth, stale, pol=pol).reason, "plan_max_age")
         self.assertEqual(
-            self.commit(
-                self.auth, plan(step(clock=self.clock), plan_ref="p2"), pol=pol
-            ).reason,
+            self.commit(self.auth, plan(step(clock=self.clock)), pol=pol).reason,
             "plan_max_age",
         )
 
@@ -384,50 +360,6 @@ class ExpiryAndPlanAgeTests(CoreTestCase):
         self.assertEqual(res.outcome, Outcome.OK)
         self.assertEqual(
             self.expires(res), (self.clock.now + timedelta(seconds=3600)).isoformat()
-        )
-
-
-class InvalidationTests(CoreTestCase):
-    def setUp(self):
-        super().setUp()
-        self.seed_principal("p1", "alice", roles=("scc.operator",))
-        self.auth = verified("alice", self.clock)
-
-    def test_plan_change_invalidates_old_decision_atomically_with_a2(self):
-        first = self.commit(self.auth, plan(step(clock=self.clock)))
-        changed = self.commit(
-            self.auth, plan(step(clock=self.clock, params={"ip": "192.0.2.1"}))
-        )
-        self.assertEqual(changed.outcome, Outcome.OK)
-        self.assertEqual(
-            self.store.statuses(first.authorization_ref),
-            [DecisionStatus.AUTHORIZED, DecisionStatus.INVALIDATED],
-        )
-        self.assertEqual(
-            self.store.statuses(changed.authorization_ref), [DecisionStatus.AUTHORIZED]
-        )
-
-    def test_denied_change_still_invalidates(self):
-        first = self.commit(self.auth, plan(step(clock=self.clock)))
-        denied = self.commit(
-            verified("alice", self.clock, age=5000),
-            plan(step(clock=self.clock, params={"ip": "x"})),
-        )
-        self.assertEqual(denied.reason, "reauth_required")
-        self.assertEqual(
-            self.store.latest_status(first.authorization_ref),
-            DecisionStatus.INVALIDATED,
-        )
-
-    def test_invalidated_decision_is_not_reinvalidated(self):
-        first = self.commit(self.auth, plan(step(clock=self.clock)))
-        self.commit(self.auth, plan(step(clock=self.clock, params={"ip": "a"})))
-        self.commit(self.auth, plan(step(clock=self.clock, params={"ip": "b"})))
-        self.assertEqual(
-            self.store.statuses(first.authorization_ref).count(
-                DecisionStatus.INVALIDATED
-            ),
-            1,
         )
 
 

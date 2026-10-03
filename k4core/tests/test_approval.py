@@ -218,25 +218,12 @@ class ApprovalTests(CoreTestCase):
             self.submit(self.evidence(ref="nope")).reason, "decision_unknown"
         )
 
-    def test_invalidated_decision_accepts_no_approval(self):
-        p = plan(
-            step(
-                "s1",
-                capability_id="install",
-                op="package.install",
-                resources=("pkg:fail2ban",),
-                clock=self.clock,
-            ),
-            step("s2", clock=self.clock, params={"ip": "changed"}),
-        )
-        self.commit(
-            verified("requester", self.clock),
-            p,
-            req=request("install"),
-            anchors=self.anchors,
-        )
+    def test_authorized_decision_accepts_no_further_approval(self):
+        self.submit(self.evidence("s1"))
+        self.submit(self.evidence("s2"))
         self.assertEqual(
-            self.submit(self.evidence("s1")).reason, "decision_not_awaiting_approval"
+            self.submit(self.evidence("s1", evidence_ref="late")).reason,
+            "decision_not_awaiting_approval",
         )
 
     def test_a4_carries_references_not_evidence_content(self):

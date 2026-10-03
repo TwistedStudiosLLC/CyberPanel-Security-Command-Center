@@ -75,6 +75,10 @@ class K7Unavailable(Exception):
     """K7 could not be read, or a write could not be durably committed."""
 
 
+class RoleSubjectGrantUnsupported(K7Unavailable):
+    """A K7 Grant row names a Role the Principal holds; its treatment is unresolved, so K4 fails closed (D90-5)."""
+
+
 class UnsupportedFormat(Exception):
     """SD-K7 content carries a format version this component cannot safely interpret (S19-15)."""
 
@@ -324,6 +328,23 @@ class K7Store:
             (principal_id,),
         )
         return [_decode_grant_row(r[0]) for r in rows]
+
+    def role_subject_grant_exists(self, role_id: str) -> bool:
+        """Whether any K7 Grant row, in any state, has this built-in Role as its subject (DEC-090 D90-5)."""
+        return bool(
+            self._query(
+                "SELECT 1 FROM grants WHERE subject_kind='role' AND subject_id=? LIMIT 1",
+                (role_id,),
+            )
+        )
+
+    def decision_exists_for_digest(self, plan_digest: str) -> bool:
+        """A-24: whether a Decision is already bound to this plan_digest."""
+        return bool(
+            self._query(
+                "SELECT 1 FROM decisions WHERE plan_digest=? LIMIT 1", (plan_digest,)
+            )
+        )
 
     def any_administrator_membership_record(self) -> bool:
         """§22.3.2: any `scc.administrator` Role Membership record, in any state."""

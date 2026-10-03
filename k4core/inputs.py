@@ -401,7 +401,8 @@ class PlanStep:
 
 @dataclass(frozen=True)
 class PlanProposal:
-    plan_ref: str
+    """A proposed Plan. It carries no `plan_ref`: K4 generates `plan_ref` for each commit (DEC-090 D90-6(iii))."""
+
     steps: tuple[PlanStep, ...]
     newest_input_observation_at: datetime | None = None
 

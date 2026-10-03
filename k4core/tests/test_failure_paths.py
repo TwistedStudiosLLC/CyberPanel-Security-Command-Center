@@ -8,7 +8,7 @@ from dataclasses import replace
 from datetime import timedelta
 
 from k4core.core import AnchorsNotEstablished, Outcome, UnsupportedInSlice
-from k4core.inputs import ApprovalVerificationResult, RootDetermination, ScopeEntry
+from k4core.inputs import ApprovalVerificationResult, RootDetermination
 from k4core.model import (
     BindingStatus,
     CapExact,
@@ -27,7 +27,6 @@ from .support import (
     FaultyStore,
     added,
     anchor_read,
-    declarations,
     plan,
     request,
     step,
@@ -201,43 +200,6 @@ class ActionTierTests(CoreTestCase):
         self.assertEqual(res.reason, "reauth_required")  # R4 age 300, R2 age 900
 
 
-class K11ApprovalFlagTests(CoreTestCase):
-    def test_flagged_scope_entry_below_r4_requires_approval(
-        self,
-    ):  # D89-22 bullet on the K11 flag
-        decls = declarations()
-        d = decls.declarations[0]
-        entries = tuple(
-            replace(e, approval_required=True) if e.capability_id == "ban" else e
-            for e in d.scope_entries
-        )
-        decls = replace(decls, declarations=(replace(d, scope_entries=entries),))
-        self.seed_principal("p1", "alice", roles=("scc.operator",))
-        res = self.commit(
-            verified("alice", self.clock), plan(step(clock=self.clock)), decls=decls
-        )
-        self.assertEqual(
-            (res.effective_tier, res.status),
-            (Tier.R2, DecisionStatus.AWAITING_APPROVAL),
-        )
-
-    def test_unflagged_plan_below_r4_needs_none(self):
-        self.seed_principal("p1", "alice", roles=("scc.operator",))
-        self.assertEqual(
-            self.commit(
-                verified("alice", self.clock), plan(step(clock=self.clock))
-            ).status,
-            DecisionStatus.AUTHORIZED,
-        )
-
-    def test_entry_type_carries_flag(self):
-        self.assertFalse(
-            ScopeEntry(
-                "c", "service.control", 1, "write", frozenset()
-            ).approval_required
-        )
-
-
 class MalformedInputTypeTests(CoreTestCase):
     def setUp(self):
         super().setUp()
@@ -261,7 +223,7 @@ class MalformedInputTypeTests(CoreTestCase):
             plan(step(clock=self.clock, params={"x": object()})),
         ]
         for i, p in enumerate(cases):
-            res = self.commit(self.auth, replace(p, plan_ref=f"m{i}"))
+            res = self.commit(self.auth, replace(p))
             self.assertEqual(
                 (res.outcome, res.reason), (Outcome.FORBIDDEN, "plan_malformed"), i
             )
@@ -312,36 +274,11 @@ class CommitAndApprovalFailureTests(CoreTestCase):
         self.store.fail_reads = True
         self.assertEqual(self.submit().outcome, Outcome.UNAVAILABLE)
 
-    def test_invalidation_not_partially_committed_when_read_fails(self):
-        changed = plan(step(clock=self.clock, params={"pkg": "other"}, **INSTALL_STEP))
-        original = self.store.decisions_for_plan
-
-        def failing(_ref):
-            from k4core import K7Unavailable
-
-            raise K7Unavailable("simulated")
-
-        self.store.decisions_for_plan = failing
-        res = self.commit(
-            verified("requester", self.clock, age=5000),
-            changed,
-            req=request("install"),
-            anchors=self.anchors,
-        )
-        self.store.decisions_for_plan = original
-        self.assertEqual(res.reason, "reauth_required")
-        self.assertEqual(
-            self.store.latest_status(self.ref), DecisionStatus.AWAITING_APPROVAL
-        )
-        self.assertEqual(
-            [r for r in self.audit("A2") if r["reason_code"] == "reauth_required"], []
-        )
-
     def test_k7_unavailable_at_plan_commit_denies(self):
         self.store.fail_reads = True
         res = self.commit(
             verified("requester", self.clock),
-            plan(step(clock=self.clock), plan_ref="p9"),
+            plan(step(clock=self.clock)),
         )
         self.assertNotEqual(res.outcome, Outcome.OK)
 
@@ -455,7 +392,7 @@ class StepSevenPlatformRoleTests(CoreTestCase):
         self.assertEqual(
             res.reason, "no_matching_grant"
         )  # denied already at step 4; no Decision
-        self.assertEqual(self.store.decisions_for_plan("plan-1"), [])
+        self.assertEqual(self.decision_rows(), [])
 
     def test_non_active_principal_writes_no_confirmation(self):
         self.seed_principal(

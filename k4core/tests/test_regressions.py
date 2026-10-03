@@ -2,7 +2,6 @@
 
 import sqlite3
 import unittest
-from dataclasses import replace
 
 from k4core.core import Outcome
 from k4core.inputs import ApprovalVerificationResult
@@ -57,15 +56,10 @@ class SeparationOfDutiesTierTests(CoreTestCase):
 
 
 class MalformedEnvelopeTests(CoreTestCase):
-    def test_envelope_without_plan_ref_refused_with_no_effect(self):
+    def test_non_proposal_envelope_refused_with_no_effect(self):
         self.seed_principal("p1", "alice", roles=("scc.operator",))
         auth = verified("alice", self.clock)
-        for bad in (
-            None,
-            replace(plan(step(clock=self.clock)), plan_ref=None),
-            replace(plan(step(clock=self.clock)), plan_ref=object()),
-            replace(plan(step(clock=self.clock)), plan_ref=""),
-        ):
+        for bad in (None, object(), (step(clock=self.clock),)):
             res = self.commit(auth, bad)
             self.assertEqual(
                 (res.outcome, res.reason),
@@ -109,20 +103,6 @@ class AnchorReadFailureTests(CoreTestCase):
             verified("admin", self.clock), req=request("install"), anchors=anchors
         )
         self.assertEqual(res.reason, "k11_anchors_unestablished")
-
-
-class SingleDecisionPerDigestTests(CoreTestCase):
-    def test_a24_holds_after_invalidation(self):
-        self.seed_principal("p1", "alice", roles=("scc.operator",))
-        auth = verified("alice", self.clock)
-        x = plan(step(clock=self.clock, params={"ip": "x"}))
-        y = plan(step(clock=self.clock, params={"ip": "y"}))
-        self.assertEqual(self.commit(auth, x).outcome, Outcome.OK)
-        self.assertEqual(self.commit(auth, y).outcome, Outcome.OK)
-        again = self.commit(auth, x)
-        self.assertEqual(again.reason, "plan_already_decided")
-        digests = [d for _, d in self.store.decisions_for_plan("plan-1")]
-        self.assertEqual(len(digests), len(set(digests)))
 
 
 class GrantsUsedAcrossFullEvaluationTests(CoreTestCase):
@@ -305,13 +285,12 @@ class StepFourPlanMaxAgeTests(CoreTestCase):
         self.assertEqual(
             self.commit(auth, stale, req=request("status")).reason, "plan_max_age"
         )
-        missing = plan(step(clock=self.clock), plan_ref="p2")
+        missing = plan(step(clock=self.clock))
         self.assertEqual(
             self.commit(auth, missing, req=request("status")).reason, "plan_max_age"
         )
         fresh = plan(
             step(clock=self.clock),
-            plan_ref="p3",
             observed_at=self.clock.now - timedelta(seconds=30),
         )
         res = self.commit(auth, fresh, req=request("status"))
@@ -422,7 +401,7 @@ class LastRoundHardeningTests(CoreTestCase):
         for i, params in enumerate((deep, cyclic)):
             res = self.commit(
                 verified("alice", self.clock),
-                plan(step(clock=self.clock, params=params), plan_ref=f"d{i}"),
+                plan(step(clock=self.clock, params=params)),
             )
             self.assertEqual(
                 (res.outcome, res.reason), (Outcome.FORBIDDEN, "plan_malformed")

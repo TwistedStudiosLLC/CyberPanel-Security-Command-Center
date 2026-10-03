@@ -7,7 +7,6 @@ import unittest
 from k4core import audit
 from k4core.core import AnchorsNotEstablished, Outcome
 from k4core.inputs import AnchorChange, AuthenticationFailure
-from k4core.model import DecisionStatus
 from k4core.store import K7Store, UnsupportedFormat
 
 from .support import (
@@ -207,16 +206,8 @@ class FailureBehaviourTests(CoreTestCase):
         self.store.fail_audit_kinds = frozenset({"A2"})
         res = self.commit(self.auth, plan(step(clock=self.clock)))
         self.assertEqual(res.outcome, Outcome.UNAVAILABLE)
-        self.assertEqual(self.store.decisions_for_plan("plan-1"), [])
-        self.assertIsNone(self.store.plan_content("plan-1", res.plan_digest))
-
-    def test_r4a_invalidation_not_committed_without_a2(self):
-        first = self.commit(self.auth, plan(step(clock=self.clock)))
-        self.store.fail_audit_kinds = frozenset({"A2"})
-        self.commit(self.auth, plan(step(clock=self.clock, params={"ip": "changed"})))
-        self.assertEqual(
-            self.store.statuses(first.authorization_ref), [DecisionStatus.AUTHORIZED]
-        )
+        self.assertEqual(self.decision_rows(), [])
+        self.assertEqual(self.plan_rows(), 0)
 
     def test_k7_unavailable_denies(self):  # §17.16
         self.store.fail_reads = True
