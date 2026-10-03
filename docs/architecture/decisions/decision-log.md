@@ -25,6 +25,7 @@
 > the P2/K3 gate.
 > DEC-089 authorizes the first Phase 6 implementation slice: the abstract K4 authorization-and-audit core.
 > DEC-090 records owner interpretations of five Phase 6 authorization semantics questions.
+> DEC-091 routes the K4-side aspects of three open P2 verification questions to the §17/K4 Architecture Gate.
 
 # SCC Decision Log
 
@@ -120,6 +121,7 @@
 | DEC-088 | P2/K3 Gate Lock | CURRENT (adopted — P2/K3 LOCKED; Phase 5 complete; Category 1 from DEC-088) |
 | DEC-089 | Phase 6 Implementation Authorization: K4 Authorization and Audit Core | CURRENT (adopted — first Phase 6 implementation slice authorized; no amendment; DEC-029 standing) |
 | DEC-090 | Phase 6 Authorization Semantics Clarification | CURRENT (adopted — owner interpretations for the Phase 6 K4 core; no amendment; corrections documented, not implemented) |
+| DEC-091 | Routing of Open P2 Verification Questions | CURRENT (adopted — routing only; K4-side items assigned to the §17/K4 Architecture Gate; no technical answer; no amendment) |
 
 ---
 
@@ -9128,3 +9130,362 @@ D90-9  Non-effects. DEC-090 does not amend or change §15, §16, §17, locked §
 > is refused) and Q4, sets future times as not fresh (Q3), and for Q5
 > forbids denied and cross-Principal invalidation and suspends `INVALIDATED` writes until Plan-change identity is
 > defined. It amends nothing and implements nothing; corrections are listed in D90-7.
+
+---
+
+## DEC-091 — Routing of Open P2 Verification Questions
+
+- **Status:** CURRENT (adopted — routing only; K4-side items assigned to the §17/K4 Architecture Gate; no technical answer; no amendment)
+- **Source:** Owner routing-decision request (2026-10-03); owner correction instruction (2026-10-03); owner adoption
+  authorization of candidate v4 (2026-10-03).
+- **Related:** DEC-023; DEC-051 (R01b); DEC-063; DEC-064; DEC-068 (D68-D, D68-J, D68-M); DEC-075 (D75-3); DEC-078;
+  DEC-079 (D79-8); DEC-080 (D80-2, D80-5, D80-7); DEC-081; DEC-082 (D82-22); DEC-085 (D85-11); DEC-087; DEC-088
+  (D88-2, D88-6); DEC-090 (D90-1, D90-6); §15.6; §15.10; §17.2; §17.22; §21.7; §21.14; P2/K3 §P.3.1, §P.4, §P.10
+
+```text
+OWNER ROUTING-DECISION REQUEST (2026-10-03)
+
+==================================================
+TASK
+==================================================
+
+DO NOT resolve the underlying technical questions yet.
+
+Instead, prepare a narrowly scoped OWNER ROUTING DECISION that addresses only the fact that these P2-scope questions have no established route.
+
+This is a DRAFTING TASK ONLY.
+
+Do NOT implement anything.
+
+Do NOT modify §15, §16, §17, §19, §21, §22 or P2/K3.
+
+Do NOT modify code.
+
+Do NOT commit.
+
+Do NOT push.
+
+Do NOT adopt the decision yet.
+
+==================================================
+DECISION SCOPE
+==================================================
+
+The draft decision may establish routing for exactly these questions:
+
+R-1:
+What concrete value represents the P2 `audience` field's "SCC instance", and how K4 obtains the expected value / how the assertion issuer obtains the corresponding value.
+
+R-2:
+What persistence/lifecycle semantics apply to the K4 assertion replay record required by §P.4.2, including behavior across K4 restart, host restart and recovery where relevant.
+
+R-3:
+How P2 rejection conditions that are explicitly named in §P.4.1 but not individually represented in the current §21 B2 `failure_reason` vocabulary are to be handled at the architecture level, specifically:
+- not-yet-valid assertion;
+- unknown `key_id`;
+- retired `key_id`.
+
+IMPORTANT:
+
+R-3 is NOT necessarily a separate owner question.
+
+First determine whether it can safely be routed together with the verification contract rather than creating unnecessary decision surface.
+
+Do not decide its mapping.
+
+==================================================
+WHAT THE ROUTING DECISION MUST NOT DO
+==================================================
+
+It must NOT decide:
+
+- the audience value;
+- audience storage;
+- audience provisioning;
+- replay storage domain;
+- replay persistence;
+- replay restart semantics;
+- recovery behavior;
+- K2 implementation;
+- K4 implementation;
+- P2 protocol changes;
+- §19 data-class assignment;
+- §22 provisioning;
+- CyberPanel installation mechanics.
+
+It must NOT reopen or amend the locked P2/K3 protocol.
+
+It must NOT add either question to OD19-01.
+
+It must NOT declare that an existing gate owns these questions unless the existing architecture actually provides a valid route.
+
+==================================================
+SOURCE HIERARCHY
+==================================================
+
+Use:
+
+- DEC-023 hierarchy;
+- DEC-064 gate naming/provenance;
+- DEC-063 / DEC-075 post-lock §19 routing;
+- DEC-078 post-lock §22 routing;
+- DEC-080 P2 scope;
+- DEC-088 P2/K3 lock;
+- §P.3.1, §P.4.1, §P.4.2, §P.4.3;
+- §17.22 step 1;
+- §21.7 / §21.14 B2 semantics;
+- the read-only investigation just completed.
+
+Do not infer a post-lock P2 amendment mechanism that does not exist.
+
+==================================================
+ROUTING QUESTION
+==================================================
+
+The draft must answer:
+
+"What existing authority or gate is empowered to resolve these questions without silently changing the locked P2/K3 contract?"
+
+If the answer is "none", the decision should explicitly establish a narrowly scoped route.
+
+Do not choose the underlying technical answer.
+
+==================================================
+PREFERRED ROUTING SHAPE
+==================================================
+
+Draft the decision so that:
+
+- the P2/K3 contract remains locked;
+- the questions are recognized as unresolved P2-scope dependencies;
+- an explicitly named owner/gate is authorized to resolve them;
+- any resulting change to a locked P2/K3 passage must follow the established owner-decision / amendment hierarchy;
+- §19 placement decisions remain subject to §19's existing route;
+- §22 provisioning decisions remain subject to §22's existing route;
+- CyberPanel-specific constraints remain subject to the K2 gate;
+- no implementation authority is granted.
+
+If no existing gate can legitimately be named, say so rather than inventing one.
+
+OWNER CORRECTION INSTRUCTION (2026-10-03)
+
+Required correction:
+
+1. In D91-2(c), remove only the phrase:
+   "has expired"
+
+   R-3 must list exactly:
+   - not yet valid
+   - unknown `key_id`
+   - retired `key_id`
+
+2. In the R-3 [U] row in §4, remove only the phrase:
+   "has expired"
+
+   Again, R-3 must list exactly:
+   - not yet valid
+   - unknown `key_id`
+   - retired `key_id`
+
+Do not make any other substantive, stylistic, citation, terminology, or structural changes.
+
+ADOPTION AUTHORIZATION (2026-10-03)
+
+We are now adopting Candidate DEC-091 v4.
+
+This is an OWNER DECISION ADOPTION operation.
+
+Before editing:
+1. Read the complete DEC-091 v4 scratchpad draft.
+2. Confirm it is the v4 draft whose only changes from v3 were:
+   - removal of "has expired" from D91-2(c);
+   - removal of "has expired" from the R-3 [U] row;
+   - title changed v3 → v4.
+3. Confirm the prior read-only verification reported NOT READY only because of that R-3 scope defect, and that the mechanical v4 correction subsequently passed.
+4. Do not reopen the architecture review.
+5. Do not alter the substantive decision.
+
+ADOPTION RULES:
+
+- Adopt DEC-091 v4 exactly as written.
+- Preserve the owner wording and structure.
+- Do not rewrite, summarize, normalize, or "improve" the decision.
+- Do not add technical answers for R-1, R-2, or R-3.
+- Do not assign the K2 issuer-side of R-1.
+- Do not amend P2/K3.
+- Do not amend §15, §16, §17, §19, §21, or §22.
+- Do not extend OD19-01.
+- Do not create a general P2 amendment route.
+- Do not create a general gate-convening procedure.
+- Do not authorize implementation.
+
+DEC-091 adoption must preserve these substantive boundaries:
+
+R-1:
+- K4-side expected `audience` value / acquisition is assigned to the §17/K4 Architecture Gate.
+- K2 issuer-side `audience` remains unresolved and returns to the owner.
+- No audience value is selected.
+
+R-2:
+- Replay-record persistence/survival is assigned to the §17/K4 Architecture Gate.
+- No persistence mechanism, storage class, restart behavior, or recovery behavior is selected.
+
+R-3:
+- ONLY:
+  - not yet valid
+  - unknown `key_id`
+  - retired `key_id`
+- This is a classification question against the existing §17.22 step-1 / §21 `failure_reason` contract.
+- No new failure reason is created.
+```
+
+Decision text (candidate DEC-091 v4, §2–§8, adopted by the authorization above):
+
+```text
+## 2. Owner question
+Which existing authority, if any, may determine three matters that real K4 assertion verification needs and that
+locked text does not determine at that level — the `audience` value K4 compares against (R-1), the persistence and
+lifecycle of K4's assertion replay record (R-2), and the §17.22 step-1 check under which certain §P.4.1 rejections
+are recorded in B2 `failure_reason` (R-3) — given that P2/K3 and §21 have no post-lock change route and no existing
+gate's recorded agenda includes these matters?
+
+## 3. Owner dispositions (draft)
+
+D91-1  Recognition. R-1, R-2 and R-3 are matters that the locked text (P2/K3 §P.3.1, §P.4.1, §P.4.2; §17.22 step 1;
+       §21.7) does not determine at the level real verification requires. This decision does not revisit the
+       DEC-088 D88-6 lock evaluation or DEC-088's lock, and does not add these matters to OD19-01.
+D91-2  Owner assignment. By this decision the owner extends the remit of the §17/K4 Architecture Gate — which DEC-064
+       named as the owning architecture for Q19-04 only — to the following K4-side matters:
+       (a) R-1, K4 side: what K4 compares an assertion's `audience` against, and how K4 obtains that expected value;
+       (b) R-2: the persistence and lifecycle of the replay record K4 keeps under §P.4.2, including behaviour
+           across K4 restart, host restart and restore within the validity window;
+       (c) R-3: under which §17.22 step-1 check each of the §P.4.1 conditions not yet valid, and has an
+           unknown or retired `key_id` is recorded in B2 `failure_reason`.
+       This is an owner assignment, not a reading of DEC-064 or DEC-090. It does not convene the gate, does not make
+       it a P2/K3, §17 or §21 amendment gate, transfers no responsibility between K2–K11, and decides none of (a)–(c).
+D91-3  Not assigned. The issuer side of R-1 — what K2 places in `audience` and how K2 obtains it — is not assigned
+       by this decision. It has no existing route and returns to the owner for an explicit decision. Anything later
+       determined to be DC-18 assertion-verification material stays in OD19-01 under DEC-051 R01b; the §17/K4
+       Architecture Gate does not act as the "P2" party in that coordination.
+D91-4  Form of outcome. Any determination on (a)–(c) is recorded by the owner as a new DEC in the decision log,
+       recording [L], [OI] and [U] determinations where locked text leaves the matter open, in the form of DEC-090
+       D90-1. It does not add to, amend or supersede locked P2/K3, §17 or §21 text, and those documents are not edited.
+D91-5  Locked text. No route exists to change locked P2/K3 text (DEC-080 D80-7: "No post-lock route is created
+       now") or locked §21 text (DEC-085 D85-11), and this decision creates none. A determination that would require
+       changing locked P2/K3 or §21 text is not made through this route and returns to the owner for an explicit
+       decision. For §15 and §17 no amendment path is established (DEC-082 D82-22: "§17 has no amendment route";
+       DEC-064 item 2; DEC-068 D68-J; cf. DEC-078 D78-3). A §16 change is possible only through the §16 Amendment Gate, subject to a separate assignment under
+       DEC-068 D68-D.
+D91-6  §19 consequences. A §19 consequence that resolves an item already recorded in §19.21–§19.22 uses DEC-075 D75-3
+       and DEC-063. Any other §19 change — for example a data-class, owner or storage-domain assignment for the replay
+       record or for a persisted expected `audience` value — has no existing route and returns to the owner for an
+       explicit decision (DEC-081 confirmations 4–5; D81-6). This decision does not apply or extend DEC-063 or D75-3.
+D91-7  §22 consequences. A §22 change required by a determination proceeds only where DEC-078 D78-1 admits it;
+       otherwise it returns to the owner for an explicit decision. This decision does not extend DEC-078.
+D91-8  Platform-specific aspects. A CyberPanel-specific aspect of a determination is for the CyberPanel K2 gate only
+       if it falls within K2-Q1 … K2-Q7 (DEC-080 D80-5); otherwise it returns to the owner. This decision adds nothing
+       to that gate's question list.
+D91-9  Gate procedure. The §17/K4 Architecture Gate has no procedural framework. Convening it, admitting items
+       (including Q19-04, the DEC-090 D90-6 item and D91-2 (a)–(c)) and recording outcomes require a later owner
+       decision; apart from the recording form in D91-4, this decision establishes no procedure and does not apply
+       DEC-068.
+D91-10 Non-effects. See section 5.
+
+## 4. Locked-source basis
+
+R-1 `audience`
+- [L] §15.10 P2 row: "audience-bound (SCC)"; §15.6: K2 may "issue a short-lived, audience-bound identity assertion";
+  §17.2 and §17.22 step 1: K4 verifies "audience"; P2/K3 §P.3.1: "`audience`, identifying the SCC instance the
+  assertion is for"; §P.4.1: K4 rejects an assertion that "carries the wrong `audience`".
+- [L] DEC-080 D80-2: "audience binding" is P2 scope.
+- [U] The concrete value; its creator, owner, storage, provisioning and lifecycle; how K4 obtains the expected value;
+  how K2 obtains the value it places.
+- [OI] The K4-side aspect is assigned to the §17/K4 Architecture Gate by owner assignment (D91-2(a)); the issuer side
+  is not assigned (D91-3).
+
+R-2 replay record
+- [L] §17.22 step 1 "single use"; §15.10 P3: "K4 enforces assertion freshness and single use where applicable";
+  §P.4.2: "K4 records `assertion_id` for the assertion's validity period and rejects any second use"; §P.4.3: "Replay
+  rejection is K4's; K3 performs none and holds no replay state"; DEC-088 D88-2(c): validity window at most 60 seconds;
+  single use unchanged.
+- [L] DEC-080 D80-2: "freshness and replay resistance" are P2 scope.
+- [U] Whether the record survives K4 restart, host restart or restore within the validity window; its §19
+  classification, owner and storage domain. (§P.7.6 volatility concerns SCC sessions only.)
+- [OI] Assigned to the §17/K4 Architecture Gate by owner assignment (D91-2(b)); §19 consequences per D91-6.
+
+R-3 step-1 classification of rejections
+- [L] §21.7 `failure_reason`: "The §17.22 step-1 check that failed", with §21 semantics "the checks are §17's";
+  §21.14; §17.22 step 1 lists signature, audience, freshness and single use; §P.4.1 lists not yet valid, expired,
+  wrong `audience`, unknown or retired `key_id`, and signature failure. P2/K3 §P.10: P2/K3 does not own "§21 audit
+  records".
+- [U] Under which step-1 check the §P.4.1 conditions not yet valid, and has an unknown or retired `key_id`
+  are recorded.
+- [OI] R-3 is a §17.22 step-1 classification question and is assigned with R-1(a) and R-2 as part of K4's step-1
+  verification (D91-2(c)); if no existing check fits, D91-5 applies.
+
+Routing
+- [L] DEC-080 D80-7 "No post-lock route is created now"; DEC-085 D85-11 (no §21 route).
+- [L] DEC-064: the §17/K4 Architecture Gate is named for Q19-04, "not a new §17 amendment gate. §17 remains locked";
+  §19.21.1 Q19-04: "(NOT SCHEDULED). This is not a §17 amendment gate; §17 remains LOCKED."
+- [L] DEC-090 D90-6 routed a §17.11 question (Plan-change identity) to "the §17/K4 Architecture Gate or a later owner
+  decision".
+- [L] DEC-068 D68-D: new §16 Amendment Gate items need a separate owner decision; D68-M: DEC-068 "creates no … gate,
+  and assigns nothing to K4, K9, §17 or §22".
+- [L] DEC-063; DEC-075 D75-3; DEC-081 confirmations 4–5 and D81-6: §19 post-lock route limited to recorded items.
+- [L] DEC-078 D78-1 … D78-4: §22 post-lock route; no general authority.
+- [OI] The extension of the §17/K4 Architecture Gate's remit to D91-2 (a)–(c).
+
+## 5. Non-effects
+This decision does not amend or supplement P2/K3; does not decide the `audience` value, its storage or provisioning;
+does not decide replay persistence, storage domain, restart or recovery behaviour; does not decide the R-3
+classification; does not amend §15, §16, §17, locked §19, locked §21 or locked §22; makes no §19 assignment and no §22
+provisioning decision; does not apply or extend DEC-063, DEC-075 D75-3 or DEC-078; does not revisit DEC-088 or its lock
+evaluation; adds nothing to OD19-01 or to the CyberPanel K2 gate's question list; does not convene the §17/K4
+Architecture Gate or the §16 Amendment Gate and establishes no gate procedure; creates no P2/K3 amendment mechanism;
+transfers no responsibility between components; authorizes no implementation; does not alter DEC-051, DEC-064 (beyond the
+D91-2 owner extension of the named gate's remit), DEC-079, DEC-088, DEC-089 or DEC-090. DEC-029 remains standing.
+
+## 6. Routing mechanics
+1. A later owner decision establishes how the §17/K4 Architecture Gate is convened, admits items and records outcomes
+   (D91-9). This decision does none of that.
+2. Each determination on D91-2 (a)–(c) is recorded by the owner as a new DEC with [L]/[OI]/[U] determinations, without editing
+   any locked document (D91-4).
+3. Consequences:
+   - a change to locked P2/K3 or §21 text → returns to the owner (D91-5);
+   - §15 or §17 → no amendment path is established (D91-5);
+   - §16 → only through the §16 Amendment Gate after a D68-D assignment (D91-5);
+   - §19 → DEC-075 D75-3 / DEC-063 only for items already recorded; otherwise back to the owner (D91-6);
+   - §22 → only where DEC-078 D78-1 admits it; otherwise back to the owner (D91-7);
+   - CyberPanel-specific → K2 gate only within K2-Q1 … K2-Q7; otherwise back to the owner (D91-8);
+   - the issuer side of R-1 → back to the owner (D91-3).
+4. Implementation of real verification still requires its own owner implementation-authorization decision.
+
+## 7. Dependencies
+- OD19-01: [U] Whether any part of R-1 or R-2 is DC-18 material is not decided; anything determined to be DC-18
+  material stays in OD19-01 under DEC-051 R01b (D91-3). OD19-01 independently blocks actual assertion-verification implementation
+  (DEC-079 D79-8).
+- §22 O-4 / O-15: unchanged; consequences per D91-7.
+- CyberPanel K2 gate: per D91-8; DEC-025 sequencing unchanged.
+- P2/K3: remains locked and unsupplemented (D91-4, D91-5).
+- §19: per D91-6.
+- §21: `failure_reason` contract unchanged; R-3 concerns classification only (D91-2(c), D91-5).
+
+## 8. Source mapping
+See section 4. Register §8 currently lists only Q19-04 for the §17/K4 Architecture Gate; if adopted, a register §8
+pointer for D91-2 (cf. DEC-087 D87-2) would be the only bookkeeping beyond the decision-log entry; that is an
+owner choice at adoption.
+```
+
+> **Transcription note (session process):** The owner routing-decision request is reproduced from its task, scope,
+> exclusion, source-hierarchy, routing-question and preferred-shape sections; its draft-structure and process sections
+> are omitted. The correction instruction is reproduced from its required-correction section and the adoption
+> authorization from its opening through its adoption rules and boundaries; their edit-scope, mechanics, validation,
+> commit and reporting sections governed only this change set and are omitted. The decision text is candidate v4
+> reproduced verbatim from its §2 onward; the draft title line and §1 (candidate number) are drafting metadata and are
+> omitted. The "(draft)" label in the §3 heading is part of the verbatim v4 text.
+
+> **Index note (not owner wording):** DEC-091 is a routing decision. It assigns the K4-side aspects of three open P2
+> verification questions (the expected `audience` value, the replay record's persistence, and the step-1
+> classification of not-yet-valid and unknown or retired `key_id` rejections) to the §17/K4 Architecture Gate, leaves
+> the K2 issuer side of `audience` with the owner, decides no technical answer, amends nothing and authorizes no
+> implementation.
