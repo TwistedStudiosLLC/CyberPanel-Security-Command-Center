@@ -26,6 +26,7 @@
 > DEC-089 authorizes the first Phase 6 implementation slice: the abstract K4 authorization-and-audit core.
 > DEC-090 records owner interpretations of five Phase 6 authorization semantics questions.
 > DEC-091 routes the K4-side aspects of three open P2 verification questions to the §17/K4 Architecture Gate.
+> DEC-092 convenes the §17/K4 Architecture Gate for the three matters DEC-091 assigned to it.
 
 # SCC Decision Log
 
@@ -122,6 +123,7 @@
 | DEC-089 | Phase 6 Implementation Authorization: K4 Authorization and Audit Core | CURRENT (adopted — first Phase 6 implementation slice authorized; no amendment; DEC-029 standing) |
 | DEC-090 | Phase 6 Authorization Semantics Clarification | CURRENT (adopted — owner interpretations for the Phase 6 K4 core; no amendment; corrections documented, not implemented) |
 | DEC-091 | Routing of Open P2 Verification Questions | CURRENT (adopted — routing only; K4-side items assigned to the §17/K4 Architecture Gate; no technical answer; no amendment) |
+| DEC-092 | Convening of the §17/K4 Architecture Gate for the DEC-091 Items | CURRENT (adopted — convening only; §17/K4 Architecture Gate convened for DEC-091 D91-2 (a)–(c); no technical answer; no amendment) |
 
 ---
 
@@ -9489,3 +9491,506 @@ owner choice at adoption.
 > classification of not-yet-valid and unknown or retired `key_id` rejections) to the §17/K4 Architecture Gate, leaves
 > the K2 issuer side of `audience` with the owner, decides no technical answer, amends nothing and authorizes no
 > implementation.
+
+---
+
+## DEC-092 — Convening of the §17/K4 Architecture Gate for the DEC-091 Items
+
+- **Status:** CURRENT (adopted — convening only; §17/K4 Architecture Gate convened for DEC-091 D91-2 (a)–(c); no technical answer; no amendment)
+- **Source:** Owner convening-decision request (2026-10-03); owner revision rulings A–E (2026-10-03); owner final
+  correction rulings (2026-10-03); owner adoption authorization of candidate v5 (2026-10-03).
+- **Related:** DEC-023; DEC-029; DEC-063; DEC-064; DEC-068 (D68-M); DEC-069; DEC-075 (D75-3); DEC-078; DEC-079
+  (D79-8); DEC-085; DEC-086; DEC-088; DEC-090 (D90-6); DEC-091 (D91-2 … D91-9); §17.22; §21.7; P2/K3 §P.3.1, §P.4.1,
+  §P.4.2; register §8
+
+```text
+OWNER CONVENING-DECISION REQUEST (2026-10-03)
+
+We are proceeding from the adopted DEC-091.
+
+Current authoritative state:
+- HEAD: ef54df2ca84f3c273756fe9550ecfd59e9ca3b73
+- DEC-091 is CURRENT and adopted.
+- DEC-091 routes three K4-side questions to the §17/K4 Architecture Gate:
+  R-1: K4's expected `audience` value and how K4 obtains it.
+  R-2: replay-record persistence/lifetime behavior.
+  R-3: classification of the three specified §P.4.1 conditions under the existing §17.22 step-1 / §21 `failure_reason` contract.
+- DEC-091 does NOT answer any of those questions.
+- The K2 issuer-side of R-1 remains unresolved and is not assigned by DEC-091.
+- DEC-091 explicitly states that the §17/K4 Architecture Gate still needs a later owner decision to convene it.
+
+TASK: DRAFT ONLY.
+
+Do NOT modify the repository.
+Do NOT create or edit a decision-log entry.
+Do NOT commit.
+Do NOT push.
+Do NOT implement anything.
+
+We need to determine the MINIMUM owner decision required to convene the existing §17/K4 Architecture Gate for the three questions already assigned by DEC-091.
+
+This is a routing/procedure decision, NOT a technical architecture decision.
+
+==================================================
+AUTHORITATIVE SOURCES TO INSPECT
+==================================================
+
+Read the exact authoritative text for:
+
+- DEC-023 decision hierarchy
+- DEC-064 gate naming and §17/K4 Architecture Gate language
+- DEC-068, especially D68-D, D68-J and D68-M
+- DEC-087 D87-1 and any relevant gate-assignment precedent
+- DEC-090 D90-6
+- DEC-091 in full
+- §17 / §17.22 only as needed to understand the assigned question boundaries
+- Any existing language defining owner decisions, gate assignment, gate procedure, or gate convening.
+
+Do NOT infer a gate procedure merely because another gate has one.
+
+If no existing procedural framework exists, say so explicitly.
+
+==================================================
+OWNER QUESTION
+==================================================
+
+The decision must answer ONLY:
+
+"What minimum owner authorization is required to convene the existing §17/K4 Architecture Gate to consider the three matters assigned to it by DEC-091?"
+
+The decision may establish a narrowly scoped procedure for this specific DEC-091 gate session if the existing architecture provides no procedure.
+
+It must NOT establish a general §17 amendment mechanism or a general gate-convening framework.
+
+==================================================
+MANDATORY SCOPE
+==================================================
+
+The convened gate may consider ONLY:
+
+R-1 K4 SIDE:
+- what expected `audience` value K4 compares against;
+- how K4 obtains that expected value.
+
+R-2:
+- replay-record persistence/lifetime;
+- including survival behavior where relevant to the already-defined validity window.
+
+R-3:
+- which existing §17.22 step-1 check corresponds to each of:
+  - not yet valid;
+  - unknown `key_id`;
+  - retired `key_id`;
+- using the existing §21 `failure_reason` contract.
+
+The gate must NOT consider:
+
+- K2 issuer-side `audience` behavior;
+- a selected audience value;
+- a replay-storage technology;
+- a replay database/schema;
+- implementation mechanics;
+- P2/K3 amendment;
+- §15 amendment;
+- §16 amendment;
+- §17 amendment;
+- §19 classification/amendment;
+- §21 amendment;
+- §22 amendment;
+- OD19-01 resolution;
+- implementation authorization.
+
+==================================================
+CRITICAL DISTINCTION
+==================================================
+
+Do not confuse:
+
+1. assigning questions to the gate;
+2. convening the gate;
+3. the gate deliberating and producing candidate determinations;
+4. an owner decision adopting those determinations;
+5. implementation authorization.
+
+DEC-091 already did #1.
+
+This draft should address only #2, and only enough procedure to permit #3.
+
+It must NOT perform #4 or #5.
+
+==================================================
+PROCEDURE QUESTION
+==================================================
+
+Determine whether the owner decision needs to establish any of the following for this one gate session:
+
+- participating authority/roles;
+- exact agenda/questions;
+- admissible source material;
+- whether the gate may identify [L], [U], and [OI] separately;
+- whether the gate may produce candidate determinations rather than final architecture;
+- how unresolved issues are returned to the owner;
+- whether consequences that touch a locked document are merely identified and returned rather than acted upon;
+- required record of the gate's result.
+
+Do NOT invent people, names, quorum rules, voting rules, timelines, or approval mechanics unless an authoritative source already requires them.
+
+Prefer the minimum necessary procedure.
+
+OWNER REVISION RULINGS A–E (2026-10-03)
+
+Apply ONLY the owner decisions below.
+
+==================================================
+A — R-1 AUDIENCE VALUE
+==================================================
+
+Resolve the contradiction between:
+
+- DEC-091 D91-2(a), which assigns the K4-side question:
+  "what K4 compares `audience` against, and how K4 obtains that expected value"
+
+and
+
+- D92-3's current exclusion of "a selected `audience` value".
+
+Replace the exclusion with a distinction:
+
+The gate MAY consider and report a candidate expected `audience` value and how K4 obtains it, because that is within D91-2(a).
+
+The gate MAY NOT:
+- adopt or lock that value as architecture;
+- create a final owner decision;
+- modify P2/K3;
+- assign K2's issuer-side behavior.
+
+Any candidate value remains candidate material with no architectural effect until separately adopted by the owner.
+
+Do NOT select an actual audience value in DEC-092.
+
+==================================================
+B — D92-4 OUTPUT FORM
+==================================================
+
+Keep D92-4.
+
+Clarify it so the gate's output itself does NOT become [OI].
+
+The distinction must be:
+
+- [L] = existing locked architecture;
+- [U] = unresolved matter;
+- candidate interpretation/determination = proposed gate output only;
+- [OI] arises only when the owner separately records/adopts it under the applicable decision process.
+
+Do not create a new classification system.
+
+==================================================
+C — K2/K11 EXCLUSION
+==================================================
+
+REMOVE the specific additional exclusion concerning:
+"any transfer of responsibility between K2 and K11."
+
+Do not replace it with another component-transfer rule.
+
+Existing DEC-091 boundaries remain sufficient.
+
+==================================================
+D — PARTICIPANTS
+==================================================
+
+Do NOT invent:
+- participants;
+- committee membership;
+- quorum;
+- voting;
+- approvers;
+- reviewers;
+- timetable;
+- role hierarchy.
+
+Leave the deliberating participants procedurally unspecified.
+
+Do not describe that omission as a defect.
+
+==================================================
+E — REGISTER / CLOSURE
+==================================================
+
+Inspect the existing architecture register's actual vocabulary and conventions.
+
+Determine whether DEC-092 adoption should update the existing "NOT SCHEDULED" pointer for this gate.
+
+Do NOT invent a new lifecycle state.
+
+If an existing convention supports marking the gate as scheduled/convened, use that convention.
+
+If no suitable existing state exists, do not invent one; report that as an adoption-time choice.
+
+Add a narrowly scoped closure statement for THIS convening only:
+
+The DEC-092 convening concludes when:
+1. the gate has produced candidate output for the admitted agenda; OR
+2. the gate reports that an admitted matter cannot be determined within the permitted scope.
+
+Do not create a general gate lifecycle framework.
+
+==================================================
+IMPORTANT SCOPE
+==================================================
+
+DEC-092 still does NOT:
+
+- answer R-1;
+- answer R-2;
+- answer R-3;
+- select an audience value;
+- decide replay persistence;
+- decide R-3 classification;
+- assign K2;
+- amend P2/K3;
+- amend §15, §16, §17, §19, §21 or §22;
+- expand OD19-01;
+- create a general gate procedure;
+- create a general §17 amendment route;
+- authorize implementation.
+
+DEC-091 remains unchanged and authoritative.
+
+OWNER FINAL CORRECTION RULINGS (2026-10-03)
+
+OWNER RULINGS:
+
+1. CLOSURE — KEEP THE PER-ITEM MODEL
+
+Keep the current D92-10 rule:
+
+The convening concludes only when EACH of D92-2 (a), (b), and (c) has either:
+- candidate output; OR
+- a report that the matter cannot be determined within the permitted scope.
+
+Do NOT allow one unresolved item to terminate the entire convening while other agenda items remain incomplete.
+
+2. NO SEPARATE CONFIRMATION AUTHORITY
+
+Do not add a person, approver, quorum, vote, or separate confirmation mechanism.
+
+Make closure mechanical from D92-10's condition itself.
+
+Once the per-item condition is satisfied, the convening is complete for purposes of DEC-092.
+
+3. REGISTER
+
+Keep D92-11's existing behavior:
+
+- OPEN while the DEC-092 convening is active;
+- return to the existing NOT SCHEDULED state when D92-10 is satisfied;
+- do not invent a new status.
+
+Keep the existing Stub/provenance information.
+Do not remove the DEC-091 / DEC-092 historical pointer after closure.
+
+4. MINIMAL D92-10 WORDING
+
+Update D92-10 so that it explicitly states that once the per-item condition is satisfied, the convening is complete for purposes of this decision and the register returns to its pre-convening NOT SCHEDULED state under D92-11.
+
+Do not create a general gate lifecycle rule.
+
+Do not change anything else in DEC-092.
+
+ADOPTION AUTHORIZATION (2026-10-03)
+
+Adopt Candidate DEC-092 v5 exactly as currently written.
+
+This is an OWNER DECISION ADOPTION operation.
+
+STARTING STATE:
+- HEAD: ef54df2ca84f3c273756fe9550ecfd59e9ca3b73
+- DEC-091 is already CURRENT and adopted.
+- DEC-092 v5 is the final scratchpad draft.
+- The repository is clean.
+- DEC-092 does not yet exist in the decision log.
+
+PRE-ADOPTION CHECK:
+1. Read the complete DEC-092 v5 scratchpad draft.
+2. Confirm it is the v5 version whose only substantive change from v4 is the final D92-10 closure wording, with the title/version label updated to v5.
+3. Confirm D92-10:
+   - requires all three D92-2 matters to reach candidate output or an explicit cannot-determine result;
+   - has no separate confirmation step;
+   - changes only the register row's STATUS;
+   - retains the Stub entry/provenance.
+4. Confirm the final adversarial review reported no blocking defects.
+5. If the v5 draft differs from the reviewed text, STOP and report the discrepancy.
+
+DO NOT:
+- resolve R-1, R-2 or R-3;
+- select an audience value;
+- decide replay persistence;
+- decide R-3 classification;
+- assign K2;
+- amend P2/K3;
+- amend §15, §16, §17, §19, §21 or §22;
+- expand OD19-01;
+- create a general gate lifecycle;
+- create a general §17 amendment route;
+- authorize implementation.
+
+ADOPTION:
+
+1. Determine the next available decision number.
+   It must be DEC-092.
+   If DEC-092 already exists anywhere in the authoritative decision log, STOP.
+
+2. Add DEC-092 to decision-log.md using the final v5 decision text.
+
+3. Follow the exact established adoption pattern used for DEC-091:
+   - update decision-log header/index/range as mechanically required;
+   - update README decision range/pointer as required;
+   - do not invent a new register category.
+
+4. Update the architecture register only as required by DEC-092 D92-11.
+
+REGISTER REQUIREMENTS:
+- On adoption, the §17/K4 Architecture Gate row's existing status becomes OPEN.
+- Preserve the existing qualifier:
+  "not a §17 amendment gate; §17 remains LOCKED (DEC-064)"
+- Add the DEC-091 D91-2(a)–(c) Stub/provenance information required by D92-11.
+- Note that Q19-04 is not admitted.
+- Do not invent a new gate status.
+- Do not remove or overwrite existing Stub/provenance information.
+
+5. DEC-092 D92-1 through D92-11 must be adopted exactly.
+6. Preserve DEC-001 through DEC-091 byte-identically.
+7. Do not modify any locked architecture document.
+8. Do not modify P2/K3.
+9. Do not modify implementation code.
+```
+
+Decision text (candidate DEC-092 v5, §2–§12, adopted by the authorization above):
+
+```text
+## 2. Owner question
+What minimum owner authorization is required to convene the existing §17/K4 Architecture Gate to consider the three
+matters assigned to it by DEC-091?
+
+Answer (for this case only): an owner decision that convenes the gate, admits exactly the DEC-091 D91-2 (a)–(c)
+matters, states the owner's exclusions for this convening, and states that the gate's output is candidate material
+for the owner — namely this decision. No general rule is established.
+
+## 3. Scope / assignment
+- [L] DEC-091 D91-2 assigned three K4-side matters to the §17/K4 Architecture Gate; D91-3 left the K2 issuer side of
+  R-1 unassigned.
+- [L] DEC-091 D91-9: the gate "has no procedural framework"; convening it, admitting items and recording outcomes
+  "require a later owner decision".
+- [L] DEC-068 D68-M: DEC-068 "creates no … gate, and assigns nothing to K4, K9, §17 or §22".
+- This decision assigns nothing new.
+
+## 4. Convening authorization
+D92-1  Convening. The owner convenes the §17/K4 Architecture Gate by this decision for the agenda in D92-2. [OI]
+D92-2  Agenda. The matters assigned by DEC-091 D91-2 (a)–(c) are admitted, in DEC-091's words:
+       (a) R-1, K4 side: what K4 compares an assertion's `audience` against, and how K4 obtains that expected value;
+       (b) R-2: the persistence and lifecycle of the replay record K4 keeps under §P.4.2, including behaviour across
+           K4 restart, host restart and restore within the validity window;
+       (c) R-3: under which §17.22 step-1 check each of the §P.4.1 conditions not yet valid, and has an unknown or
+           retired `key_id` is recorded in B2 `failure_reason`.
+       No other item is admitted. Q19-04 and the DEC-090 D90-6 item are not admitted. The K2 issuer side of R-1 is not
+       on the agenda (DEC-091 D91-3). Matter (c) is considered against the existing §21 `failure_reason` contract, which
+       is unchanged (DEC-091 §7; D91-5).
+D92-3  Owner exclusions for this convening. By this decision the owner narrows what this convening considers within
+       the admitted matters. The convening does not consider: K2 issuer-side `audience` behaviour; a replay-storage
+       technology; a replay database or schema; implementation mechanics; any P2/K3, §15, §16, §17, §19, §21 or §22
+       amendment; §19 classification; OD19-01 resolution; implementation authorization. DEC-091's assignment of D91-2
+       (a)–(c) to the gate is not changed; aspects excluded here are not considered in this convening. [OI]
+D92-4  Candidate `audience` value. Within D91-2(a), the gate may consider and report a candidate expected `audience`
+       value and how K4 obtains it. The gate may not adopt or lock that value as architecture, create a final owner
+       decision, modify P2/K3, or assign K2's issuer-side behaviour. Any candidate value remains candidate material with
+       no architectural effect until separately adopted by the owner. This decision selects no `audience` value. [OI]
+
+## 5. Minimal gate procedure
+D92-5  Form of the gate's work. For each admitted matter the gate's output separately identifies [L] existing locked
+       architecture, [U] unresolved matters, and candidate interpretations or determinations, which are proposed gate
+       output only. The gate's output is not itself [OI]: an [OI] arises only when the owner separately records it
+       as a new DEC under DEC-091 D91-4. [OI]
+D92-6  No participants or mechanics. This decision establishes no participant, role, committee, committee membership,
+       quorum, vote, approver, reviewer, timetable or role hierarchy, and does not apply DEC-068 or DEC-069. The deliberating
+       participants are left procedurally unspecified. [OI]
+
+## 6. Permitted outputs
+D92-7  Candidate material only. In this convening, the gate's output is candidate material submitted to the owner. It has no architectural
+       effect, is not an owner decision and is not locked architecture. Any determination takes effect only if the
+       owner records it as a new DEC under DEC-091 D91-4. The gate may report that a matter cannot be determined within
+       the permitted scope.
+
+## 7. Explicit prohibitions / non-effects
+D92-8  Non-effects. This decision does not answer R-1, R-2 or R-3; does not select an `audience` value or a replay
+       persistence behaviour; does not decide the R-3 classification; does not adopt any gate output; does not amend
+       P2/K3, §15, §16, §17, locked §19, locked §21 or locked §22; creates no amendment route; does not extend DEC-063,
+       DEC-075 D75-3 or DEC-078; assigns nothing to K2 and nothing to the gate beyond DEC-091 D91-2; adds nothing to
+       OD19-01; establishes no general gate-convening framework, no general gate lifecycle and no §17 amendment
+       mechanism; does not admit Q19-04 or the DEC-090 D90-6 item; authorizes no implementation; and does not alter
+       DEC-091's assignment, its D91-3 non-assignment or its D91-4 recording rule. DEC-029 remains standing.
+
+## 8. Handling of unresolved or out-of-scope matters
+D92-9  Reporting. In this convening the gate identifies and does not act on: any matter outside D92-2; any aspect excluded by D92-3; any
+       consequence that would touch locked P2/K3, §15–§17, §19, §21 or §22 text; any OD19-01 matter; the K2 issuer side
+       of R-1; any implementation question; and any matter it reports it cannot determine. Each is reported to the
+       owner. Aspects excluded by D92-3 that fall within DEC-091 D91-2 (a)–(c) remain assigned to the gate under D91-2
+       and are not considered in this convening; Q19-04 and the DEC-090 D90-6 item remain subject to DEC-091 D91-9; all
+       other matters are routed under DEC-091 D91-3 and D91-5 … D91-8 where they apply, and any remaining matter
+       returns to the owner.
+
+## 9. Closure and register
+D92-10 Closure of this convening. The convening made by this decision concludes when, for each of D92-2 (a)–(c),
+       either (1) the gate has produced candidate output, or (2) the gate has reported that the matter cannot be
+       determined within the permitted scope. Once that condition is satisfied for all three matters, the convening is
+       complete for the purposes of this decision, with no further confirmation step, and the register row's status
+       returns to its pre-convening NOT SCHEDULED status under D92-11; the Stub entry added under D92-11 is retained.
+       This applies to this convening only and establishes no general gate lifecycle. [OI]
+D92-11 Register. On adoption, the register §8 row for the §17/K4 Architecture Gate shows the existing register gate
+       status OPEN, citing this decision, and keeps its qualifier "not a §17 amendment gate; §17 remains LOCKED
+       (DEC-064)"; its Stub entry adds DEC-091 D91-2 (a)–(c) as convened by this decision and notes that Q19-04 is not
+       admitted. When this convening concludes under D92-10, the row's status returns to NOT SCHEDULED by a register
+       update citing this decision. No new status is introduced, and this applies to this convening only. [OI]
+
+## 10. Relationship to DEC-091
+- This decision supplies the later owner decision DEC-091 D91-9 requires for convening the gate and admitting D91-2
+  (a)–(c) only; recording outcomes is done by owner decision in the D91-4 form (D92-7); this decision establishes no
+  further recording procedure.
+- It narrows what this convening considers (D92-3); it does not change DEC-091's assignment, D91-3's non-assignment or
+  D91-4's recording rule. DEC-091 remains unchanged and authoritative.
+
+## 11. Source basis
+- [L] README "Authority Hierarchy" (DEC-023, with its prospective supplements DEC-075, DEC-085, DEC-086 and DEC-088)
+  governs the authority of every source the gate uses.
+- [L] DEC-064: the §17/K4 Architecture Gate is named, "not a new §17 amendment gate. §17 remains locked."
+- [L] DEC-068 (D68-A … D68-N) is the §16 Amendment Gate's procedural framework; DEC-069 convened that gate. They are
+  cited as precedent only. D68-M: "creates no … gate, and assigns nothing to K4, K9, §17 or §22".
+- (Register, Category 4, non-normative) Register §8 uses the gate statuses OPEN (for example "§19 Owner Decision Gate | OPEN (DEC-064)") and NOT
+  SCHEDULED; the §17/K4 Architecture Gate row currently reads "NOT SCHEDULED — not a §17 amendment gate; §17 remains
+  LOCKED (DEC-064)".
+- [L] DEC-090 D90-6: Plan-change identity routed "to the §17/K4 Architecture Gate or a later owner decision".
+- [L] DEC-091 D91-2, D91-3, D91-4, D91-5 … D91-9; DEC-091 §7.
+- [L] §17.22 step 1; §21.7 `failure_reason`; P2/K3 §P.3.1, §P.4.1, §P.4.2 (agenda boundaries only).
+- [OI] D92-1 … D92-11 are new owner procedure for this convening. No existing source establishes them.
+
+## 12. Dependencies
+- OD19-01, §22 O-4 / O-15, the CyberPanel K2 gate: unchanged; matters touching them are identified and routed per
+  DEC-091 D91-3, D91-7 and D91-8 (D92-9).
+- [L] Implementation of real verification is blocked by OD19-01 (DEC-079 D79-8) and requires a separate
+  implementation-authorization decision (DEC-091 §6, item 4). [U] Whether owner decisions on the gate's output and on
+  the K2 issuer side of R-1 are also prerequisites is not decided here.
+```
+
+> **Transcription note (session process):** The owner convening-decision request is reproduced from its opening
+> through its procedure-question section; its expected-output, adversarial-review and closing process sections are
+> omitted. The revision rulings are reproduced from their rulings and scope sections and the final correction rulings
+> from their rulings section; their edit-scope, review and reporting sections are omitted. The adoption authorization
+> is reproduced from its opening through its adoption rules; its validation, boundary-test, commit and reporting
+> sections governed only this change set and are omitted. The decision text is candidate v5 reproduced verbatim from
+> its §2 onward; the draft title line and §1 (candidate number) are drafting metadata and are omitted.
+
+> **Index note (not owner wording):** DEC-092 convenes the §17/K4 Architecture Gate for the three K4-side matters
+> DEC-091 D91-2 assigned to it, for this convening only. The gate's output is candidate material for the owner; the
+> decision answers none of the matters, selects no `audience` value, assigns nothing to K2, amends nothing, creates no
+> general gate procedure or lifecycle and authorizes no implementation.
