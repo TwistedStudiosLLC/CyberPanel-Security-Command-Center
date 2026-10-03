@@ -44,6 +44,10 @@ the historical record; §19's earlier Category 4 classification remains historic
 Category 1 (locked architecture), in its completed candidate form (DEC-085 D85-10). DEC-023 is not rewritten and
 remains the historical record; §21's earlier Category 4 classification remains historical.
 
+**Prospective supplement (DEC-086; not part of the DEC-023 text above):** from DEC-086 forward, §22 is added to
+Category 1 (locked architecture), in its candidate form with the DEC-086 dispositions (DEC-086 D86-10). DEC-023 is
+not rewritten and remains the historical record; §22's earlier Category 4 classification remains historical.
+
 ### Baseline override rule (DEC-014 / D-1)
 
 ```text
@@ -78,10 +82,11 @@ subject to this override rule. Annotated statements carry one of:
 | [`current/17-authorization.md`](current/17-authorization.md) | **LOCKED** | §17 final text with A-01…A-36 (DEC-012, DEC-022) |
 | [`current/19-persistence-secrets-data-lifecycle.md`](current/19-persistence-secrets-data-lifecycle.md) | **LOCKED** | §19 locked in its existing form (DEC-074, DEC-075) |
 | [`current/21-audit-events.md`](current/21-audit-events.md) | **LOCKED** | §21 locked in its completed candidate form (DEC-085) |
+| [`current/22-lifecycle-recovery.md`](current/22-lifecycle-recovery.md) | **LOCKED** | §22 locked with the bootstrap scope decided and other items open under DEC-078 (DEC-086) |
 
 The locked §15–§17 documents contain no inline commentary (DEC-030 Q2). Locked §19 retains its [DEC-0xx] tags, its
 §19.5.3 compatibility and findings material and its gate and lock record (DEC-074). Locked §21 retains its [DEC-0xx]
-and [L] tags (DEC-085). Their terminology is defined in their own Terms sections
+and [L] tags (DEC-085). Locked §22 retains its [DEC-0xx] and [L] tags (DEC-086). Their terminology is defined in their own Terms sections
 (§16 Terms, §17 Terms) and in the §15.3 component catalogue. **No separate glossary exists**, so that no second
 set of definitions can compete with the locked text.
 
@@ -89,7 +94,7 @@ set of definitions can compete with the locked text.
 
 | Document | Status |
 |---|---|
-| [`decisions/decision-log.md`](decisions/decision-log.md) | **CURRENT — OWNER DECISIONS** (DEC-001 … DEC-085) |
+| [`decisions/decision-log.md`](decisions/decision-log.md) | **CURRENT — OWNER DECISIONS** (DEC-001 … DEC-086) |
 
 ### Category 3 — Foundational principles
 
@@ -106,7 +111,6 @@ set of definitions can compete with the locked text.
 | [`open/18-threat-model/18-owner-decision-gate.md`](open/18-threat-model/18-owner-decision-gate.md) | OPEN — decision record (ODF-18-01 dispositioned by DEC-015; ODF-18-07 dispositioned by DEC-072; ODF-18-02…06, ODF-18-08, ODF-18-09 OPEN) |
 | [`open/register.md`](open/register.md) | OPEN QUESTIONS REGISTER |
 | [`open/20-reconciliation-desired-state-drift.md`](open/20-reconciliation-desired-state-drift.md) | NOT DESIGNED — GATE PENDING |
-| [`open/22-lifecycle-recovery.md`](open/22-lifecycle-recovery.md) | NOT DESIGNED — GATE PENDING |
 | [`open/p2-protocol.md`](open/p2-protocol.md) | NOT DESIGNED — GATE PENDING |
 | [`../platforms/cyberpanel/k2-gate.md`](../platforms/cyberpanel/k2-gate.md) | OPEN — CyberPanel K2 gate |
 
@@ -140,7 +144,7 @@ set of definitions can compete with the locked text.
 | §19 | Persistence, Secrets & Data Lifecycle | **LOCKED** (DEC-075) | `current/` |
 | §20 | Reconciliation / Desired State / Drift | NOT DESIGNED — GATE PENDING | `open/` |
 | §21 | Audit / Events | **LOCKED** (DEC-085) | `current/` |
-| §22 | Lifecycle / Recovery | NOT DESIGNED — GATE PENDING (scope: DEC-076; recovery gate = §22, DEC-077) | `open/` |
+| §22 | Lifecycle / Recovery | **LOCKED** (DEC-086) | `current/` |
 | P2 | K2 ↔ K3 protocol | NOT DESIGNED — GATE PENDING (P2/K3 scope: DEC-080) | `open/p2-protocol.md` |
 | CyberPanel K2 | CyberPanel platform gate | OPEN | `platforms/cyberpanel/k2-gate.md` |
 

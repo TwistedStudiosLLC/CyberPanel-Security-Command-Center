@@ -20,6 +20,7 @@
 > DEC-083 and DEC-084 assign the K8 tamper-evidence mechanism and K8 credential-bearing digest handling to the §16
 > Amendment Gate.
 > DEC-085 records the §21 candidate-review dispositions and locks §21.
+> DEC-086 records the §22 candidate dispositions and locks §22.
 
 # SCC Decision Log
 
@@ -110,6 +111,7 @@
 | DEC-083 | Assignment of the K8 tamper-evidence mechanism to the §16 Amendment Gate | CURRENT (adopted — item assigned, scope A1; gate NOT SCHEDULED; undecided) |
 | DEC-084 | Assignment of K8 credential-bearing digest handling to the §16 Amendment Gate | CURRENT (adopted — item assigned, scope B2; D70-D3(4) "additional" reading closed; gate NOT SCHEDULED; undecided) |
 | DEC-085 | §21 Audit Events Lock | CURRENT (adopted — §21 LOCKED; Category 1 from DEC-085) |
+| DEC-086 | §22 Lifecycle / Recovery Lock | CURRENT (adopted — §22 LOCKED; bootstrap scope; Category 1 from DEC-086) |
 
 ---
 
@@ -6999,3 +7001,255 @@ D85-13 No implementation authority. §21 is locked as architecture, not implemen
 > **Index note (not owner wording):** DEC-085 locks §21 and moves it to current/. It does not lock or change §15–§17,
 > §19, §22, §18 or P2/K3, does not decide the DEC-083 or DEC-084 items, creates no post-lock §21 route, and authorizes
 > no implementation.
+
+---
+
+## DEC-086 — §22 Lifecycle / Recovery Lock
+
+- **Status:** CURRENT (adopted — §22 LOCKED; bootstrap scope; Category 1 from DEC-086)
+- **Source:** Owner dispositions of the §22 candidate, including OQ22-1 = (a) and the D22-A/B/C lock choices
+  (2026-10-02); owner adoption authorization.
+- **Related:** DEC-021; DEC-023; DEC-034; DEC-045; DEC-075 (D75-4); DEC-076; DEC-077; DEC-078; DEC-079; DEC-080;
+  DEC-085 (C3, D85-8); §15 K9 and P11 rows; T-23; T-29; §17.1.3–§17.1.5; A-07; A-15; locked §21 A6;
+  current/22-lifecycle-recovery.md
+
+```text
+OWNER DISPOSITIONS — §22 CANDIDATE (2026-10-02)
+
+Owner dispositions for the §22 candidate:
+
+OQ22-1: (a) YES.
+
+The bootstrap act creates the first HUMAN Principal that receives the
+first `scc.administrator` membership.
+
+The Principal creation and membership creation are part of the same
+narrow bootstrap act and commit atomically with the required A6 audit
+record(s).
+
+This is a narrowly scoped bootstrap authority under §22. It does NOT
+create a general Principal-management capability and does NOT grant K9
+general authority over K7, K4, memberships, roles, or other state.
+
+Approve the candidate's proposed meaning of "first":
+
+The bootstrap is available only when K7 contains no `scc.administrator`
+membership record in any state. Re-establishing administration after
+all administrators are lost is recovery, not bootstrap, and remains
+open under DEC-078.
+
+Approve the candidate's proposed §22 authority boundary:
+
+The Local Root Operator may originate exactly the first
+`scc.administrator` membership and nothing else.
+
+Approve the candidate's proposed authentication model:
+
+- the host operating system establishes that the P11 caller is root;
+- K4 verifies that root identity on the host-local channel;
+- no secret or bearer credential is introduced;
+- `lro_auth_ref` is K4's reference to that determination;
+- `lro_auth_ref` is not itself a credential and cannot be reused as
+  authority;
+- §22 does not define a format for `lro_auth_ref`.
+
+Approve the proposed K9 boundary:
+
+K9 relays the bootstrap request and result only.
+K9 holds no bootstrap authority and does not access K7.
+
+Approve the proposed P11 contract at the architectural level:
+
+- K9 → K4 only;
+- host-local;
+- authenticated as the Local Root Operator through OS-enforced root
+  identity;
+- A-07 authority check;
+- first-bootstrap precondition;
+- replay rejection through the first-bootstrap precondition;
+- schema validation;
+- atomic failure;
+- no fallback or bypass;
+- no transport, encoding, endpoint, token or credential format is
+  invented here.
+
+Approve the proposed bootstrap audit behavior:
+
+Use the already-locked §21 A6 contract unchanged.
+
+Each bootstrap mutation receives its required A6 record, and the state
+mutation and corresponding audit record commit atomically or neither
+commits.
+
+Approve all other [C22] architectural commitments in the candidate
+exactly as written.
+
+Do NOT resolve any O-1 … O-18 items. They remain open under DEC-078.
+
+Do NOT resolve:
+
+- recovery after loss of all administrators;
+- restore generations;
+- migration;
+- K11 placement;
+- Local Root credential acts beyond the bootstrap authentication
+  mechanics;
+- anchor mechanics;
+- approver key custody;
+- K7 backup/restore;
+- rebuilding lost records;
+- K8 lifecycle;
+- removal/release keys;
+- pre-image visibility;
+- §16 Q-4/Q-5/Q-7;
+- OD19-01;
+- D71-6 hand-offs;
+- DC-01/DC-02 ownership;
+- export lifecycle.
+
+Those remain explicitly open under DEC-078.
+
+Use the same precedent as DEC-075/DEC-085:
+
+D22-A:
+- add §22 to Category 1 prospectively;
+- earlier Category 4 classification remains historical.
+
+D22-B:
+- move the locked document from `docs/architecture/open/` to
+  `docs/architecture/current/`.
+
+D22-C:
+- retain the existing decision/lineage tags in the locked document;
+- replace candidate [C22] and [OQ22-1] markers with the adopted lock
+  decision reference;
+- update the status/header/title as required by the established locked
+  document convention;
+- make no substantive text changes beyond the explicitly authorized
+  disposition/tag/header bookkeeping.
+
+ADOPTION AUTHORIZATION (2026-10-02)
+
+Adoption authorization:
+
+I authorize adoption of DEC-086 exactly as proposed in the reviewed
+dec086-adoption.diff, using the previously approved D22-A, D22-B, and
+D22-C choices.
+
+I explicitly approve the §22.1 wording change from:
+
+"This candidate decides only..."
+
+to:
+
+"§22 decides only..."
+
+This is authorized as locked-document status wording and does not expand,
+narrow, or otherwise alter the substantive scope of §22.
+
+The adoption is authorized only for the reviewed change set:
+
+1. Adopt DEC-086.
+2. Move:
+   docs/architecture/open/22-lifecycle-recovery.md
+   to:
+   docs/architecture/current/22-lifecycle-recovery.md
+3. Apply the reviewed §22 lock/header/title changes exactly.
+4. Apply OQ22-1 = (a) exactly as approved.
+5. Apply the approved [C22] → [DEC-086] substitutions exactly.
+6. Apply the reviewed README bookkeeping exactly.
+7. Apply the reviewed §8 register bookkeeping exactly.
+8. Preserve DEC-001 through DEC-085 byte-identically.
+9. Preserve O-1 … O-18 as open under DEC-078.
+10. Do not resolve or modify any §22 item outside the reviewed
+    disposition.
+11. Do not modify §15, §16, §17, §19, or §21.
+12. Do not modify DEC-083, DEC-084, or the §16 Amendment Gate.
+13. Do not enter Phase 6 or create implementation authority.
+14. Do not introduce a web bootstrap, K2/K3 path, secret or credential
+    mechanism, K6 behavior, or K8 behavior.
+15. Do not fix the DEC-021 Related-link issue in this commit.
+
+The DEC-021 link is intentionally left unchanged because DEC-001 through
+DEC-085 must remain byte-identical. Its eventual correction requires a
+separate explicit authorization and is not part of DEC-086.
+
+Commit shape: ONE local commit containing the complete reviewed adoption.
+```
+
+Decision text (D86-1 … D86-13, adopted by the authorization above):
+
+```text
+D86-1  Authority and scope. This decision records the owner's dispositions of the §22 candidate and
+       locks §22 under DEC-076 (D76-3, D76-6, D76-7). §22 is the recovery gate (DEC-077). Its subject
+       is §22 only.
+D86-2  OQ22-1 = (a). The bootstrap act creates the first HUMAN Principal that receives the first
+       `scc.administrator` membership. Principal creation and membership creation are part of the
+       same narrow bootstrap act and commit atomically with the required A6 audit record(s). This
+       is a narrowly scoped bootstrap authority under §22. It does not create a general
+       Principal-management capability and does not grant K9 general authority over K7, K4,
+       memberships, roles or other state.
+D86-3  Approved candidate commitments. The owner approves every [C22] commitment of the §22
+       candidate as written, including:
+       (a) "first": the bootstrap act is available only while K7 holds no `scc.administrator`
+           membership record in any state; re-establishing administration after every
+           administrator is lost is recovery (§17.24 P-5), not bootstrap, and remains open;
+       (b) authority: the Local Root Operator may originate exactly the first `scc.administrator`
+           membership and nothing else;
+       (c) authentication: the host operating system establishes that the P11 caller is root and
+           K4 verifies that root identity on the host-local channel; no secret or bearer credential
+           is introduced; `lro_auth_ref` is K4's reference to that determination, is not a
+           credential, cannot be reused as authority, and has no format defined by §22;
+       (d) K9: relays the bootstrap request and result only, holds no bootstrap authority and does
+           not access K7;
+       (e) P11, at the architectural level: K9 → K4 only; host-local; authenticated as the Local
+           Root Operator through OS-enforced root identity; A-07 authority check; first-bootstrap
+           precondition; replay rejection through that precondition; schema validation; atomic
+           failure; no fallback or bypass; no transport, encoding, endpoint, token or credential
+           format;
+       (f) audit: the locked §21 A6 contract unchanged; each bootstrap mutation receives its
+           required A6 record, and the mutation and its record commit atomically or neither does.
+D86-4  D76-3 decided. D76-3 (1) Local Root Operator bootstrap authority (§22.3); (2) first
+       `scc.administrator` membership mechanics, including creation of the first HUMAN Principal
+       (§22.4; D86-2); (3) K9 mechanics and Local Root Operator authentication, including the
+       meaning of `lro_auth_ref` (§22.5); (4) the P11 K9 → K4 interface for bootstrap (§22.6); and
+       (5) the bootstrap audit record under locked §21 A6 (§22.7) are decided.
+D86-5  Open items. O-1 … O-18 of §22.8 are recorded OPEN in locked §22 and are resolved only through
+       DEC-078. This decision resolves none of them.
+D86-6  Lock criteria (DEC-076 D76-7). (1) Every D76-3 item is decided (D86-4). (2) Every other
+       §22-owned item is recorded as open under DEC-078 (D86-5). (3) No accepted decision widens
+       authority, transfers responsibility between K2–K11, contradicts §15–§17, or makes an
+       unauthorized §15/§16/§17 amendment; the bootstrap authority is limited by D86-2 and D86-3(b).
+       (4) No web-reachable recovery or bootstrap path is created (T-29; DEC-021). (5) Every deferral
+       names its owning route (§22.8; DEC-078). (6) No implementation authority is created, and this
+       decision is the separate explicit owner lock DEC.
+D86-7  Lock. §22 becomes locked architecture upon adoption of this decision.
+D86-8  Authority category. From this decision forward, §22 is added to the locked-architecture
+       authority tier (Category 1), supplementing DEC-023 prospectively as DEC-075 D75-4 and DEC-085
+       D85-8 did. DEC-023 remains the historical record, and §22's earlier Category 4 classification
+       remains historical. The hierarchy is supplemented prospectively, not rewritten.
+D86-9  Documentation state. On adoption, §22 moves from docs/architecture/open/ to
+       docs/architecture/current/, and its status header follows the locked-document convention.
+D86-10 Locked form. §22 is locked in its candidate form with the D86-2 disposition applied, retaining
+       its [DEC-0xx] and [L] tags. [C22] and [OQ22-1] markers are replaced by references to DEC-086,
+       the OQ22-1 alternatives are replaced by the D86-2 disposition, and the status header and title
+       are updated; no other text changes.
+D86-11 Phase 6 and P2/K3. Locking §22 does not constitute Phase-6 entry (DEC-079). The first
+       administrator can act only after its Platform Identity Binding is confirmed by a verified
+       assertion; that operational path depends on the P2/K3 gate (DEC-080; DEC-079 D79-5) and on
+       OD19-01 for actual assertion verification (DEC-079 D79-8).
+D86-12 Non-effects. This decision does not amend or change §15, §16, §17, locked §19 or locked §21;
+       does not change the §21 A6 contract; does not convene the §16 Amendment Gate or affect DEC-083,
+       DEC-084 or §19.21.2; creates no web, K2 or K3 bootstrap or recovery path, no secret or
+       credential mechanism, and no K6 or K8 behavior; and gives §22 and K9 no authority over K4
+       (DEC-077 D77-3). DEC-001 … DEC-085 are unchanged. Post-lock changes to §22 use DEC-078 only.
+D86-13 No implementation authority. §22 is locked as architecture, not implemented. DEC-029 remains
+       standing.
+```
+
+> **Transcription note (session process):** The owner's disposition message is reproduced from its disposition and
+> lock-choice sections (D22-A, D22-B, D22-C correspond to D86-8, D86-9, D86-10); its list of lock-decision
+> requirements, verification list and repository rules governed only the preparation step and are omitted.
+
+> **Index note (not owner wording):** DEC-086 locks §22 with the D76-3 bootstrap scope decided and O-1 … O-18 open
+> under DEC-078. It does not enter Phase 6, does not change §15–§17, §19 or §21, and authorizes no implementation.
