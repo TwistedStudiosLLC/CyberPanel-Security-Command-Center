@@ -23,6 +23,7 @@
 > DEC-086 records the §22 candidate dispositions and locks §22.
 > DEC-087 assigns P3 request-ID semantics to the §16 Amendment Gate. DEC-088 records the P2/K3 dispositions and locks
 > the P2/K3 gate.
+> DEC-089 authorizes the first Phase 6 implementation slice: the abstract K4 authorization-and-audit core.
 
 # SCC Decision Log
 
@@ -116,6 +117,7 @@
 | DEC-086 | §22 Lifecycle / Recovery Lock | CURRENT (adopted — §22 LOCKED; bootstrap scope; Category 1 from DEC-086) |
 | DEC-087 | Assignment of P3 request-ID semantics to the §16 Amendment Gate | CURRENT (adopted — item assigned; gate NOT SCHEDULED; undecided) |
 | DEC-088 | P2/K3 Gate Lock | CURRENT (adopted — P2/K3 LOCKED; Phase 5 complete; Category 1 from DEC-088) |
+| DEC-089 | Phase 6 Implementation Authorization: K4 Authorization and Audit Core | CURRENT (adopted — first Phase 6 implementation slice authorized; no amendment; DEC-029 standing) |
 
 ---
 
@@ -8020,3 +8022,600 @@ D88-13 Non-effects. This decision does not amend or change §15 (the D88-2(g) re
 
 > **Index note (not owner wording):** DEC-088 locks the P2/K3 gate and completes Phase 5. It does not enter Phase 6, authorize implementation,
 > amend §15 (D88-2(g) is a reading), or resolve OD19-01 or the CyberPanel K2 gate.
+
+---
+
+## DEC-089 — Phase 6 Implementation Authorization: K4 Authorization and Audit Core
+
+- **Status:** CURRENT (adopted — first Phase 6 implementation slice authorized; no amendment; DEC-029 standing)
+- **Source:** Owner Phase 6 implementation-authorization message with D89-1 … D89-4 (2026-10-02); owner decision
+  D89-5 (2026-10-02); owner rulings Q1 … Q7 and adoption instruction (2026-10-02); owner selection of
+  option (a) for Q3 (2026-10-03).
+- **Related:** DEC-023; DEC-025; DEC-029; DEC-034 (R4a); DEC-035 (R5a, R5b); DEC-075; DEC-079 (D79-1 … D79-5, D79-8);
+  DEC-082; DEC-085; DEC-086; DEC-087; DEC-088 (D88-12); §15.7; §16.5; §17.13; §17.22; §19 DC-07 … DC-10; §21; §22.3 … §22.7
+
+```text
+OWNER SCOPE DECISIONS AND AUTHORIZATION — DEC-089 (2026-10-02)
+
+============================================================
+DEC-089 — PHASE 6 IMPLEMENTATION AUTHORIZATION
+============================================================
+
+Before drafting, incorporate the following four scope clarifications.
+
+These are explicit owner decisions for DEC-089 because the locked architecture does not fully define these portions of the proposed first code slice.
+
+Do not invent any additional behavior beyond these decisions.
+
+------------------------------------------------------------
+D89-1 — DC-10 / JOB STATE
+------------------------------------------------------------
+
+DC-10 contains:
+
+"Plans and Jobs (Plan content, plan_digest, Job state)"
+
+However, the Job state model remains OPEN under §16 Q-6.
+
+Therefore:
+
+DEC-089 authorizes implementation of the Plan-related portion of DC-10 only:
+
+- Plan content
+- plan_digest
+- the locked Plan state necessary for the authorized §17.22 steps 1–10
+
+DEC-089 does NOT authorize implementation, definition, persistence, mutation, or interpretation of Job state.
+
+Job creation and Job lifecycle remain outside this implementation slice.
+
+Do not create a substitute Job state model.
+
+Do not infer Job semantics from §21 A7 or any other document.
+
+------------------------------------------------------------
+D89-2 — A3 REVALIDATION
+------------------------------------------------------------
+
+A3 includes revalidation points in §17.13.
+
+For this implementation slice, A3 is limited to the revalidation behavior actually exercised by the authorized §17.22 steps 1–10.
+
+Specifically:
+
+- Plan commit / authorization evaluation through the locked §17.22 steps included in this slice is in scope.
+- Job-start revalidation is OUT OF SCOPE.
+- Before-WRITE revalidation is OUT OF SCOPE.
+- Post-revocation revalidation associated with Phase IV is OUT OF SCOPE.
+
+Do not implement Phase IV behavior.
+
+Do not create Job-start, WRITE-time, or Phase-IV revalidation semantics.
+
+------------------------------------------------------------
+D89-3 — K11 ANCHORS AND APPROVAL SIGNATURES
+------------------------------------------------------------
+
+The locked architecture requires:
+
+- K11 anchor reading for §17.22 step 10;
+- K11 anchor observation for B3;
+- approval-evidence signature verification as specified by the locked architecture.
+
+However, K11 implementation itself is outside this first code slice.
+
+Therefore, for DEC-089:
+
+K11 trust/anchor data SHALL be treated as an abstract trusted input/interface to the K4 authorization core.
+
+The implementation may consume:
+
+- the currently authoritative K11 anchor set required by the locked step-10 contract;
+- the approval-evidence verification result required by the locked architecture;
+
+but it MUST NOT implement K11 itself.
+
+It MUST NOT:
+
+- create K11 storage;
+- modify K11;
+- provision K11;
+- implement K11 installation;
+- implement K11 lifecycle;
+- invent anchor-management behavior;
+- create a new trust store;
+- create a new cryptographic authority path.
+
+The K4 implementation must preserve the locked distinction between K4's authorization evaluation and the K11 trust/anchor mechanism.
+
+For B3, the implementation may consume an abstract observation/input representing the K11 anchor-change observation required by §21.
+
+It must not implement an independent K11 observer.
+
+If the locked architecture does not specify sufficient semantics to implement one of these abstract inputs, STOP rather than inventing them.
+
+------------------------------------------------------------
+D89-4 — B2 FAILED AUTHENTICATION
+------------------------------------------------------------
+
+Actual authentication/assertion verification remains outside this slice and remains blocked by OD19-01.
+
+Therefore B2 failed-authentication audit handling is authorized only for a failure result supplied through the abstract Authentication Context/authentication-result boundary.
+
+The K4 core may:
+
+- receive an authentication failure result;
+- produce the locked B2 audit record;
+- apply the locked B2 recording behavior.
+
+It may NOT:
+
+- perform actual assertion verification;
+- inspect raw credentials;
+- verify Ed25519 signatures;
+- manage authentication keys;
+- implement P2;
+- implement P2 transport;
+- invent authentication failure semantics.
+
+The authentication boundary remains abstract.
+
+============================================================
+AUTHORIZED FIRST IMPLEMENTATION SLICE
+============================================================
+
+Subject to D89-1 through D89-4, DEC-089 authorizes ONLY:
+
+1. K4 authorization evaluation
+
+Implement:
+
+- §17.22 Phases I–III only where they correspond to the authorized steps;
+- §17.22 steps 1–10;
+- abstract Authentication Context;
+- the locked authorization inputs required by those steps.
+
+Do not implement Phase IV.
+
+2. K7 authorization state
+
+Implement only the authorized portions of:
+
+- DC-07
+- DC-08
+- DC-09
+- DC-10
+
+with DC-10 limited according to D89-1.
+
+3. K4 audit
+
+Implement the locked §21 contract for:
+
+- A1
+- A2
+- A3
+- A4
+- A6
+- B1
+- B2
+- B3
+
+subject to the scope limitations above.
+
+4. Audit infrastructure
+
+Implement:
+
+- audit identity;
+- audit sequence;
+- durable recording;
+- recording-order semantics;
+- timestamp versus recorded_at distinction;
+- the locked audit failure behavior;
+- the locked atomicity requirements.
+
+5. Failure/atomicity
+
+Implement only:
+
+- R4a
+- R5a
+- R5b
+
+6. Bootstrap
+
+Implement only the K4-side bootstrap necessary for:
+
+- first HUMAN Principal;
+- first scc.administrator membership;
+- corresponding A6 records;
+
+using the abstract P11 input defined by locked §22.
+
+No general Principal management.
+
+No general K9 authority.
+
+No general recovery implementation.
+
+============================================================
+EXPLICITLY OUT OF SCOPE
+============================================================
+
+DEC-089 does NOT authorize:
+
+- K2 implementation;
+- K3 implementation;
+- P2 implementation;
+- P2 assertion issuance;
+- P2 assertion verification;
+- CBOR implementation;
+- Ed25519 implementation;
+- Ed25519 key provisioning;
+- P2 transport;
+- Unix-domain socket implementation;
+- stateful SCC session implementation;
+- P3 implementation;
+- P3 request-ID semantics;
+- K6 implementation;
+- K8 implementation;
+- K5 implementation;
+- CyberPanel integration;
+- platform adapter implementation;
+- actual platform authentication;
+- credential handling;
+- secret storage;
+- secret provisioning;
+- host filesystem operations;
+- shell execution;
+- subprocess execution;
+- host service management;
+- K11 implementation;
+- K11 storage;
+- K11 provisioning;
+- K11 lifecycle;
+- export implementation;
+- off-host audit artifacts;
+- recovery beyond locked bootstrap;
+- installer implementation;
+- migration implementation;
+- OD19-01;
+- §16 Amendment Gate work;
+- DEC-083 implementation;
+- DEC-084 implementation;
+- unresolved §22 recovery items;
+- Job state;
+- Job lifecycle;
+- Phase IV authorization/revalidation;
+- WRITE-time revalidation;
+- Job-start revalidation;
+- post-revocation Phase-IV revalidation;
+- architecture amendments.
+
+In particular, DEC-089 must NOT be interpreted as authorizing implementation of the concrete P2/K3 protocol merely because DEC-088 selected:
+
+- CBOR;
+- Ed25519;
+- 60 seconds;
+- Unix-domain sockets;
+- stateful sessions.
+
+Those remain architecture decisions whose implementation is outside this slice.
+
+============================================================
+DEC-029 BOUNDARY
+============================================================
+
+DEC-089 remains strictly subordinate to DEC-029.
+
+It authorizes implementation of locked architecture only.
+
+It does NOT authorize:
+
+- architectural invention;
+- resolving unrelated open questions;
+- silently choosing unspecified behavior;
+- compatibility behavior not specified by the architecture;
+- changes to locked semantics;
+- architecture amendments;
+- new authority paths.
+
+If implementation later encounters a requirement that is not specified by the locked architecture or DEC-089:
+
+STOP.
+
+Do not invent the behavior.
+
+============================================================
+DEC-089 FORM
+============================================================
+
+Draft DEC-089 as a Category 1 owner implementation-authorization decision.
+
+It must explicitly record:
+
+- D89-1
+- D89-2
+- D89-3
+- D89-4
+- authorized implementation scope;
+- explicit exclusions;
+- dependencies;
+- DEC-029 boundary;
+- OD19-01 dependency;
+- statement that no architecture amendment is authorized;
+- statement that unresolved questions remain unresolved;
+- statement that this decision authorizes the first Phase 6 implementation slice.
+
+Do not use vague "begin implementation" language.
+
+The decision must be mechanically understandable by a developer implementing against it.
+
+============================================================
+OWNER AUTHORIZATION
+============================================================
+
+I authorize the preparation, adversarial review, and adoption of DEC-089 exactly within the scope above.
+
+This is authorization to adopt the DEC-089 decision.
+
+It is NOT authorization to implement production code in this task.
+
+STOP after the DEC-089 commit and report.
+
+OWNER DECISION D89-5 (2026-10-02)
+
+D89-5 — Abstract domain and planning inputs. For this implementation slice, the following are abstract inputs to the K4 authorization core. Their producers and underlying mechanisms are not implemented:
+
+(a) K11 capability and scope declarations required by §15.7 and §17.22 steps 2 and 5. K4 consumes these with their locked meaning and may narrow but never widen the applicable capability/scope.
+
+(b) The §17.22 step-3 admissibility facts concerning Integration validity, capability availability, compatibility, and management or ownership. These represent the applicable DC-04 domain state and are not implemented in this slice.
+
+(c) Plan proposals supplied as the §17.22 step-5 K5 input. K5 is excluded from this slice.
+
+K4 remains responsible for the locked validation, narrowing, coverage checks, and plan_digest computation that the architecture assigns to K4 over those supplied inputs.
+
+No K11 implementation, K5 implementation, K6 discovery implementation, discovery subsystem, DC-04 store/registry, or replacement mechanism is authorized by this decision.
+
+Where the locked architecture does not provide sufficient semantics for an abstract input or for a required K4 operation, implementation stops under DEC-029 rather than inventing behavior.
+
+OWNER RULINGS Q1 … Q7 AND ADOPTION INSTRUCTION (2026-10-02)
+
+The seven decisions are:
+
+* Q1 — YES. K4 may record `CONFIRMED` Binding status and the latest confirmed platform role from a verified abstract Authentication Context. Do not implement `LOST`/automatic `SUSPENDED` behavior in this slice. `PLATFORM_ADMIN` is evaluated as the locked §17.7 implicit condition; failure is an authorization denial, not B2.
+* Q2 — YES. Inventory target resolution is an additional abstract domain input under D89-5.
+* Q3 — YES. Treat the release-baseline policy revision as an abstract input, and have bootstrap establish the starting empty local-settings revision. Do not invent another revision mechanism.
+* Q4 — YES. K4 may write the locked `INVALIDATED` DC-09 status when the Plan changes, subject to the existing atomicity/audit contract.
+* Q5 — OUT. `scc.*` administrative mutation/application is explicitly outside this slice. The core may evaluate such a request through steps 1–10, but does not apply the resulting administrative change to K7.
+* Q6 — YES. The abstract approval-evidence verification input includes both signature verification and the required exact canonical-digest match. K4 does not construct P6 requests or implement K6 cryptography.
+* Q7 — YES. DEC-089 has no Category 1 label. It is an owner decision recorded in the decision log under the DEC-023 hierarchy.
+
+Also apply all of the mechanical fixes Claude identified:
+
+* D89-7: locked text controls the drafted items under DEC-081 B(i).
+* Quote R4a verbatim and apply it to all applicable authorization-state mutations.
+* Keep OS-root determination separate from P11 request content per §22.6.
+* Implementers may choose only representations for abstract inputs; they may not define their semantics.
+* Add the §17.8 requirement that an approver be ACTIVE with a CONFIRMED binding.
+* Make the §21 citations explicit rather than using the broad range that includes excluded §21.10.
+* Cite §21.7 alongside §21.12 for the B1 field list.
+* Base D89-17 on A-01/§17.2 rather than §22.4.2.
+* Change the index note to “A3 not exercised.”
+* Preserve the explicit consequences:
+   * A3 is not exercised in this slice.
+   * R5b is not triggered because A5/SYSTEM cancellation is excluded.
+
+One thing I want kept very explicit in the resulting DEC-089:
+Steps 1–10 being authorized does not mean every consequence of steps 1–10 is authorized.
+The slice is authorizing the K4 evaluation machinery and the specifically enumerated state/audit effects, while excluding the downstream systems and mutation paths that remain outside it.
+Proceed with those rulings, rerun the full checks and independent adversarial review, and adopt only if they pass. One local commit, no push, no merge/rebase/force-push/amend, and stop after the commit.
+
+OWNER SELECTION FOR Q3 (2026-10-03)
+
+Proceed with (a), finish the revised DEC-089, rerun the full mechanical suite and independent adversarial review, and only adopt if both pass.
+```
+
+Decision text (D89-6 … D89-21, adopted by the authorization above; D89-1 … D89-5 are the owner text above):
+
+```text
+D89-6  Authority and subject. This decision is the explicit owner decision that DEC-088 D88-12 requires
+       before any implementation slice. It authorizes the first PHASE 6 implementation slice (DEC-025;
+       DEC-079 D79-1 … D79-3, D79-5): the abstract K4 authorization-and-audit core that DEC-079 D79-8
+       leaves unblocked by OD19-01. It authorizes implementation of locked architecture only. It is an
+       owner decision recorded in the decision log under the DEC-023 authority hierarchy (owner ruling
+       Q7); it carries no Category 1 label and reclassifies no document.
+D89-7  Controlling text. The owner text above (D89-1 … D89-5, the authorized slice, the exclusions, the
+       DEC-029 boundary, the rulings Q1 … Q7 and the Q3 selection) controls D89-6 … D89-21; where a
+       drafted item and the owner text differ, the owner text controls. Locked §15, §16, §17, §19, §21,
+       §22 and the locked P2/K3 gate control this decision (DEC-023; DEC-081 B(i)); nothing in it
+       supersedes locked text.
+       Q3 as adopted. The owner's later selection of option (a) (2026-10-03) replaces the second half of
+       ruling Q3. The clause "have bootstrap establish the starting empty local-settings revision" is
+       not adopted, because it conflicts with locked §22.3.3 ("no policy change"), §22.7.2 (one A6
+       record for each bootstrap mutation: Principal creation; membership) and the §19 DC-08 writer ("C
+       (R4 `scc.*` Action)"). As adopted, Q3 means: the release-baseline policy revision and the
+           starting local-settings revision are abstract inputs, consumed read-only; DC-08 is not
+           written in this slice; the bootstrap act is exactly as locked §22 defines it. No other
+           revision mechanism is created.
+D89-8  Evaluation versus consequences. Authorizing §17.22 steps 1–10 authorizes the K4 evaluation
+       machinery of those steps and only the state and audit effects enumerated in D89-10, D89-13,
+       D89-14 and D89-15. It does not authorize every consequence of steps 1–10. Any other state change,
+       record, downstream system, mutation path or component that a step would lead to is not authorized
+       by this decision.
+D89-9  Authorized: K4 evaluation of locked §17.22 steps 1–10 (Phases I–III) only:
+       (a) Step 1 [§17.22 step 1; §17 Terms; §17.1.4; §17.2; A-01, A-03]: K4 receives an abstract
+           Authentication Context (assertion ID, platform, subject, authentication time, method claims;
+           §17 Terms), together with the platform role fact that locked P2/K3 §P.3.2 carries in the same
+           verified assertion, or an abstract authentication-failure result (D89-4). From a supplied
+           verified Authentication Context K4 resolves the Binding, then the Principal, in K7, and
+           requires the Principal ACTIVE and the Binding CONFIRMED; an interactive request is confirmed
+           by its own verified assertion (§17.1.4). On any step-1 failure, deny and record B2
+           (D89-13(g)). K4 may record the Binding status CONFIRMED and the latest confirmed platform
+           role in DC-07 from a verified abstract Authentication Context (owner ruling Q1). §21.6
+           defines no event kind for that write and this decision creates none. Binding status LOST and
+           the automatic SUSPENDED that follows it are not implemented (Q1).
+       (b) Steps 2 and 3 [§17.22 steps 2–3; §15.7; §17.6; A-09]: identification over the D89-5(a)
+           declarations and the Inventory target resolution of §17.6, which is an additional abstract
+           domain input under D89-5 (owner ruling Q2); admissibility over the D89-5(b) facts. The
+           admissibility result is recorded separately from authorization; failure is an inadmissible
+           refusal.
+       (c) Steps 4 and 7 [§17.22 steps 4, 7; §17.4 … §17.7; §17.17; §17.20; A-10 … A-13, A-16, A-25,
+           A-34]: Grant and Role coverage; conditions from the closed vocabulary (a condition that
+           cannot be evaluated counts as false), including `PLATFORM_ROLE`, under which v1
+           `PLATFORM_ADMIN` is always implicitly required and is evaluated against the Binding's latest
+           confirmed platform role, its failure being an authorization denial and not B2 (Q1; §17.7;
+           A-04); effective tier; PLAN_MAX_AGE and whole-Plan denial. Evaluation is against K7 at every
+           decision point under the current policy revisions, with no decision cache, negative cache or
+           distributed cache. The release-baseline policy revision and the starting local-settings
+           revision are abstract inputs consumed read-only (Q3 as adopted, D89-7).
+       (d) Steps 5 and 6 [§17.22 steps 5–6; §15.7; §17.11; A-21, A-24]: K4's structure validation, K11
+           coverage check, narrowing and `plan_digest` computation over the D89-5(c) Plan proposal and
+           the D89-5(a) declarations; Plan tier. When a Plan changes, the old Decision becomes
+           INVALIDATED (§17.11; owner ruling Q4), subject to the existing atomicity and audit contract
+           (Q4).
+       (e) Step 8 [§17.22 step 8; §17.10; A-17, A-18]: REAUTH (AUTH_FRESH) over the authentication time
+           in the supplied Authentication Context.
+       (f) Step 9 [§17.22 step 9; §17.19; A-24, A-26, A-34]: creation of the immutable Authorization
+           Decision, its `authorization_ref` and its AWAITING_APPROVAL or AUTHORIZED status record,
+           recording the baseline and local policy revisions.
+       (g) Step 10 [§17.22 step 10; §17.8; §17.9; A-19, A-20; §16.5]: K4 verifies, from K7, that the
+           approver is a HUMAN Principal that is ACTIVE with a CONFIRMED binding and holds an `approve`
+           Grant covering the capability, target and tier (§17.8 "Who may approve"), and applies the
+           separation-of-duties policy; and that the consumed K11 anchor set contains an anchor naming
+           that approver's `principal_id` (§17.9; A-20). It consumes the K11 anchor set and the
+           approval-evidence verification result as abstract inputs under D89-3; that result includes
+           both signature verification and the required exact canonical-digest match (owner ruling Q6).
+           K4 does not construct P6 requests, does not implement K6 cryptography and does not specify
+           the §16.5 canonical encoding. It records each approval and sets AUTHORIZED when all are
+           present. Where approval state or K11 anchors are unreadable, R4 is denied (§17.16).
+D89-10 Authorized: K7 authorization state [locked §19 DC-07 … DC-10, SD-K7, identity C only; T-23; §19
+       lifecycle table], limited to these effects:
+       (a) DC-07 (Principals, Platform Identity Bindings, Role Memberships, Grants, revocation records):
+           read by the D89-9 evaluation; written only by the bootstrap act (D89-15) and by the Q1
+           Binding-confirmation write (D89-9(a)).
+       (b) DC-08 (authorization policy local settings and revisions): not written in this slice (D89-7;
+           D89-11). The starting local-settings revision is an abstract input (D89-7).
+       (c) DC-09: immutable Authorization Decisions; their append-only status records AWAITING_APPROVAL,
+           AUTHORIZED and INVALIDATED (Q4, subject to the existing atomicity and audit contract); and
+           Approval Records.
+       (d) DC-10: the Plan portion only, under D89-1.
+D89-11 K4-internal administration (owner ruling Q5). A `scc.*` administration request may be evaluated
+       through §17.22 steps 1–10, with the records D89-13 authorizes for those steps. The application of
+       the resulting administrative change to K7 — the atomic application that replaces steps 11–14 for
+       K4-internal Actions (§17.22) — is outside this slice: no enrollment, Grant, Role Membership,
+       revocation, Principal-state or policy local-settings change is applied. The bootstrap act
+       (D89-15) is the only authorized administration mutation. The semantics of approvals for
+       K4-internal Actions remain open (Q19-04; DEC-053 R03i); where step 10 for a K4-internal Action
+       requires them, D89-19 applies.
+D89-12 Not authorized, because each depends on a component, phase or mutation path outside this slice:
+       SYSTEM observation and its authorization (§21.13; D89-5 and the owner's K6 exclusion); Binding
+       status changes from Platform Services observation, Binding LOST and automatic SUSPENDED (§17.1.4;
+       Q1); asynchronous-revalidation binding freshness (§17.1.4); the Decision statuses CONSUMED,
+       EXPIRED and REVOKED; and scheduled Actions (§17.12; A-30).
+D89-13 Authorized: K4 audit under the locked §21 contract [§21.3, §21.4, §21.5, §21.6, §21.7, §21.8,
+       §21.9, §21.11, §21.12, §21.14, §21.15, §21.20; §17.18; A-35], within this slice:
+       (a) A1 for §17.22 steps 1–4, including denials, inadmissible refusals and HUMAN `view` decisions
+           of tier R1 and above. SYSTEM observation A1 is not exercised (D89-12).
+       (b) A2 for §17.22 steps 5–9, including REAUTH failure, whole-Plan denial and creation of the
+           Decision and `authorization_ref`.
+       (c) A3 is not exercised. Locked §21.6 scopes A3 to Job start, before each WRITE request and after
+           revocation or disablement, all excluded by D89-2. The §17.13.1 Plan-commit point (full
+           evaluation, §17.22 steps 1–9) is performed as that evaluation and recorded as A1 and A2 under
+           §21.6. No A3 record arises in this slice, and this decision creates no A3 semantics.
+       (d) A4, one record per approval received and verified or rejected at step 10.
+       (e) A6 for the bootstrap act only (D89-15; §22.7).
+       (f) B1 for the §21.12 denial row only (A1–A3 denials, inadmissible refusals and failed
+           authentication), with the fields §21.7 and §21.12 require. The A5 SYSTEM and
+           SYSTEM-observation A1 cases of B1 are not exercised.
+       (g) B2 under D89-4 and §21.14: one per failed attempt; `failure_reason` identifies the step-1
+           check; `claimed_assertion_id` only as supplied through the abstract boundary and marked
+           unverified; never the claimed platform subject, raw assertions or bearer credentials.
+       (h) B3 under D89-3 and §21.15 from the abstract K11 anchor-change observation, including the
+           §21.12 reliance rule: the changed anchor set is not treated as established until the B3
+           record is durable, with no fallback to a stale, cached, previously observed or assumed anchor
+           set.
+       Audit infrastructure: `audit_id` (§21.4); `audit_seq` as recording order (§21.5); the distinct
+       `timestamp` and `recorded_at` (§21.5); the required record fields (§21.7); conditions and
+       evaluated values (§21.8); correlation through `authorization_ref`, `plan_ref` and `plan_digest`
+       (§21.9), with no value created for `job_id`, `k6_request_ids`, `k8_ref` or `p3_request_id`;
+           durable recording as commitment to SD-K7 surviving K4 process restart and host restart
+           (§21.11); the §21.12 audit-write-failure behaviour for the records above; and the atomicity
+           of D89-14. A5, A7 and B4, K8 correlation (§21.10), audit views (§21.16), any retention or
+           disposition mechanism, restoration and continuity (§21.18) and export (§21.19) are not
+           authorized; the §21.17 no-expiry and no-eviction constraints apply.
+D89-14 Authorized: failure and atomicity rules R4a, R5a and R5b only [DEC-034; DEC-035; §21.11; §21.12]:
+       (a) R4a, verbatim: "For every K4 authorization state mutation for which §17 requires an audit
+           record, the authorization mutation and its required audit record MUST become durable
+           atomically: either both are committed or neither is committed." It applies by its own terms
+           to every authorization-state mutation authorized by this decision for which §17 requires an
+           audit record, and is not limited to A6. For a class A record subject to R4a, the `audit_seq`
+           position is part of the same atomic commit (§21.5).
+       (b) R5a: a K4 action or authorization decision in this slice whose required audit record cannot
+           be durably recorded does not proceed; no bypass. A denial remains a refusal and is not
+           late-recorded (§21.12).
+       (c) R5b is not triggered. It governs only the A5 SYSTEM revocation-triggered cancellation under
+           A-05, which is outside this slice (D89-1, D89-2). R5b is preserved; no SYSTEM cancellation,
+           A5 record or `late_recorded` path is implemented, and no other path may rely on R5b.
+D89-15 Authorized: the K4 side of the locked bootstrap act only [§22.3 … §22.7; §17.1.5; A-07; DEC-086].
+       K4 receives (i) an abstract P11 request whose content is the §22.4.1 Platform Identity Binding
+       tuple and nothing else that confers authority (§22.6), and (ii) separately, an abstract
+       channel-level determination that the operating system established the caller as root (§22.5.1),
+       which is not P11 request content; from (ii) K4 forms `lro_auth_ref`
+       (§22.5.2). K4 applies §22.3 (available only while K7 holds no `scc.administrator` Role Membership
+           record in any state; grants nothing else); the §22.4 effects (one HUMAN Principal ACTIVE with
+           no Grants, its Binding UNCONFIRMED(since), one ACTIVE `scc.administrator` membership), and no
+           other mutation (§22.3.3; D89-7); §22.4 atomicity; the §22.6 validation, replay, result and
+           failure rules; and the §22.7 A6 records (one per bootstrap mutation, §22.7.2). Not
+           authorized: K9; the P11 transport, encoding, command syntax and endpoint (which §22.6 does
+           not define); any OS peer-credential mechanism; recovery after the loss of every administrator
+           (§17.24 P-5); and any alternative path to a first administrator (§22.4).
+D89-16 Excluded. Everything listed under "EXPLICITLY OUT OF SCOPE" in the owner message above, and
+       everything D89-1 … D89-5, Q1 … Q7 (Q3 as adopted, D89-7), D89-8, D89-11, D89-12, D89-13, D89-14
+       and D89-15 exclude, is not authorized. The concrete P2/K3 choices of DEC-088 (CBOR, Ed25519, the
+       60-second maximum lifetime, Unix domain socket transport, stateful K4 sessions) are not
+       implemented by this decision. K1 and K9 are not implemented.
+D89-17 Implementation choices. This decision does not select a programming language, storage engine,
+       schema, record encoding, identifier format or repository layout (§19 and §21 define no schema or
+       storage engine). For the abstract inputs, implementers choose only their representation; their
+       content and meaning are only those the locked text, D89-3 … D89-5, Q1 … Q6 and D89-7 give, and
+       implementers do not define them. S19-15 (format-version information for authoritative SD-K7
+       content) applies to SD-K7 content written in this slice (D89-7). A choice that would require
+       behaviour not specified by the locked architecture or this decision stops under DEC-029.
+D89-18 Dependencies. This slice depends on locked §15, §16, §17, §19 (DEC-075), §21 (DEC-085), §22
+       (DEC-086) and the locked P2/K3 gate (DEC-088). OD19-01 remains unresolved and continues to block
+           actual assertion-verification implementation (DEC-079 D79-8); this slice consumes only the
+           abstract authentication result (D89-4). Authorization is evaluated only for a Principal
+           resolved from a K4-verified Authentication Context (A-01; §17.2); in operation that requires
+           the P2/K3 implementation and OD19-01, neither of which is authorized here.
+D89-19 DEC-029 boundary. This decision is subordinate to DEC-029, which remains standing. Every DEC-029
+       prohibition remains in force, and no placeholder function may secretly establish any of those
+       paths. This decision authorizes no architectural invention, no resolution of open questions, no
+       silent choice of unspecified behaviour, no compatibility behaviour not specified by the
+       architecture, no change to locked semantics and no new authority path. When implementation meets
+       a requirement that neither the locked architecture nor this decision specifies, implementation
+       stops and the question is reported to the owner.
+D89-20 Unresolved items remain unresolved, including: the Job state model (§16 Q-6); OD19-01; the §16
+       Amendment Gate items (DEC-083, DEC-084, DEC-087, §19.21.2); the open §22 items (§22.8); the
+       CyberPanel K2 gate; ODF-18-06; and Q19-04 (semantics of approvals for K4-internal Actions;
+       DEC-053 R03i).
+D89-21 Non-effects. This decision does not amend or change §15, §16, §17, locked §19, locked §21, locked
+       §22 or the locked P2/K3 gate, and authorizes no architecture amendment. DEC-001 … DEC-088 are
+       unchanged. Its adoption creates no production code.
+```
+
+> **Transcription note (session process):** The first owner message is reproduced from its scope-decision, scope,
+> exclusion, DEC-029, form and authorization sections; its hash-correction, source-material, adversarial-review,
+> repository-rule, adoption and final-report sections governed only this change set and are omitted. D89-5 and the
+> Q1 … Q7 rulings message are reproduced in full. Q1 … Q7 answer the questions raised in the pre-adoption review. The
+> 2026-10-03 message selects option (a) of the second pre-adoption review: the release-baseline and starting
+> local-settings revisions are abstract read-only inputs, with no DC-08 write and the bootstrap act exactly as locked
+> §22 defines it (D89-7). Item numbers in the owner's Q1 … Q7 message ("D89-17" for the A-01/§17.2 basis; the
+> representation-only rule) refer to the earlier draft numbering; those items are D89-18 and D89-17 here.
+
+> **Index note (not owner wording):** DEC-089 authorizes the first Phase 6 implementation slice: the K4 evaluation of
+> §17.22 steps 1–10 over abstract inputs, the enumerated DC-07 … DC-10 effects (Plans only), A1, A2, A4, A6, B1–B3
+> (A3 not exercised), R4a and R5a (R5b not triggered) and the K4 side of the bootstrap act; DC-08 is not written (Q3
+> as adopted). Authorizing steps 1–10 does not authorize every consequence of them (D89-8). It amends nothing and
+> leaves OD19-01 blocking actual assertion verification. Under owner ruling Q7 it carries no Category 1 label.
