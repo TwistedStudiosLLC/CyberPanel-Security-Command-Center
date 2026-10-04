@@ -135,6 +135,11 @@ set of definitions can compete with the locked text.
 | Document | Status |
 |---|---|
 | [`../platforms/cyberpanel/reconnaissance.md`](../platforms/cyberpanel/reconnaissance.md) | EVIDENCE — NON-NORMATIVE (platform facts, not SCC architecture) |
+| [`evidence/dec-092-gate/gate-evidence-packet-v1.md`](evidence/dec-092-gate/gate-evidence-packet-v1.md) | EVIDENCE — NON-NORMATIVE (non-authoritative candidate output of the DEC-092 §17/K4 Architecture Gate convening; not adopted) |
+| [`evidence/dec-092-gate/gate-r1-deliberation-v1.md`](evidence/dec-092-gate/gate-r1-deliberation-v1.md) | EVIDENCE — NON-NORMATIVE (non-authoritative candidate output of the DEC-092 §17/K4 Architecture Gate convening; not adopted) |
+| [`evidence/dec-092-gate/gate-r2-deliberation-v1.md`](evidence/dec-092-gate/gate-r2-deliberation-v1.md) | EVIDENCE — NON-NORMATIVE (non-authoritative candidate output of the DEC-092 §17/K4 Architecture Gate convening; not adopted) |
+| [`evidence/dec-092-gate/gate-r3-deliberation-v1.md`](evidence/dec-092-gate/gate-r3-deliberation-v1.md) | EVIDENCE — NON-NORMATIVE (non-authoritative candidate output of the DEC-092 §17/K4 Architecture Gate convening; not adopted) |
+| [`evidence/dec-092-gate/gate-consolidation-review-v1.md`](evidence/dec-092-gate/gate-consolidation-review-v1.md) | EVIDENCE — NON-NORMATIVE (non-authoritative candidate output of the DEC-092 §17/K4 Architecture Gate convening; not adopted) |
 
 ---
 
