@@ -9,6 +9,9 @@
 >   **historical** for ODF-18-01. The statements below that ODF-18-01 requires a §15 amendment under every option
 >   were written before DEC-015, which states "Do not resolve ODF-18-01 by weakening §15."
 > - **ODF-18-02 … ODF-18-09 remain OPEN** (DEC-015).
+> - **ODF-18-07** was dispositioned by the owner in DEC-072: Option B (supported but optional), using
+>   mechanism (iii) (host-level export facility administered by root outside the SCC runtime). The
+>   "OWNER DECISION REQUIRED" marker in §8 below is therefore historical.
 >
 > See [`README.md`](README.md) and the [decision log](../../decisions/decision-log.md).
 > **Transcription notes:** Reproduced verbatim. Removed process-wrapper text only: the opening italic line ("This is a
