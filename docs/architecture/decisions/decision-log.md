@@ -27,6 +27,7 @@
 > DEC-090 records owner interpretations of five Phase 6 authorization semantics questions.
 > DEC-091 routes the K4-side aspects of three open P2 verification questions to the §17/K4 Architecture Gate.
 > DEC-092 convenes the §17/K4 Architecture Gate for the three matters DEC-091 assigned to it.
+> DEC-093 adopts selected candidate output of the DEC-092 gate convening as owner interpretations.
 
 # SCC Decision Log
 
@@ -124,6 +125,7 @@
 | DEC-090 | Phase 6 Authorization Semantics Clarification | CURRENT (adopted — owner interpretations for the Phase 6 K4 core; no amendment; corrections documented, not implemented) |
 | DEC-091 | Routing of Open P2 Verification Questions | CURRENT (adopted — routing only; K4-side items assigned to the §17/K4 Architecture Gate; no technical answer; no amendment) |
 | DEC-092 | Convening of the §17/K4 Architecture Gate for the DEC-091 Items | CURRENT (adopted — convening only; §17/K4 Architecture Gate convened for DEC-091 D91-2 (a)–(c); no technical answer; no amendment) |
+| DEC-093 | Owner Adoption of DEC-092 Gate Candidate Output (R-1, R-2, R-3) | CURRENT (adopted — partial adoption of DEC-092 gate candidate output as owner interpretations; unresolved matters [U]; no amendment; no implementation authority) |
 
 ---
 
@@ -9994,3 +9996,310 @@ D92-11 Register. On adoption, the register §8 row for the §17/K4 Architecture 
 > DEC-091 D91-2 assigned to it, for this convening only. The gate's output is candidate material for the owner; the
 > decision answers none of the matters, selects no `audience` value, assigns nothing to K2, amends nothing, creates no
 > general gate procedure or lifecycle and authorizes no implementation.
+
+---
+
+## DEC-093 — Owner Adoption of DEC-092 Gate Candidate Output (R-1, R-2, R-3)
+
+- **Status:** CURRENT (adopted — partial adoption of DEC-092 gate candidate output as owner interpretations; unresolved matters [U]; no amendment; no implementation authority)
+- **Source:** Owner choice answers (2026-10-03); owner revised Q16 allocation (2026-10-03); owner commit-order and
+  drafting authorization (2026-10-03); owner adoption authorization of candidate v3 (2026-10-03).
+- **Related:** DEC-023; DEC-029; DEC-047; DEC-079 (D79-8); DEC-080 (D80-2); DEC-081 (B(i)); DEC-088 (D88-2); DEC-089
+  (D89-4); DEC-090 (D90-1); DEC-091 (D91-2 … D91-9); DEC-092 (D92-2, D92-5, D92-9, D92-10); §15.6; §15.10; §15.12;
+  §17.2; §17.16; §17.22; A-01; §21.7; §21.14; P2/K3 §P.3, §P.4, §P.6, §P.7, §P.8; docs/architecture/evidence/dec-092-gate/
+
+```text
+OWNER CHOICE ANSWERS (2026-10-03)
+
+Q1  = C — partial adoption; adopt only the explicitly selected candidate
+       inferences/mappings; unresolved portions remain [U].
+       Use ONE combined adoption DEC with distinct R-1/R-2/R-3 sections.
+
+Q2  = C — mixed standard, mapping by mapping.
+
+Q3  = A — not-yet-valid → freshness, explicitly an inference and
+       weakest of the three.
+
+Q4  = A — unknown key_id → signature, explicitly an inference.
+
+Q5  = A — retired key_id → signature, explicitly an inference.
+
+Q6  = A — retain H-3 as [U].
+
+Q7  = A — adopt R-1(i); retain H-1 as [U].
+
+Q8  = A — adopt R-1(ii); source remains unresolved.
+
+Q9  = A — adopt R-1(iii); B2/P2 consequences remain [U].
+
+Q10 = A — adopt R-2(i), with the explicit sentence:
+       "Nothing in this adoption establishes persistence across process
+       restart, host restart, K4 reinitialization, or restore."
+
+Q11 = A — adopt R-2(ii); B2/failure_reason/P2 remain [U].
+
+Q12 = B — use "identified by assertion_id" or equivalent logical wording.
+
+Q13 = A — adopt the denial readings; recording remains [U].
+
+Q14 = A — explicitly state adoption does not ratify implementation
+       vocabulary.
+
+Q15 = A — preserve gate evidence as NON-AUTHORITATIVE / CANDIDATE
+       EVIDENCE under docs/architecture/evidence/, in a SEPARATE
+       commit from the adoption DEC.
+
+Q16:
+  1 = OWNER DECISION NOW
+  2 = OWNER DECISION NOW
+  3 = OWNER DECISION NOW
+  4 = LEAVE UNTIL IMPLEMENTATION PLANNING
+  5 = LEAVE UNTIL IMPLEMENTATION PLANNING
+  6 = NEW D91-9 CONVENING LATER
+  7 = NEW D91-9 CONVENING LATER
+  8 = NEW D91-9 CONVENING LATER
+
+Q17 = A — K2 issuer side remains unresolved/outside this adoption.
+
+OWNER REVISED Q16 ALLOCATION (2026-10-03)
+
+Q16 = D
+
+1. Audience concrete value/form/source
+   → C: Leave unresolved until CyberPanel implementation planning requires it.
+
+2. Audience owner/provisioning/lifecycle/rotation/DC-18
+   → C: Leave unresolved until implementation planning requires it.
+     No OD19-01 resolution now.
+
+3. H-1: each K4 belongs to exactly one SCC instance
+   → C: Leave unresolved until implementation planning requires it.
+
+4. Replay restart/restore/durability/upper bound
+   → C: Leave unresolved until implementation planning requires it.
+
+5. Replay §19 class/owner/storage domain
+   → C: Leave unresolved until implementation planning requires it.
+
+6. H-3 temporarily unavailable verification material
+   → B: Future bounded gate.
+
+7. R-1/R-2 denial recording semantics
+   → B: Future bounded gate.
+
+8. R-3 closed check set/precedence/clock/skew
+   → B: Future bounded gate.
+
+OWNER COMMIT-ORDER AND DRAFTING AUTHORIZATION (2026-10-03)
+
+Yes.
+Commit order
+Evidence commit first.
+That gives us the clean provenance chain:
+
+1. Preserve the DEC-092 gate evidence in `docs/architecture/evidence/`.
+2. Add it to the existing README “Evidence (non-normative)” index.
+3. Review and commit that evidence without any normative architecture change.
+4. Draft the combined adoption DEC against that now-preserved evidence.
+5. Review the DEC.
+6. Only after your separate approval, commit the adoption DEC.
+
+That separation is preferable because the DEC can point to an already-existing evidence artifact rather than creating the evidence and the normative decision in the same commit.
+Drafting authorization
+Yes — I explicitly authorize drafting.
+You may now:
+
+* verify the D90-1 form against the decision log;
+* draft the combined adoption DEC in scratchpad only;
+* use the settled Q1–Q17 answers exactly as recorded;
+* keep Q16 items 1–8 `[U]` with their specified routes;
+* keep Q17/K2 issuer-side unresolved;
+* preserve the distinction between `[L]`, `[DEC]`, `[OI]`, `[U]`, and candidate material;
+* include the explicit R-2 restart/durability sentence;
+* explicitly state that the DEC does not ratify the `k4core` implementation vocabulary;
+* run the mechanical and independent/adversarial reviews after drafting.
+
+This is drafting authorization only. It is not authorization to create the evidence files, modify the repository, adopt the DEC, commit anything, or push anything.
+And I agree with keeping those subsequent actions separately gated.
+
+ADOPTION AUTHORIZATION (2026-10-03)
+
+Authorize adoption of DEC-093 v3.
+```
+
+Decision text (candidate DEC-093 v3, §2–§3, adopted by the authorization above):
+
+```text
+## 2. Owner question
+Which candidate interpretations produced by the DEC-092 convening of the §17/K4 Architecture Gate on DEC-091 D91-2
+(a)–(c) does the owner adopt, and what remains unresolved?
+
+Answer: a partial adoption in one combined decision. Only the interpretations stated as [OI] in D93-3, D93-4 and D93-5
+are adopted. Every other part of the candidate output remains candidate material without architectural effect, and the
+matters listed in D93-7 remain [U] on the routes stated there.
+
+## 3. Owner dispositions
+
+D93-1  Authority, subject and form. This decision is an owner decision recorded in the decision log under DEC-091
+       D91-4, in the form of DEC-090 D90-1. It carries no Category 1 label, is not an architecture gate and does not
+       reopen DEC-091 or DEC-092.
+       - Subject: the candidate output of the DEC-092 convening, which concluded under DEC-092 D92-10.
+       - Form: each ruling distinguishes [L] what locked text requires, [OI] what the owner adopts because locked
+         text leaves it open, and [U] what remains unresolved. [DEC] identifies supporting text in adopted owner
+         decisions; it is not a further determination category.
+       - Candidate gate output becomes [OI] only to the extent adopted here (DEC-092 D92-5).
+       - This decision does not add to, amend or supersede locked P2/K3, §17 or §21 text, and no locked document is
+         edited (DEC-091 D91-4).
+       - Locked §15, §16, §17, §19, §21, §22 and the locked P2/K3 gate control this decision (DEC-023; DEC-081
+         B(i)).
+D93-2  Standard. The owner applies a mixed standard, decided mapping by mapping. Each interpretation adopted below is an
+       inference, not an explicit locked attribution, and is recorded as [OI].
+D93-3  R-1 (DEC-091 D91-2(a)): what K4 compares an assertion's `audience` against, and how K4 obtains that expected
+       value.
+       [L] P2/K3 §P.3.1: the assertion carries "`audience`, identifying the SCC instance the assertion is for".
+           §15.6: K2 may "issue a short-lived, audience-bound identity assertion". §15.10 P2: "audience-bound
+           (SCC)". §17.2: K4 verifies "the assertion's signature, audience, freshness and single use". §17.22 step 1:
+           "signature, audience, freshness, single use"; "On any failure, deny". §P.4.1: K4 rejects an assertion that
+           "carries the wrong `audience`". §P.7.1 and §P.7.3: the P3 envelope carries the relayed request, the
+           unmodified assertion or token and, for state-changing requests, the request ID; K3 "adds only its own peer
+           identity". §17.2 and A-01: authorization is evaluated only for a Principal resolved from a K4-verified
+           Authentication Context, or for SYSTEM under its Fixed System Authority. No locked text defines an
+           SCC-instance identifier or the expected `audience` value.
+       [DEC] DEC-080 D80-2: "audience binding" is P2 scope. DEC-091 D91-3: the issuer side is not assigned and
+           returns to the owner.
+       [OI] (i) K4 compares an assertion's `audience` against a value designating the SCC instance on whose behalf
+            that K4 verifies (inference from §P.3.1 and §P.4.1, with §17.2 and §17.22). This rests on H-1, which
+            remains [U].
+            (ii) The expected value is not obtained from the presented assertion's own `audience` field, nor from
+            any other element of the locked P2/P3 request path (inference from §P.4.1, §P.7.1, §P.7.3 and §P.8).
+            This identifies no source.
+            (iii) If K4 cannot establish the expected value, audience verification cannot be completed and no
+            authorization proceeds for that assertion (inference from §17.2, A-01 and §17.22 step 1). This does not
+            classify the case as a §17.22 step-1 failure.
+       [U] H-1: whether each K4 belongs to exactly one SCC instance.
+           The concrete expected value, its form and its source.
+           The value's owner, provisioning, lifecycle and rotation, and its DC-18 status.
+           The value's creator and storage; comparison semantics; whether more than one SCC instance can exist,
+           and any relation to ODF-18-02.
+           The B2 record, `failure_reason` and P2 result where (iii) applies, and any K4 behaviour beyond the
+           per-assertion outcome.
+           Routes: D93-7. The K2 issuer side (DEC-091 D91-3) remains unresolved and outside this decision.
+D93-4  R-2 (DEC-091 D91-2(b)): the persistence and lifecycle of the replay record K4 keeps under §P.4.2.
+       [L] P2/K3 §P.4.2: "K4 records `assertion_id` for the assertion's validity period and rejects any second use";
+           an assertion used to establish an SCC session "is consumed by that act". §P.4.3: "Replay rejection is K4's;
+           K3 performs none and holds no replay state". §P.3.1: `assertion_id` is "unique per issued assertion".
+           §P.3.4: the maximum assertion lifetime is 60 seconds from `issued_at` to `expires_at`. §P.4.1: K4 rejects
+           an assertion that "is not yet valid, has expired". §17.22 step 1: "single use". §15.10 P3: "K4 enforces
+           assertion freshness and single use where applicable". §P.7.6: "session validation state exists only in K4
+           runtime state; K4 restart terminates every active SCC session". (Reading, as in DEC-091 §4: this concerns
+           SCC session validation state only.) No locked text states whether the replay record is durable or volatile,
+           or connects it to K7, restore or §22 recovery.
+       [DEC] DEC-080 D80-2: "freshness and replay resistance" are P2 scope. DEC-088 D88-2(c): the validity window
+           "MUST NOT exceed 60 seconds"; "the freshness checks and single-use `assertion_id` requirement are
+           unchanged". DEC-088 D88-2(f) concerns session durability only.
+       [OI] (i) The replay record K4 keeps under §P.4.2 is identified by `assertion_id` (from §P.4.2). This is a
+            logical description and establishes no storage structure. The assertion's validity period is the minimum
+            span in which a second use of that assertion must be detectable (inference from §P.4.2 and §P.4.1). This
+            establishes no restart survival and no durability requirement.
+            Nothing in this adoption establishes persistence across process restart, host restart, K4
+            reinitialization, or restore.
+            (ii) If K4 cannot determine whether an `assertion_id` has been used, no authorization proceeds for that
+            assertion (inference from §17.22 step 1, §17.16, §17.2 and A-01). This does not classify the case as a
+            §17.22 step-1 failure.
+       [U] Survival of the replay record across process restart, host restart, K4 reinitialization, K7 restore and
+           §22 recovery; whether it is durable or volatile; any upper bound, removal rule or capacity bound.
+           The record's §19 data class, owner and storage domain, and its DC-18 status.
+           The scope of §15.10 P3 "where applicable" (whether any assertion falls outside the §P.4.2 record).
+           The clock reference and skew for the validity period; whether DEC-047 R17c's recovery condition covers
+           step-1 verification; the format of `auth_context_ref`.
+           The B2 record, `failure_reason` and P2 result where (ii) applies.
+           Routes: D93-7.
+D93-5  R-3 (DEC-091 D91-2(c)): under which §17.22 step-1 check the §P.4.1 conditions not yet valid, and unknown or
+       retired `key_id`, are recorded in B2 `failure_reason`.
+       [L] §17.22 step 1: "Verify the K2 assertion: signature, audience, freshness, single use. Resolve the Binding,
+           then the Principal." §P.4.1 attributes the conditions it lists, collectively, to §17.22 step 1. §P.3.1:
+           the assertion carries `issued_at`, `expires_at` and "`key_id`, identifying the K2 signing key used".
+           §P.3.5: the assertion is "verified by K4 with verification material only". §15.12: "Verification
+           material only in K4". §P.6.1: "K4 accepts a `key_id` only while K4 holds the corresponding active
+           verification material". §P.6.2: the old key is accepted for a bounded overlap, "then is retired".
+           §21.7: `failure_reason` is "The §17.22 step-1 check that failed"; no values are enumerated. §21.14: one
+           B2 record per failed attempt. No locked text attributes any of the three conditions to an individual
+           check.
+       [DEC] DEC-088 D88-2(c): the validity window from `issued_at` to `expires_at` and "the freshness checks" are
+           stated in one clause. DEC-092 D92-2: the §21 `failure_reason` contract is unchanged.
+       [OI] Each mapping below is an inference; none is an explicit locked attribution.
+            (a) Not yet valid is recorded under the freshness check. This is the weakest of the three, relying
+                partly on the ordinary meaning of "freshness" (inference from §P.3.1, §P.3.4 and §15.10 P3, with
+                DEC-088 D88-2(c) as support).
+            (b) Unknown `key_id` is recorded under the signature check (inference from §P.3.1, §P.3.5, §P.6.1 and
+                §15.12).
+            (c) Retired `key_id` is recorded under the signature check (inference from §P.6.1 "active" and §P.6.2
+                "then is retired"). A freshness reading was considered and is not adopted.
+            These mappings name existing §17.22 step-1 checks. They create no `failure_reason` value and establish
+            no closed `failure_reason` vocabulary, no closed set of step-1 checks, no check ordering, no
+            multi-failure precedence and no serialization. They do not decide whether a record may also distinguish
+            the condition within the check. The §21 contract is unchanged.
+       [U] H-3: whether temporary unavailability of verification material counts as "unknown `key_id`". Mapping (b)
+           does not decide it.
+           Whether the set of step-1 checks is closed; multi-failure precedence; the clock reference and skew.
+           Routes: D93-7.
+       Scope: the conditions "has expired", wrong `audience` and failed signature verification are outside DEC-091
+       D91-2(c) and are not addressed.
+D93-6  Implementation vocabulary. This decision does not ratify any implementation vocabulary. That includes the
+       k4core assertion-check value set (`signature`, `audience`, `freshness`, `single_use`) and any other
+       `failure_reason` string used by the DEC-089 slice. No code change is authorized by this decision.
+D93-7  Unresolved matters and their routes.
+       (1) The concrete expected `audience` value, its form and source: left unresolved until CyberPanel
+           implementation planning requires it.
+       (2) The expected value's owner, provisioning, lifecycle, rotation and DC-18 status: left unresolved until
+           implementation planning requires it. OD19-01 is not resolved.
+       (3) H-1: left unresolved until implementation planning requires it.
+       (4) Replay-record survival across restart and restore, durability and any upper bound: left unresolved until
+           implementation planning requires it.
+       (5) The replay record's §19 class, owner and storage domain: left unresolved until implementation planning
+           requires it. Any such assignment is a §19 change under DEC-091 D91-6, which has no existing route and
+           returns to the owner.
+       (6) H-3: for a future bounded gate.
+       (7) The B2 record, `failure_reason` and P2 result for the D93-3(iii) and D93-4(ii) cases: for a future
+           bounded gate.
+       (8) Whether the set of step-1 checks is closed; multi-failure precedence; the clock reference and skew: for a
+           future bounded gate.
+       This decision convenes, schedules and assigns no gate. Any gate for items (6)–(8) requires a later owner
+       decision (cf. DEC-091 D91-9). Any other unresolved matter in D93-3 to D93-5 or in the candidate output is
+       routed under DEC-091 D91-3 and D91-5 … D91-8 where they apply, and otherwise returns to the owner (cf. DEC-092
+       D92-9). The timings in items (1)–(5) do not alter DEC-091 D91-2, D91-3 or D91-5 … D91-8. The K2 issuer side
+       remains unresolved and outside this decision (DEC-091 D91-3).
+D93-8  Evidence. The DEC-092 convening's candidate output is preserved at `docs/architecture/evidence/dec-092-gate/`
+       as NON-AUTHORITATIVE CANDIDATE EVIDENCE, indexed under the README "Evidence (non-normative)" section. That
+       output comprises the gate evidence packet, the R-1, R-2 and R-3 deliberations and the consolidation review. It
+       has no authority. Only the interpretations stated as [OI] in D93-3, D93-4 and D93-5 are adopted, in the words
+       of this decision.
+D93-9  Non-effects. This decision:
+       - does not amend §15, §16, §17, §19, §21, §22 or P2/K3;
+       - does not resolve OD19-01 or decide DC-18 status;
+       - makes no §19 classification or assignment;
+       - decides nothing on the K2 issuer side;
+       - selects no `audience` value and no storage technology;
+       - creates no `failure_reason` value;
+       - convenes no gate and establishes no gate procedure or lifecycle;
+       - changes no register entry;
+       - does not reopen or alter DEC-091 or DEC-092;
+       - authorizes no implementation. Implementation still requires a separate implementation-authorization
+         decision (DEC-091 §6 item 4), and real assertion verification remains blocked by OD19-01 (DEC-079 D79-8;
+         DEC-089 D89-4).
+       DEC-001 … DEC-092 are unchanged. DEC-029 remains standing.
+```
+
+> **Transcription note (session process):** The owner messages are reproduced in full. The revised Q16 allocation
+> supersedes the Q16 lines of the owner choice answers. The question numbers Q1–Q17 refer to the owner choice sheet
+> prepared in session; that sheet is not reproduced. The decision text is candidate v3 reproduced verbatim from its
+> §2 through the end of its §3; the draft title line, §1 (candidate number) and §4 (drafting notes) are drafting
+> metadata and are omitted. The candidate gate output referred to in D93-8 was preserved by commit
+> d086f9559cf258ed284fd6cfb9f6556de3020697.
+
+> **Index note (not owner wording):** DEC-093 adopts, as owner interpretations, selected candidate inferences from
+> the DEC-092 convening of the §17/K4 Architecture Gate: the K4-side meaning and handling of `audience` (R-1), the
+> minimum replay-detection span and the no-authorization reading where prior use cannot be determined (R-2), and
+> three inferred step-1 mappings for B2 `failure_reason` (R-3). It amends nothing, resolves neither OD19-01 nor the
+> K2 issuer side, ratifies no implementation vocabulary, leaves the listed matters [U] and authorizes no
+> implementation.
