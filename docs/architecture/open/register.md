@@ -224,6 +224,6 @@ CHANGE-001 … CHANGE-027. Their current standing:
 | CyberPanel K2 gate | OPEN | [`../../platforms/cyberpanel/k2-gate.md`](../../platforms/cyberpanel/k2-gate.md) |
 | §16 Amendment Gate | NOT SCHEDULED (DEC-070; DEC-068 D68-H); procedure DEC-068 | §5B |
 | §19 Owner Decision Gate | OPEN (DEC-064) | OD19-02, OD19-03, Q19-01, Q19-03, Q19-05, Q19-06 (§19.21, §19.21.1) |
-| §17/K4 Architecture Gate | OPEN (DEC-092) — not a §17 amendment gate; §17 remains LOCKED (DEC-064) | Q19-04 (§19.21.1) — not admitted (DEC-092); DEC-091 D91-2 (a)–(c), convened by DEC-092 |
+| §17/K4 Architecture Gate | NOT SCHEDULED (DEC-092 convening concluded under D92-10) — not a §17 amendment gate; §17 remains LOCKED (DEC-064) | Q19-04 (§19.21.1) — not admitted (DEC-092); DEC-091 D91-2 (a)–(c), convened by DEC-092 |
 | Unassigned domain-model items (CHANGE-005, 006, 010, 012, 019, 020, 021) | No owning gate assigned | — |
 | §12 compatibility / Host Environment (CHANGE-017, 018; OQ-8; Q-7) | Not scheduled | — |
